@@ -1,0 +1,127 @@
+@{
+    ViewData["Title"] = "Реєстрація";
+    Layout = null;
+}
+
+@model RegisterViewModel
+<link rel="stylesheet" href="~/css/site.css" />
+
+<!DOCTYPE html>
+<html lang="uk">
+
+<body>
+    <div class="register-page">
+
+        <div class="register-left">
+            <img src="" class="win-bg-word-left" />
+            <div class="login-box">
+                <h2>Вже маєш акаунт?</h2>
+                <p>Увійди, щоб продовжити пошук ідеального житла</p>
+                <a asp-controller="Authorize" asp-action="Login" class="btn btn-solid">Увійти</a>
+            </div>
+        </div>
+
+        <div class="register-right">
+            <div class="register-form-wrap">
+                <h1>Зареєструй обліковий запис</h1>
+                <p class="subtitle">Створи профіль, щоб зберігати та швидко бронювати</p>
+
+                <form method="post" asp-action="Register" asp-controller="Authorize" class="register-form">
+                    <div class="row two-cols">
+                        <div class="field">
+                            <label>Прізвище</label>
+                            <input asp-for="SurName" placeholder="Введи прізвище"
+                                   class="@(ViewData.ModelState["SurName"]?.Errors.Count > 0 ? "input-error" : "")" />
+                        </div>
+
+                        <div class="field">
+                            <label>Ім'я</label>
+                            <input asp-for="Name" placeholder="Введи ім'я"
+                                   class="@(ViewData.ModelState["Name"]?.Errors.Count > 0 ? "input-error" : "")" />
+                        </div>
+
+                    </div>
+                    <div class="field">
+                        <label>По батькові</label>
+                        <input asp-for="Patronymic" placeholder="Введи своє по батькові" />
+                        <span asp-validation-for="SurName" class="error-text"></span>
+                    </div>
+
+                    <div class="field">
+                        <label>Email</label>
+                        <input asp-for="Email" placeholder="Введи свій email"
+                               class="@(ViewData.ModelState["Email"]?.Errors.Count > 0 ? "input-error" : "")" />
+                        <span asp-validation-for="Email" class="error-text"></span>
+                    </div>
+
+                    <div class="field">
+                        <label>Номер телефону</label>
+                        <input asp-for="PhoneNumber" placeholder="Введи свій номер телефону"
+                               class="@(ViewData.ModelState["PhoneNumber"]?.Errors.Count > 0 ? "input-error" : "")" />
+                        <span asp-validation-for="PhoneNumber" class="error-text"></span>
+                    </div>
+
+                    <div class="field password-field">
+                        <label>Пароль</label>
+                        <div class="password-wrapper">
+                            <input asp-for="Password" type="password" placeholder="Введи свій пароль" class="password-input @(ViewData.ModelState["Password"]?.Errors.Count > 0 || ViewBag.LoginError == true ? "input-error" : "")" />
+                            <button type="button" class="password-toggle"><img class="eye-icon" src="/Icons/eye-closed.png"/></button>
+                        </div>
+                        <span asp-validation-for="Password" class="error-text"></span>
+                    </div>
+
+                    <div class="field password-field">
+                        <label>Підтверди пароль</label>
+                        <div class="password-wrapper">
+                            <input asp-for="ConfirmPassword" type="password" placeholder="Введи свій пароль" class="password-input @(ViewData.ModelState["ConfirmPassword"]?.Errors.Count > 0 ? "input-error" : "")" />
+                            <button type="button" class="password-toggle"><img class="eye-icon" src="/Icons/eye-closed.png"/></button>
+                        </div>
+                        <span asp-validation-for="ConfirmPassword" class="error-text"></span>
+                    </div>
+
+                    <label class="check-row @(ViewData.ModelState["Accept"]?.Errors.Count > 0 ? "checkbox-error" : "")">
+                        <input asp-for="Accept" type="checkbox" />
+                        <span>
+                            Приймаю <a href="#">умови сервісу</a>
+                        </span>
+                    </label>
+
+                    <button type="submit" class="btn register-btn">Зареєструватися</button>
+
+                    <p class="social-text">Створи акаунт або продовж через</p>
+
+                    <button type="button" class="btn btn-outline google-btn">
+                        <img src="~/Icons/Google.png" class="google-btn" />
+                    </button>
+
+                </form>
+                @section Scripts{
+                    <partial name="_ValidationScriptsPartial" />
+                }
+            </div>
+        </div>
+    </div>
+    <script>
+        const toggleButtons = document.querySelectorAll(".password-toggle");
+        
+        toggleButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                const wrapper = button.closest(".password-wrapper");
+                
+                const passwordInput = wrapper.querySelector(".password-input");
+                
+                const eyeIcon = wrapper.querySelector(".eye-icon");
+                if (passwordInput.type === "password") {
+                    passwordInput.type = "text";
+                    
+                    eyeIcon.src = "/Icons/eye-open.png";
+                }
+                else {
+                    passwordInput.type = "password";
+                    
+                    eyeIcon.src = "/Icons/eye-closed.png";
+                }
+            });
+        });
+    </script>
+</body>

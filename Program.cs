@@ -1,5 +1,7 @@
+using BookingRevamp.Data;
+using BookingRevamp.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using BookingRevamp.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,19 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddControllersWithViews();
+
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Authorize/Login";
+        options.LogoutPath = "/Authorize/Logout";
+    });
+
+builder.Services.AddScoped<AuthorizeService>();
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -22,6 +37,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

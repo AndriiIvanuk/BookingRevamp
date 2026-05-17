@@ -1,11 +1,13 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using BookingRevamp.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace BookingRevamp.Controllers;
 
 public class HomeController : Controller
 {
+    [AllowAnonymous]
     public IActionResult Index()
     {
         return View();

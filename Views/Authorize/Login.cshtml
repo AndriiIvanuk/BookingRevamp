@@ -1,0 +1,104 @@
+@{
+    ViewData["Title"] = "Вхід";
+    Layout = null;
+}
+
+@model BookingRevamp.Models.ViewModels.LoginViewModel
+<link rel="stylesheet" href="~/css/site.css" />
+
+<!DOCTYPE html>
+<html lang="uk">
+
+<body>
+    <div class="login-page">
+
+        <div class="login-right">
+            <div class="login-form-wrap">
+                <h1>Увійди в обліковий запис</h1>
+                <p class="subtitle">Увійди в профіль, щоб продовжити пошук ідеального житла</p>
+
+                <form method="post" asp-controller="Authorize" asp-action="Login" class="register-form">
+                    <div class="field">
+                        <label>Email</label>
+                        <input asp-for="Email" id="LoginEmail" name="Email" type="Email" placeholder="Введи свій email"
+                               class="@(ViewData.ModelState["Email"]?.Errors.Count > 0 || ViewBag.LoginError == true ? "input-error" : "")" />
+                               <span asp-validation-for="Email" class="error-text"></span>
+                    </div>
+
+                    <div class="field">
+                        <label>Пароль</label>
+                        <div class="password-wrapper">
+                            <input asp-for="Password" type="password" placeholder="Введи свій пароль"
+                                class="password-input @(ViewData.ModelState["Password"]?.Errors.Count > 0 || ViewBag.LoginError == true ? "input-error" : "")" />
+                            <button type="button" class="password-toggle"><img class="eye-icon" src="/Icons/eye-closed.png" /></button>
+                        </div>
+                        <div class="overlap">
+                            <div asp-validation-summary="ModelOnly" class="error-text"></div>
+                            <span asp-validation-for="Password" class="error-text"></span>
+                            <a id="LoginEmailLink" asp-controller="Authorize" asp-action="ResetPassword" class="forgot-password">Забув пароль?</a>
+                        </div>
+                    </div>
+
+                    <div class="submit-btn">
+                        <button type="submit" class="btn btn-solid">Увійти</button>
+                    </div>
+
+                    <p class="social-text">Увійди в акаунт або продовж через</p>
+
+                    <button type="button" class="btn btn-solid google-btn">
+                        <img src="~/Icons/Google.png" class="google-btn" />
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="login-left">
+            <img src="" class="win-bg-word-right">
+            <div class="register-box">
+                <h2>Не маєш акаунту?</h2>
+                <p>Зареєструйся, щоб зберігати та швидко бронювати</p>
+                <a asp-controller="Authorize" asp-action="Register" class="btn btn-outline">Зареєструватися</a>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        const forgotPasswordLink = document.getElementById("LoginEmailLink");
+            forgotPasswordLink.addEventListener("click", function (e) {
+
+                e.preventDefault();
+                const email = document.getElementById("LoginEmail").value;
+
+                if (!email || email.trim() === "") {
+                    window.location.href = "/Authorize/ResetPassword";
+
+                    return;
+                }
+                window.location.href = "/Authorize/ResetPassword?email=" + encodeURIComponent(email);
+            });
+            
+            
+            const toggleButtons = document.querySelectorAll(".password-toggle");
+        
+            toggleButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const wrapper = button.closest(".password-wrapper");
+                
+                    const passwordInput = wrapper.querySelector(".password-input");
+                
+                    const eyeIcon = wrapper.querySelector(".eye-icon");
+                    if (passwordInput.type === "password") {
+                        passwordInput.type = "text";
+                    
+                        eyeIcon.src = "/Icons/eye-open.png";
+                    }
+                    else {
+                        passwordInput.type = "password";
+                    
+                        eyeIcon.src = "/Icons/eye-closed.png";
+                    }
+                });
+            });
+    </script>
+</body>
+</html>
