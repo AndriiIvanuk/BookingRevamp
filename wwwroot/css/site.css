@@ -78,7 +78,7 @@ body {
 
     .btn:focus,
     .btn:active {
-        opacity: 100%;
+        opacity: 100% !important;
     }
 
 .google-btn {
@@ -423,6 +423,15 @@ body {
     .field input::placeholder {
         color: #D9D9D9
     }
+
+input:-webkit-autofill {
+    font-family: 'Geologica_Cursive-Regular', sans-serif !important;
+    text-decoration: none !important;
+    -webkit-box-shadow: #7776A6 !important;
+    -webkit-text-fill-color: #ffffff !important;
+    transition: background-color 9999s ease-in-out 0s;
+    caret-color: #ffffff;
+}
 
 .password-wrapper {
     position: relative;

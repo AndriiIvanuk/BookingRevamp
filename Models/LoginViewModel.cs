@@ -4,10 +4,10 @@ namespace BookingRevamp.Models.ViewModels
 {
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "Введіть email")]
+        [Required(ErrorMessage = "Хмм... здається, бракує email")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Введіть пароль")]
+        [Required(ErrorMessage = "Поле Обов'язкове для заповнення")]
         public string Password { get; set; }
     }
 }

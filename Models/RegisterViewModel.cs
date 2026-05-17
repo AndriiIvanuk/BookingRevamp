@@ -17,7 +17,7 @@ public class RegisterViewModel
     [Required(ErrorMessage = "Залиш номер телефону")]
     public string PhoneNumber { get; set; }
 
-    [Required(ErrorMessage = "Введи пароль")]
+    [Required(ErrorMessage = "Поле Обов'язкове для заповнення")]
     public string Password { get; set; }
 
     [Required(ErrorMessage = "Ці поля не можна пропустити")]

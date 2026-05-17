@@ -20,8 +20,8 @@
                 <form method="post" asp-controller="Authorize" asp-action="Login" class="register-form">
                     <div class="field">
                         <label>Email</label>
-                        <input asp-for="Email" id="LoginEmail" name="Email" type="Email" placeholder="Введи свій email"
-                               class="@(ViewData.ModelState["Email"]?.Errors.Count > 0 || ViewBag.LoginError == true ? "input-error" : "")" />
+                        <input asp-for="Email" id="LoginEmail" type="Email" placeholder="Введи свій email"
+                               class="@((ViewData.ModelState["Email"]?.Errors.Count > 0 || ViewBag.LoginError == true) ? "input-error" : "")" />
                                <span asp-validation-for="Email" class="error-text"></span>
                     </div>
 
@@ -29,7 +29,7 @@
                         <label>Пароль</label>
                         <div class="password-wrapper">
                             <input asp-for="Password" type="password" placeholder="Введи свій пароль"
-                                class="password-input @(ViewData.ModelState["Password"]?.Errors.Count > 0 || ViewBag.LoginError == true ? "input-error" : "")" />
+                                class="password-input @((ViewData.ModelState["Password"]?.Errors.Count > 0 || ViewBag.LoginError == true) ? "input-error" : "")" />
                             <button type="button" class="password-toggle"><img class="eye-icon" src="/Icons/eye-closed.png" /></button>
                         </div>
                         <div class="overlap">
