@@ -64,6 +64,7 @@
                         </div>
                         <span asp-validation-for="CardNumber" class="error-text"></span>
                     </div>
+
                     <div class="row two-cols">
                         <div class="field">
                             <label>Термін дії</label>
@@ -74,17 +75,20 @@
 
                         <div class="field">
                             <label>Код на зворотній стороні</label>
-                            <input asp-for="CVV" placeholder="CVV2/CVV2"
-                                   class="@(ViewData.ModelState["CVV"]?.Errors.Count > 0 ? "input-error" : "")" />
+                            <div class="password-wrapper">
+                                <input asp-for="CVV" type="password" placeholder="CVV2/CVV2" class="password-input @(ViewData.ModelState["CVV"]?.Errors.Count > 0 ? "input-error" : "")" />
+                                <button type="button" class="password-toggle"><img class="eye-icon" src="/Icons/eye-closed.png" /></button>
+                            </div>
                             <span asp-validation-for="CVV" class="error-text"></span>
                         </div>
                     </div>
                     
-                    <label class="check-row @(ViewData.ModelState["PassportFile"]?.Errors.Count > 0 ? "checkbox-error" : "")">
-                        <input asp-for="PassportFile" type="file" />
-                        <span>
-                            <a href="#">Прикріпи свій паспорт</a>
+                    <label class="check-row passport-upload @(ViewData.ModelState["PassportFile"]?.Errors.Count > 0 ? "checkbox-error" : "")">
+                        <input type="checkbox" id="passportCheck" disabled />
+                        <span id="passportUploadText">
+                            Завантажити фото паспорта
                         </span>
+                        <input asp-for="PassportFile" type="file" id="passportInput" hidden />
                     </label>
 
                     <label class="check-row @(ViewData.ModelState["AcceptTerms"]?.Errors.Count > 0 ? "checkbox-error" : "")">
@@ -124,6 +128,24 @@
                         eyeIcon.src = "/Icons/eye-closed.png";
                     }
                 });
+            });
+            const passportInput = document.getElementById("passportInput");
+
+            const passportCheck = document.getElementById("passportCheck");
+
+            const passportText = document.getElementById("passportUploadText");
+
+            passportText.addEventListener("click", () => {
+
+                passportInput.click();
+
+            });
+
+            passportInput.addEventListener("change", () => {
+
+                passportCheck.checked =
+                    passportInput.files.length > 0;
+
             });
     </script>
 </body>

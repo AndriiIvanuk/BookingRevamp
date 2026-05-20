@@ -14,7 +14,7 @@ namespace BookingRevamp.Models.ViewModels
 
         public string PhoneNumber { get; set; }
 
-        [Required(ErrorMessage = "Введи дані рахунку")]
+        [Required(ErrorMessage = "Введи номер рахунку")]
         public string CardNumber { get; set; }
 
         [Required(ErrorMessage = "Введи дані рахунку")]
