@@ -1,0 +1,129 @@
+﻿@{
+    ViewData["Title"] = "Стати партнером";
+    Layout = null;
+}
+
+@model BookingRevamp.Models.ViewModels.BecomePartnerViewModel
+<link rel="stylesheet" href="~/css/site.css" />
+
+<!DOCTYPE html>
+<html lang="uk">
+
+<body>
+    <div class="register-page">
+
+        <div class="register-left">
+            <img src="" class="win-bg-word-left" />
+        </div>
+
+        <div class="register-right">
+            <div class="register-form-wrap">
+                <h1>Зареєструй обліковий запис</h1>
+                <p class="subtitle">Створи профіль, щоб зберігати та швидко бронювати</p>
+
+                <form method="post" enctype="multipart/form-data" asp-action="BecomePartner" asp-controller="Authorize" class="register-form">
+                    <div class="row two-cols">
+                        <div class="field">
+                            <label>Прізвище</label>
+                            <input asp-for="SurName" placeholder="Введи прізвище" readonly
+                                   class="@(ViewData.ModelState["SurName"]?.Errors.Count > 0 ? "input-error" : "")" />
+                        </div>
+
+                        <div class="field">
+                            <label>Ім'я</label>
+                            <input asp-for="Name" placeholder="Введи ім'я" readonly
+                                   class="@(ViewData.ModelState["Name"]?.Errors.Count > 0 ? "input-error" : "")" />
+                        </div>
+
+                    </div>
+                    <div class="field">
+                        <label>По батькові</label>
+                        <input asp-for="Patronymic" placeholder="Введи своє по батькові" readonly />
+                        <span asp-validation-for="SurName" class="error-text"></span>
+                    </div>
+
+                    <div class="field">
+                        <label>Email</label>
+                        <input asp-for="Email" placeholder="Введи свій email" readonly
+                               class="@(ViewData.ModelState["Email"]?.Errors.Count > 0 ? "input-error" : "")" />
+                        <span asp-validation-for="Email" class="error-text"></span>
+                    </div>
+
+                    <div class="field">
+                        <label>Номер телефону</label>
+                        <input asp-for="PhoneNumber" placeholder="Введи свій номер телефону" readonly
+                               class="@(ViewData.ModelState["PhoneNumber"]?.Errors.Count > 0 ? "input-error" : "")" />
+                        <span asp-validation-for="PhoneNumber" class="error-text"></span>
+                    </div>
+
+                    <div class="field password-field">
+                        <label>Банківська карта</label>
+                        <div class="password-wrapper">
+                            <input asp-for="CardNumber" placeholder="Введи номер своєї банківської карти" 
+                                   class="@(ViewData.ModelState["CardNumber"]?.Errors.Count > 0 || ViewBag.LoginError == true ? "input-error" : "")" />
+                        </div>
+                        <span asp-validation-for="CardNumber" class="error-text"></span>
+                    </div>
+                    <div class="row two-cols">
+                        <div class="field">
+                            <label>Термін дії</label>
+                            <input asp-for="ExpiryDate" placeholder="ММ/РР"
+                                   class="@(ViewData.ModelState["ExpiryDate"]?.Errors.Count > 0 ? "input-error" : "")" />
+                            <span asp-validation-for="ExpiryDate" class="error-text"></span>
+                        </div>
+
+                        <div class="field">
+                            <label>Код на зворотній стороні</label>
+                            <input asp-for="CVV" placeholder="CVV2/CVV2"
+                                   class="@(ViewData.ModelState["CVV"]?.Errors.Count > 0 ? "input-error" : "")" />
+                            <span asp-validation-for="CVV" class="error-text"></span>
+                        </div>
+                    </div>
+                    
+                    <label class="check-row @(ViewData.ModelState["PassportFile"]?.Errors.Count > 0 ? "checkbox-error" : "")">
+                        <input asp-for="PassportFile" type="file" />
+                        <span>
+                            <a href="#">Прикріпи свій паспорт</a>
+                        </span>
+                    </label>
+
+                    <label class="check-row @(ViewData.ModelState["AcceptTerms"]?.Errors.Count > 0 ? "checkbox-error" : "")">
+                        <input asp-for="AcceptTerms" type="checkbox" />
+                        <span>
+                            Приймаю <a href="#">умови сервісу</a>
+                        </span>
+                    </label>
+
+                    <button type="submit" class="btn register-btn">Зареєструватися</button>
+
+                </form>
+                @section Scripts{
+                    <partial name="_ValidationScriptsPartial" />
+                }
+            </div>
+        </div>
+    </div>
+    <script>
+            const toggleButtons = document.querySelectorAll(".password-toggle");
+        
+            toggleButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const wrapper = button.closest(".password-wrapper");
+                
+                    const passwordInput = wrapper.querySelector(".password-input");
+                
+                    const eyeIcon = wrapper.querySelector(".eye-icon");
+                    if (passwordInput.type === "password") {
+                        passwordInput.type = "text";
+                    
+                        eyeIcon.src = "/Icons/eye-open.png";
+                    }
+                    else {
+                        passwordInput.type = "password";
+                    
+                        eyeIcon.src = "/Icons/eye-closed.png";
+                    }
+                });
+            });
+    </script>
+</body>

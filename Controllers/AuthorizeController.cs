@@ -1,10 +1,13 @@
-﻿using BookingRevamp.Models.ViewModels;
+﻿using BookingRevamp.Models;
+using BookingRevamp.Models.ViewModels;
 using BookingRevamp.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using BookingRevamp.Data;
 
 namespace BookingRevamp.Controllers
 {
@@ -12,9 +15,13 @@ namespace BookingRevamp.Controllers
     {
         private readonly AuthorizeService _authorizeService;
 
-        public AuthorizeController(AuthorizeService authorizeService)
+        private readonly AppDbContext _context;
+
+        public AuthorizeController(AuthorizeService authorizeService, AppDbContext context)
         {
             _authorizeService = authorizeService;
+
+            _context = context;
         }
 
         [AllowAnonymous]
@@ -32,9 +39,7 @@ namespace BookingRevamp.Controllers
                 return View(model);
             }
 
-            var user = await _authorizeService.Login(
-                model.Email,
-                model.Password);
+            var user = await _authorizeService.Login(model.Email, model.Password);
 
             if (user == null)
             {
@@ -46,9 +51,11 @@ namespace BookingRevamp.Controllers
             }
 
             var claims = new List<Claim>
-    {
-        new Claim(ClaimTypes.Name, user.Email)
-    };
+            {
+                new Claim(ClaimTypes.Name, user.Email),
+
+                new Claim(ClaimTypes.Role, user.Role)
+            };
 
             var claimsIdentity = new ClaimsIdentity(
                 claims,
@@ -86,7 +93,9 @@ namespace BookingRevamp.Controllers
                 model.Password);
 
             var claims = new List<Claim>{
-                new Claim(ClaimTypes.Name, model.Email)
+                new Claim(ClaimTypes.Name, model.Email),
+
+                new Claim(ClaimTypes.Role, "User")
             };
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -112,6 +121,118 @@ namespace BookingRevamp.Controllers
             };
 
             return View(model);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> BecomePartner()
+        {
+            var email = User.Identity.Name;
+
+            if (string.IsNullOrEmpty(email))
+            {
+                return RedirectToAction("Login");
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+
+            if (user == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var model = new BecomePartnerViewModel
+            {
+                Name = user.Name,
+                SurName = user.SurName,
+                Patronymic = user.Patronymic,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber
+            };
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> BecomePartner(BecomePartnerViewModel model)
+        {
+            var email = User.Identity.Name;
+
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+
+            if (user == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                model.Name = user.Name;
+                model.SurName = user.SurName;
+                model.Patronymic = user.Patronymic;
+                model.Email = user.Email;
+                model.PhoneNumber = user.PhoneNumber;
+
+                return View(model);
+            }
+
+            string? passportPath = null;
+
+            if (model.PassportFile != null)
+            {
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(model.PassportFile.FileName);
+
+                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "passports");
+
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+
+                var fullPath = Path.Combine(folderPath, fileName);
+
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    await model.PassportFile.CopyToAsync(stream);
+                }
+
+                passportPath = "/passports/" + fileName;
+            }
+
+            var application = new PartnerApplication
+            {
+                UserId = user.Id,
+                
+                CardNumber = model.CardNumber,
+                
+                ExpiryDate = model.ExpiryDate,
+                
+                CVV = model.CVV,
+                
+                PassportPath = passportPath,
+                
+                AcceptTerms = model.AcceptTerms
+            };
+
+            _context.PartnerApplications.Add(application);
+
+            user.Role = "Partner";
+
+            await _context.SaveChangesAsync();
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.Email),
+
+                new Claim(ClaimTypes.Role, user.Role)
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

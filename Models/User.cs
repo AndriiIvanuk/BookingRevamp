@@ -18,5 +18,9 @@ namespace BookingRevamp.Models
         [Required]
         public string? Password {  get; set; }
 
+        public string Role { get; set; } = "User";
+
+        public List<PartnerApplication> PartnerApplications { get; set; } = new();
+
     }
 }
