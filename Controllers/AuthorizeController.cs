@@ -232,7 +232,7 @@ namespace BookingRevamp.Controllers
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Partner");
         }
     }
 }

@@ -71,14 +71,14 @@ body {
     font-size: 16px;
 }
 
-    .btn:hover {
-        cursor: pointer;
-        color: #fff;
-    }
-
+    .btn:hover,
     .btn:focus,
     .btn:active {
-        opacity: 100% !important;
+        cursor: pointer;
+        background-color: #7876A7;
+        opacity: 1 !important;
+        border: none !important;
+        outline: none !important;
     }
 
 .google-btn {
@@ -104,9 +104,11 @@ body {
     color: #fff;
 }
 
-    .btn-outline:hover {
-        background: #7876A7;
-        color: #fff;
+    .btn-outline:hover,
+    .btn-outline:focus,
+    .btn-outline:active {
+        background: #7876A7 !important;
+        color: #fff !important;
     }
 
 .btn-solid {
@@ -114,9 +116,11 @@ body {
     color: #111
 }
 
-    .btn-solid:hover {
-        background: #E5F280;
-        color: #111
+    .btn-solid:hover,
+    .btn-solid:focus,
+    .btn-solid:active {
+        background: #E5F280 !important;
+        color: #111 !important;
     }
 
     .btn-solid img {
@@ -461,40 +465,62 @@ input:-webkit-autofill {
         height: 100%;
     }
 
-
-.check-row input[type="checkbox"] {
-    position: relative;
-    appearance: none;
-    -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
-    top: 4px;
-    border: 2px solid;
-    border-color: #0D1326;
-    border-radius: 50%;
-    background: #D9D9D9;
+.check-row {
+    display: flex;
     cursor: pointer;
+    position: relative;
 }
 
-    .check-row input[type="checkbox"]:checked {
-        background:gray;
+    .check-row input[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+        margin-right: 8px;
+    }
+
+    .check-row span {
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        position: relative;
+        gap: 4px;
+    }
+
+        .check-row span::before {
+            content: "";
+            width: 24px;
+            height: 24px;
+            border: 3px solid;
+            border-color: #0D1326;
+            border-radius: 50%;
+            background: #D9D9D9;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .check-row span::after {
+            content: "";
+            position: absolute;
+            left: 10px;
+            top: 5px;
+            width: 6px;
+            height: 12px;
+            border: solid #0D1326;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+            opacity: 0;
+        }
+
+    .check-row input[type="checkbox"]:checked + span::after {
+        opacity: 1;
     }
 
 .passport-upload {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
+    color: #433FA0;
+    text-decoration: underline;
 }
 
-    .passport-upload span {
+    .passport-upload:hover {
         cursor: pointer;
-        text-decoration: underline;
-    }
-
-    .passport-upload input[type="checkbox"] {
-        width: 20px;
-        height: 20px;
     }
 
 .register-btn {
@@ -533,6 +559,9 @@ input:-webkit-autofill {
     display: inline-block !important;
     margin-top: 8px;
 }
+    .error-text ul, li {
+        list-style: none !important;
+    }
 
 .checkbox-error span {
     color: #BF0413;
@@ -543,7 +572,7 @@ input:-webkit-autofill {
 }
 
 .checkbox-error input {
-    border: 2px solid #BF0413 !important;
+    border: 3px solid #BF0413 !important;
     background: #D9D9D9 !important;
 }
 
@@ -618,6 +647,7 @@ input:-webkit-autofill {
     justify-content: center;
     margin-top: 40px;
 }
+
 .overlap {
     width: 100%;
     height: 16px;
@@ -625,9 +655,6 @@ input:-webkit-autofill {
     align-items: center;
     justify-content: space-between;
     margin-top: 8px;
-}
-.overlap.error-text{
-    margin-top: 0;
 }
 
 @media(max-width:1200px) {

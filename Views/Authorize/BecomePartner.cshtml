@@ -18,7 +18,7 @@
 
         <div class="register-right">
             <div class="register-form-wrap">
-                <h1>Зареєструй обліковий запис</h1>
+                <h1>Створи профіль, щоб стати нашим партнером</h1>
                 <p class="subtitle">Створи профіль, щоб зберігати та швидко бронювати</p>
 
                 <form method="post" enctype="multipart/form-data" asp-action="BecomePartner" asp-controller="Authorize" class="register-form">
@@ -38,7 +38,7 @@
                     </div>
                     <div class="field">
                         <label>По батькові</label>
-                        <input asp-for="Patronymic" placeholder="Введи своє по батькові" readonly />
+                        <input asp-for="Patronymic" placeholder="Введи своє по батькові" />
                         <span asp-validation-for="SurName" class="error-text"></span>
                     </div>
 
