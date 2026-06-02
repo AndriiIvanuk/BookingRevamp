@@ -10,5 +10,9 @@ namespace BookingRevamp.Controllers
         {
             return View();
         }
+        public IActionResult CreateProperty()
+        {
+            return View();
+        }
     }
 }

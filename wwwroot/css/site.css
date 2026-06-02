@@ -50,7 +50,7 @@ body {
 }
 
 .logo-img {
-    height: 40px;
+    height: 32px;
     width: 100%;
     object-fit: contain;
 }
@@ -58,30 +58,100 @@ body {
 .nav-actions {
     display: flex;
     align-items: center;
-    gap: 20px
+    gap: 40px
 }
 
-.btn {
+.blue {
     font-family: 'Geologica_Cursive-SemiBold';
     padding: 16px 24px;
     border: none;
     outline: none;
     border-radius: 999px;
     text-decoration: none;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
     font-size: 16px;
+    text-decoration: none !important;
+    background: #423F8C;
+    color: #fff;
 }
 
-    .btn:hover,
-    .btn:focus,
-    .btn:active {
+.btn:hover,
+.btn:focus,
+.btn:active {
+    cursor: pointer;
+    background-color: #7876A7;
+}
+
+.blue:hover, .blue:focus, .blue:active {
+    cursor: pointer;
+    background-color: #7876A7 !important;
+    color: #fff !important;
+    opacity: 1 !important;
+    border: none !important;
+    outline: none !important;
+}
+
+.acid {
+    font-family: 'Geologica_Cursive-SemiBold';
+    padding: 16px 24px;
+    border: none;
+    outline: none;
+    border-radius: 999px;
+    text-decoration: none;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    font-size: 16px;
+    text-decoration: none !important;
+    background: #C0D904;
+    color: #111;
+}
+
+    .acid:hover,
+    .acid:focus,
+    .acid:active {
         cursor: pointer;
-        background-color: #7876A7;
-        opacity: 1 !important;
+        background: #E5F280 !important;
+        color: #111 !important;
+        >>>>>>> Stashed changes opacity: 1 !important;
         border: none !important;
         outline: none !important;
     }
 
-.google-btn {
+.google-acid {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #C0D904;
+    overflow: hidden;
+}
+
+    .google-acid:hover,
+    .google-acid:focus,
+    .google-acid:active {
+        background: #E5F280 !important;
+        cursor: pointer;
+    }
+
+    .google-acid img {
+        background: 0%;
+        width: 24px;
+        height: 24px;
+        fill: black;
+        filter: drop-shadow(100px 0 0 black) !important;
+        transform: translateX(-100px);
+    }
+
+.google {
     width: 48px;
     height: 48px;
     border-radius: 50%;
@@ -93,63 +163,45 @@ body {
     background: #423F8C;
 }
 
-    .google-btn img {
+    .google:hover,
+    .google:focus,
+    .google:active {
+        background-color: #7876A7 !important;
+        cursor: pointer;
+    }
+
+    .google img {
         background: 0%;
         width: 24px;
         height: 24px;
     }
 
-.btn-outline {
-    background: #423F8C;
-    color: #fff;
+.smallest {
+    min-width: 117px !important;
+    max-width: 117px !important;
 }
 
-    .btn-outline:hover,
-    .btn-outline:focus,
-    .btn-outline:active {
-        background: #7876A7 !important;
-        color: #fff !important;
-    }
-
-.btn-solid {
-    background: #C0D904;
-    color: #111
+.little {
+    min-width: 180px !important;
+    max-width: 180px !important;
 }
 
-    .btn-solid:hover,
-    .btn-solid:focus,
-    .btn-solid:active {
-        background: #E5F280 !important;
-        color: #111 !important;
-    }
-
-    .btn-solid img {
-        fill: black;
-        filter: drop-shadow(100px 0 0 black);
-        transform: translateX(-100px);
-    }
-
-.authorized-btn {
-    background: #423F8C;
-    height: 48px;
-    width: 48px;
-    padding: 16px;
-    border: 0;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center
+.medium {
+    min-width: 205px !important;
+    max-width: 205px !important;
 }
 
-    .authorized-btn:hover {
-        background: #7876A7;
-        cursor: pointer;
-    }
+.big {
+    min-width: 290px !important;
+    max-width: 290px !important;
+}
 
-    .authorized-btn img {
-        width: 24px;
-        height: 24px
-    }
+.centralize {
+    display: inline-flex !important;
+    justify-content: center;
+    margin: auto;
+    width: 100%;
+}
 
 .hero {
     position: relative;
@@ -161,14 +213,12 @@ body {
     position: absolute;
     width: 100%;
     height: 75%;
-    fill: white;
 }
 
 .hero-content {
-    position: relative;
+    position: absolute;
     margin: 0px;
-    padding: 0px;
-    padding: 160px 260px;
+    padding: 170px 17.2%;
     color: #fff
 }
 
@@ -189,31 +239,37 @@ body {
 
 .search-panel {
     position: absolute;
-    bottom: -100px;
-    left: 260px;
-    right: 260px;
     background: #0D1326;
-    padding: 0 0 24px;
-    border-radius: 14px;
-    z-index: 0;
+    bottom: -100px;
+    left: 17%;
+    right: 17%;
+    border-radius: 16px;
+    min-height: 190px;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
 }
 
 .search-row {
-    display: flex;
-    align-items: center;
     background: #423F8C;
+    position: relative;
+    align-items: center;
+    align-self: center;
     border-radius: 999px;
+    display: flex;
     height: 48px;
-    margin: 16px;
-    padding: 0 22px
+    width: 100%;
+    margin: 0px;
+    justify-content: flex-start;
 }
 
     .search-row input {
         background: transparent;
-        border: 0;
         outline: none;
+        border: none;
         color: #fff;
         font-size: 16px;
+        width: 70%
     }
 
         .search-row input::placeholder {
@@ -223,45 +279,40 @@ body {
 .icon {
     width: 24px;
     height: 24px;
-    margin-right: 16px;
+    margin: 0 16px;
 }
 
+.dropdown {
+    border: none !important;
+}
+
+    .dropdown img {
+        position: absolute;
+        width: 14px;
+        height: 8px;
+        right: -5px;
+        top: -3px;
+    }
+
 .full {
-    width: 97%;
-    margin-bottom: 22px
+    width: 100%;
+    margin-bottom: 32px;
 }
 
 .search-bottom {
     display: grid;
-    grid-template-columns: 1fr 1fr 1.2fr 68px;
-    gap: 16px;
-    align-items: center
-}
-
-.search-btn {
-    height: 48px;
-    width: 48px;
-    padding: 16px;
-    border: 0;
-    border-radius: 50%;
-    background: #C0D904;
-    display: flex;
+    width: 95%;
+    grid-template-columns: 1fr 1fr 1fr 0;
+    gap: 32px;
     align-items: center;
-    justify-content: center
+    justify-content: center;
 }
 
-    .search-btn:hover {
-        background: #E5F280;
-        cursor: pointer;
-    }
-
-    .search-btn img {
-        width: 24px;
-        height: 24px
-    }
 
 .popular {
-    padding-top: 120px
+    padding-top: 120px;
+    align-items: center;
+    justify-content: center;
 }
 
 .popular-head {
@@ -281,37 +332,34 @@ body {
 
 .popular p {
     font-size: 16px;
-    color: #444;
     margin: 0px;
     padding: 0px;
     font-weight: 500;
 }
 
-.more-btn {
-    font-family: 'Geologica_Cursive-Regular';
-    background: #423F8C;
-    color: #fff;
-    text-decoration: none;
-    padding: 16px 32px;
-    border-radius: 999px;
-    border: 0;
+.more-popular {
+    padding: 14px 20px;
+    font-size: 13px;
+    max-width: 225px;
+    min-width: 225px;
 }
-
-    .more-btn:hover {
-        background: #7876A7;
-    }
 
 .cards {
     display: grid;
-    grid-template-columns: repeat(4,1fr);
-    gap: 26px
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
 }
 
 .card {
-    height: 290px;
-    border-radius: 18px;
+    height: 280px;
+    width: 225px;
+    border-radius: 16px;
+    border: none;
     background: linear-gradient(135deg,#a88962,#ece5d8)
 }
+
 
 .register-page {
     width: 100%;
@@ -332,15 +380,7 @@ body {
     overflow: hidden;
 }
 
-.left-overlay-word {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 640px;
-    color: rgba(255,255,255,.02);
-    transform: translateX(-40px);
+.win-bg-word-left {
 }
 
 .login-box {
@@ -404,6 +444,10 @@ body {
     gap: 18px
 }
 
+    .two-cols .field input {
+        min-width: 0;
+    }
+
 .field label {
     display: block;
     font-size: 16px;
@@ -422,6 +466,7 @@ body {
     color: #D9D9D9;
     font-size: 16px;
     outline: none;
+    min-width: 480px;
 }
 
     .field input::placeholder {
@@ -465,8 +510,31 @@ input:-webkit-autofill {
         height: 100%;
     }
 
+
+.input-validation-error,
+.input-error {
+    background-color: #BF0413 !important;
+}
+
+.error-text {
+    color: #BF0413;
+    font-size: 16px;
+    width: 100% !important;
+    list-style: none !important;
+    display: inline-block !important;
+    margin-top: 8px;
+    white-space: normal;
+}
+
+    .error-text ul,
+    .error-text li {
+        list-style: none !important;
+    }
+
+
 .check-row {
     display: flex;
+    align-items: center;
     cursor: pointer;
     position: relative;
 }
@@ -474,36 +542,33 @@ input:-webkit-autofill {
     .check-row input[type="checkbox"] {
         position: absolute;
         opacity: 0;
-        margin-right: 8px;
     }
 
     .check-row span {
         display: flex;
         align-items: center;
-        font-size: 16px;
+        gap: 6px;
         position: relative;
-        gap: 4px;
+        font-size: 16px;
     }
 
         .check-row span::before {
             content: "";
             width: 24px;
             height: 24px;
-            border: 3px solid;
-            border-color: #0D1326;
+            border: 3px solid #0D1326;
             border-radius: 50%;
             background: #D9D9D9;
-            position: relative;
             flex-shrink: 0;
         }
 
         .check-row span::after {
             content: "";
             position: absolute;
-            left: 10px;
-            top: 5px;
-            width: 6px;
-            height: 12px;
+            left: 9px;
+            top: 4px;
+            width: 7px;
+            height: 14px;
             border: solid #0D1326;
             border-width: 0 3px 3px 0;
             transform: rotate(45deg);
@@ -517,65 +582,47 @@ input:-webkit-autofill {
 .passport-upload {
     color: #433FA0;
     text-decoration: underline;
+    text-decoration-color: currentColor;
 }
 
     .passport-upload:hover {
         cursor: pointer;
     }
 
-.register-btn {
-    display: flex;
-    align-items: center;
-    margin: 12px auto 0;
-    height: 48px;
-    border: none;
-    border-radius: 999px;
-    background: #423F8C;
-    color: #fff;
-    font-size: 16px;
-}
-
-    .register-btn:hover {
-        background: #7876A7;
-        cursor: pointer;
-    }
-
-.social-text {
-    text-align: center;
-    font-size: 16px;
-    margin-top: 6px;
-}
-
-
-.input-validation-error {
-    background-color: #BF0413 !important;
-}
-
-.error-text {
-    color: #BF0413;
-    font-size: 16px;
-    width: auto !important;
-    list-style: none !important;
-    display: inline-block !important;
-    margin-top: 8px;
-}
-    .error-text ul, li {
-        list-style: none !important;
-    }
-
-.checkbox-error span {
-    color: #BF0413;
+.check-row a {
+    color: #433FA0;
+    text-decoration: underline;
 }
 
 .checkbox-error a {
     color: #BF0413;
 }
 
-.checkbox-error input {
-    border: 3px solid #BF0413 !important;
-    background: #D9D9D9 !important;
+.checkbox-error span {
+    color: #BF0413;
 }
 
+    .checkbox-error span::before {
+        border-color: #BF0413 !important;
+    }
+
+.checkbox-error input[type="checkbox"]:checked + span::after {
+    border-color: #BF0413;
+}
+
+.final-check {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    top: -8px;
+}
+
+
+.social-text {
+    text-align: center;
+    font-size: 16px;
+    margin-top: 8px;
+}
 
 .login-page {
     width: 100%;
@@ -633,6 +680,7 @@ input:-webkit-autofill {
 
 .forgot-password {
     margin-left: auto;
+    flex-shrink: 0;
     white-space: nowrap;
     font-size: 16px;
     color: #433FA0;
@@ -649,13 +697,31 @@ input:-webkit-autofill {
 }
 
 .overlap {
-    width: 100%;
-    height: 16px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
     margin-top: 8px;
+    gap: 16px;
 }
+
+    .overlap .error-text {
+        margin: 0px;
+        width: auto !important;
+        flex: 1;
+        text-align: left;
+    }
+
+.validation-summary-errors ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.validation-summary-errors li {
+    margin: 0;
+}
+
 
 @media(max-width:1200px) {
     .hero-content, .search-panel {
@@ -676,7 +742,7 @@ input:-webkit-autofill {
     }
 }
 
-@media(max-width:1100px) {
+@media(max-width:1200px) {
     .register-page {
         flex-direction: column
     }

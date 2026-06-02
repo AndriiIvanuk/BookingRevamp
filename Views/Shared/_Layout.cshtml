@@ -15,16 +15,21 @@
         </a>
         @if (User.Identity.IsAuthenticated){
             <nav class="nav-actions">
-                    <a class="btn authorized-btn"><img src="~/Icons/Message.png" /></a>
-                    <a class="btn authorized-btn"><img src="~/Icons/Heart.png" /></a>
-                    <a asp-controller="Authorize" asp-action="Logout" class="btn authorized-btn"><img src="~/Icons/Search.png" /></a>
-                    <a asp-controller="Authorize" asp-action="BecomePartner" class="btn btn-solid">Стати партнером</a>
+                    <a asp-controller="Home" asp-action="Messages" class="google"><img src="~/Icons/Message.png" /></a>
+                    <a asp-controller="Home" asp-action="Favorites" class="google"><img src="~/Icons/Heart.png" /></a>
+                    @if (User.IsInRole("Partner")){
+                        <a asp-controller="Partner" asp-action="CreateProperty" class="google-acid"><img src="~/Icons/Home.png" /></a>
+                    }
+                    <a asp-controller="Authorize" asp-action="Logout" class="google"><img src="~/Icons/Search.png" /></a>
+                    @if (!User.IsInRole("Partner")){
+                        <a asp-controller="Authorize" asp-action="BecomePartner" class="acid big">Стати партнером</a>
+                    }
             </nav>
         }
         else{
             <div class="nav-actions">
-                <a asp-controller="Authorize" asp-action="Register" class="btn btn-outline">Зареєструватися</a>
-                <a asp-controller="Authorize" asp-action="Login" class="btn btn-solid">Увійти</a>
+                <a asp-controller="Authorize" asp-action="Register" class="blue big">Зареєструватися</a>
+                <a asp-controller="Authorize" asp-action="Login" class="acid little">Увійти</a>
             </div>
         }
         </div>

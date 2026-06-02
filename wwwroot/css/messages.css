@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'Geologica_Cursive-Regular';
+    src: url('/fonts/Geologica_Cursive-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Geologica_Cursive-SemiBold';
+    src: url('/fonts/Geologica_Cursive-SemiBold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

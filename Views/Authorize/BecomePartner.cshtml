@@ -18,14 +18,14 @@
 
         <div class="register-right">
             <div class="register-form-wrap">
-                <h1>Створи профіль, щоб стати нашим партнером</h1>
-                <p class="subtitle">Створи профіль, щоб зберігати та швидко бронювати</p>
+                <h1>Здавай житло разом з нами</h1>
+                <p class="subtitle">Створи профіль, щоб стати нашим партнером</p>
 
                 <form method="post" enctype="multipart/form-data" asp-action="BecomePartner" asp-controller="Authorize" class="register-form">
                     <div class="row two-cols">
                         <div class="field">
                             <label>Прізвище</label>
-                            <input asp-for="SurName" placeholder="Введи прізвище" readonly
+                            <input asp-for="SurName" placeholder="Введи прізвище" readonly type="text" id="SurName" name="SurName"
                                    class="@(ViewData.ModelState["SurName"]?.Errors.Count > 0 ? "input-error" : "")" />
                         </div>
 
@@ -38,51 +38,58 @@
                     </div>
                     <div class="field">
                         <label>По батькові</label>
-                        <input asp-for="Patronymic" placeholder="Введи своє по батькові" />
-                        <span asp-validation-for="SurName" class="error-text"></span>
+                        <input asp-for="Patronymic" placeholder="Введи своє по батькові"
+                               class="@(ViewData.ModelState["Patronymic"]?.Errors.Count > 0 ? "input-error" : "")" />
+                        <span asp-validation-for="Patronymic" class="error-text"></span>
                     </div>
 
                     <div class="field">
                         <label>Email</label>
-                        <input asp-for="Email" placeholder="Введи свій email" readonly
+                        <input asp-for="Email" placeholder="Введи свій email" type="email" readonly
                                class="@(ViewData.ModelState["Email"]?.Errors.Count > 0 ? "input-error" : "")" />
-                        <span asp-validation-for="Email" class="error-text"></span>
                     </div>
 
                     <div class="field">
                         <label>Номер телефону</label>
-                        <input asp-for="PhoneNumber" placeholder="Введи свій номер телефону" readonly
+                        <input asp-for="PhoneNumber" id="phoneNumber" placeholder="Введи свій номер телефону" readonly
                                class="@(ViewData.ModelState["PhoneNumber"]?.Errors.Count > 0 ? "input-error" : "")" />
-                        <span asp-validation-for="PhoneNumber" class="error-text"></span>
                     </div>
 
-                    <div class="field password-field">
+                    <div class="field">
                         <label>Банківська карта</label>
-                        <div class="password-wrapper">
-                            <input asp-for="CardNumber" placeholder="Введи номер своєї банківської карти" 
-                                   class="@(ViewData.ModelState["CardNumber"]?.Errors.Count > 0 || ViewBag.LoginError == true ? "input-error" : "")" />
+                        <div>
+                            <input asp-for="CardNumber" id="cardNumber" maxlength="19" placeholder="Введи номер своєї банківської карти"
+                                   class="@(ViewData.ModelState["CardNumber"]?.Errors.Count > 0 || ViewBag.CardGroupError == true ? "input-error" : "")" />
                         </div>
-                        <span asp-validation-for="CardNumber" class="error-text"></span>
+                        @if (ViewBag.CardGroupError != true){
+                            <span asp-validation-for="CardNumber" class="error-text"></span>
+                        }
                     </div>
 
                     <div class="row two-cols">
                         <div class="field">
                             <label>Термін дії</label>
-                            <input asp-for="ExpiryDate" placeholder="ММ/РР"
-                                   class="@(ViewData.ModelState["ExpiryDate"]?.Errors.Count > 0 ? "input-error" : "")" />
-                            <span asp-validation-for="ExpiryDate" class="error-text"></span>
+                            <input asp-for="ExpiryDate" id="expiryDate" placeholder="ММ/РР"
+                                   class="@(ViewData.ModelState["ExpiryDate"]?.Errors.Count > 0 || ViewBag.CardGroupError == true ? "input-error" : "")" />
+                            @if (ViewBag.CardGroupError != true){
+                                <span asp-validation-for="ExpiryDate" class="error-text"></span>
+                            }
                         </div>
 
                         <div class="field">
                             <label>Код на зворотній стороні</label>
                             <div class="password-wrapper">
-                                <input asp-for="CVV" type="password" placeholder="CVV2/CVV2" class="password-input @(ViewData.ModelState["CVV"]?.Errors.Count > 0 ? "input-error" : "")" />
+                                <input asp-for="CVV" id="cvv" type="password" maxlength="3" placeholder="CVV2/CVC2" 
+                                       class="password-input @(ViewData.ModelState["CVV"]?.Errors.Count > 0 || ViewBag.CardGroupError == true ? "input-error" : "")" />
                                 <button type="button" class="password-toggle"><img class="eye-icon" src="/Icons/eye-closed.png" /></button>
                             </div>
-                            <span asp-validation-for="CVV" class="error-text"></span>
+                            @if (ViewBag.HideCvvError != true){
+                                <span asp-validation-for="CVV" class="error-text"></span>
+                            }
                         </div>
                     </div>
-                    
+                    <div asp-validation-summary="ModelOnly" class="error-text final-check"></div>
+
                     <label class="check-row passport-upload @(ViewData.ModelState["PassportFile"]?.Errors.Count > 0 ? "checkbox-error" : "")">
                         <input type="checkbox" id="passportCheck" disabled />
                         <span id="passportUploadText">
@@ -92,18 +99,14 @@
                     </label>
 
                     <label class="check-row @(ViewData.ModelState["AcceptTerms"]?.Errors.Count > 0 ? "checkbox-error" : "")">
-                        <input asp-for="AcceptTerms" type="checkbox" />
+                        <input type="checkbox" asp-for="AcceptTerms" />
                         <span>
-                            Приймаю <a href="#">умови сервісу</a>
+                            Приймаю <a href="">умови сервісу</a>
                         </span>
                     </label>
 
-                    <button type="submit" class="btn register-btn">Зареєструватися</button>
-
+                    <button type="submit" class="blue medium centralize">Зареєструватися</button>
                 </form>
-                @section Scripts{
-                    <partial name="_ValidationScriptsPartial" />
-                }
             </div>
         </div>
     </div>
@@ -129,6 +132,7 @@
                     }
                 });
             });
+
             const passportInput = document.getElementById("passportInput");
 
             const passportCheck = document.getElementById("passportCheck");
@@ -136,16 +140,52 @@
             const passportText = document.getElementById("passportUploadText");
 
             passportText.addEventListener("click", () => {
-
                 passportInput.click();
-
             });
 
             passportInput.addEventListener("change", () => {
 
-                passportCheck.checked =
-                    passportInput.files.length > 0;
+                passportCheck.checked = passportInput.files.length > 0;
 
+            });
+
+            const cardInput = document.getElementById("cardNumber");
+
+            cardInput.addEventListener("input", function () {
+
+                let value = this.value.replace(/\D/g, "");
+
+                value = value.substring(0, 16);
+
+                value = value.replace(/(.{4})/g, "$1 ").trim();
+
+                this.value = value;
+            });
+
+            const expiryInput = document.getElementById("expiryDate");
+
+            expiryInput.addEventListener("input", function () {
+
+                let value = this.value.replace(/\D/g, "");
+
+                value = value.substring(0, 4);
+
+                if (value.length >= 3){
+                    value = value.substring(0, 2) + "/" + value.substring(2);
+                }
+
+                this.value = value;
+            });
+
+            const cvvInput = document.getElementById("cvv");
+
+            cvvInput.addEventListener("input", function () {
+
+                let value = this.value.replace(/\D/g, "");
+
+                value = value.substring(0, 3);
+
+                this.value = value;
             });
     </script>
 </body>

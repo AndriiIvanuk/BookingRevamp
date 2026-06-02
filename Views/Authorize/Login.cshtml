@@ -33,19 +33,18 @@
                             <button type="button" class="password-toggle"><img class="eye-icon" src="/Icons/eye-closed.png" /></button>
                         </div>
                         <div class="overlap">
-                            <div asp-validation-summary="ModelOnly" class="error-text"></div>
-                            <span asp-validation-for="Password" class="error-text"></span>
+                            <span asp-validation-for="Password" class="error-text field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
                             <a id="LoginEmailLink" asp-controller="Authorize" asp-action="ResetPassword" class="forgot-password">Забув пароль?</a>
                         </div>
                     </div>
 
                     <div class="submit-btn">
-                        <button type="submit" class="btn btn-solid">Увійти</button>
+                        <button type="submit" class="acid smallest centralize">Увійти</button>
                     </div>
 
                     <p class="social-text">Увійди в акаунт або продовж через</p>
 
-                    <button type="button" class="btn btn-solid google-btn">
+                    <button type="button" class="google-acid">
                         <img src="~/Icons/Google.png" class="google-btn" />
                     </button>
                 </form>
@@ -57,7 +56,7 @@
             <div class="register-box">
                 <h2>Не маєш акаунту?</h2>
                 <p>Зареєструйся, щоб зберігати та швидко бронювати</p>
-                <a asp-controller="Authorize" asp-action="Register" class="btn btn-outline">Зареєструватися</a>
+                <a asp-controller="Authorize" asp-action="Register" class="blue medium centralize">Зареєструватися</a>
             </div>
         </div>
 

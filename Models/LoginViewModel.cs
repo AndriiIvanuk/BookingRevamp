@@ -7,7 +7,7 @@ namespace BookingRevamp.Models.ViewModels
         [Required(ErrorMessage = "Хмм... здається, бракує email")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Поле Обов'язкове для заповнення")]
+        [Required(ErrorMessage = "Поле обов'язкове для заповнення")]
         public string Password { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using BookingRevamp.Models;
+﻿using BookingRevamp.Data;
+using BookingRevamp.Models;
 using BookingRevamp.Models.ViewModels;
 using BookingRevamp.Services;
 using Microsoft.AspNetCore.Authentication;
@@ -6,8 +7,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using System.Security.Claims;
-using BookingRevamp.Data;
 
 namespace BookingRevamp.Controllers
 {
@@ -45,7 +46,7 @@ namespace BookingRevamp.Controllers
             {
                 ViewBag.LoginError = true;
 
-                ModelState.AddModelError("", "Неправильний email або пароль");
+                ModelState.AddModelError("Password", "Неправильний email або пароль");
 
                 return View(model);
             }
@@ -57,13 +58,9 @@ namespace BookingRevamp.Controllers
                 new Claim(ClaimTypes.Role, user.Role)
             };
 
-            var claimsIdentity = new ClaimsIdentity(
-                claims,
-                CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity));
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
             return RedirectToAction("Index", "Home");
         }
@@ -79,6 +76,19 @@ namespace BookingRevamp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            bool passwordEmpty = string.IsNullOrWhiteSpace(model.Password);
+
+            bool confirmPasswordEmpty = string.IsNullOrWhiteSpace(model.ConfirmPassword);
+
+            if (passwordEmpty && confirmPasswordEmpty)
+            {
+                ViewBag.PasswordGroupError = true;
+
+                ModelState["ConfirmPassword"]?.Errors.Clear();
+
+                ModelState.AddModelError("ConfirmPassword", "Ці поля не можна пропустити");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -164,6 +174,36 @@ namespace BookingRevamp.Controllers
             if (user == null)
             {
                 return RedirectToAction("Login");
+            }
+
+            bool cardEmpty = string.IsNullOrWhiteSpace(model.CardNumber);
+
+            bool expiryEmpty = string.IsNullOrWhiteSpace(model.ExpiryDate);
+
+            bool cvvEmpty = string.IsNullOrWhiteSpace(model.CVV);
+
+            if (cardEmpty && expiryEmpty && cvvEmpty)
+            {
+                ViewBag.CardGroupError = true;
+
+                ViewBag.HideCvvError = true;
+
+                ModelState.AddModelError("", "Поля з даними рахунку не можуть бути порожніми");
+            }
+
+            else if (!cardEmpty && expiryEmpty && cvvEmpty)
+            {
+                ViewBag.HideCvvError = true;
+            }
+
+            if (!cardEmpty)
+            {
+                var digitsOnly = model.CardNumber.Replace(" ", "");
+
+                if (digitsOnly.Length < 16)
+                {
+                    ModelState.AddModelError("CardNumber", "Номер картки повинен містити 16 цифр");
+                }
             }
 
             if (!ModelState.IsValid)

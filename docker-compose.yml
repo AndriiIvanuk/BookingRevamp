@@ -1,27 +1,27 @@
 services:
   bookingrevamp:
     build: .
-    container_name: bookingrevamp_app
+    container_name: bookingrevamp_app_restored
+    restart: always
     ports:
-      - "8080:8080"
+      - "2580:8080"
     depends_on:
       - postgresdb
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__DefaultConnection: Host=postgresdb;Port=5432;Database=bookingdb;Username=postgres;Password=12345
 
   postgresdb:
     image: postgres:16
-    container_name: bookingrevamp_db
+    container_name: bookingdatabase_revamp
     restart: always
     environment:
       POSTGRES_DB: bookingdb
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 12345
+      POSTGRES_PASSWORD: K7m#Q2x
     ports:
-      - "5432:5432"
+      - "5444:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - bookingrevamp_restored:/var/lib/postgresql/data
 
 volumes:
-  postgres_data:
+  bookingrevamp_restored:

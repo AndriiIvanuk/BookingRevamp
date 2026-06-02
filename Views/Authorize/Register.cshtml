@@ -17,7 +17,7 @@
             <div class="login-box">
                 <h2>Вже маєш акаунт?</h2>
                 <p>Увійди, щоб продовжити пошук ідеального житла</p>
-                <a asp-controller="Authorize" asp-action="Login" class="btn btn-solid">Увійти</a>
+                <a asp-controller="Authorize" asp-action="Login" class="acid smallest centralize">Увійти</a>
             </div>
         </div>
 
@@ -49,14 +49,14 @@
 
                     <div class="field">
                         <label>Email</label>
-                        <input asp-for="Email" placeholder="Введи свій email"
+                        <input asp-for="Email" placeholder="Введи свій email" type="email"
                                class="@(ViewData.ModelState["Email"]?.Errors.Count > 0 ? "input-error" : "")" />
                         <span asp-validation-for="Email" class="error-text"></span>
                     </div>
 
                     <div class="field">
                         <label>Номер телефону</label>
-                        <input asp-for="PhoneNumber" placeholder="Введи свій номер телефону"
+                        <input asp-for="PhoneNumber" id="phoneNumber" placeholder="Введи свій номер телефону"
                                class="@(ViewData.ModelState["PhoneNumber"]?.Errors.Count > 0 ? "input-error" : "")" />
                         <span asp-validation-for="PhoneNumber" class="error-text"></span>
                     </div>
@@ -64,16 +64,19 @@
                     <div class="field password-field">
                         <label>Пароль</label>
                         <div class="password-wrapper">
-                            <input asp-for="Password" type="password" placeholder="Введи свій пароль" class="password-input @(ViewData.ModelState["Password"]?.Errors.Count > 0 || ViewBag.LoginError == true ? "input-error" : "")" />
+                            <input asp-for="Password" type="password" placeholder="Введи свій пароль"
+                                   class="password-input @(ViewData.ModelState["Password"]?.Errors.Count > 0 || ViewBag.PasswordGroupError == true ? "input-error" : "")" />
                             <button type="button" class="password-toggle"><img class="eye-icon" src="/Icons/eye-closed.png"/></button>
                         </div>
-                        <span asp-validation-for="Password" class="error-text"></span>
+                        @if (ViewBag.PasswordGroupError != true){
+                            <span asp-validation-for="Password" class="error-text"></span>
+                        }
                     </div>
 
                     <div class="field password-field">
                         <label>Підтверди пароль</label>
                         <div class="password-wrapper">
-                            <input asp-for="ConfirmPassword" type="password" placeholder="Введи свій пароль" class="password-input @(ViewData.ModelState["ConfirmPassword"]?.Errors.Count > 0 ? "input-error" : "")" />
+                            <input asp-for="ConfirmPassword" type="password" placeholder="Введи свій пароль" class="password-input @(ViewData.ModelState["ConfirmPassword"]?.Errors.Count > 0 || ViewBag.PasswordGroupError == true ? "input-error" : "")" />
                             <button type="button" class="password-toggle"><img class="eye-icon" src="/Icons/eye-closed.png"/></button>
                         </div>
                         <span asp-validation-for="ConfirmPassword" class="error-text"></span>
@@ -82,22 +85,20 @@
                     <label class="check-row @(ViewData.ModelState["Accept"]?.Errors.Count > 0 ? "checkbox-error" : "")">
                         <input asp-for="Accept" type="checkbox" />
                         <span>
-                            Приймаю <a href="#">умови сервісу</a>
+                            Приймаю <a href="">умови сервісу</a>
                         </span>
                     </label>
 
-                    <button type="submit" class="btn register-btn">Зареєструватися</button>
+                    <button type="submit" class="blue medium centralize">Зареєструватися</button>
 
                     <p class="social-text">Створи акаунт або продовж через</p>
 
-                    <button type="button" class="btn btn-outline google-btn">
+                    <button type="button" class="google">
                         <img src="~/Icons/Google.png" class="google-btn" />
                     </button>
 
                 </form>
-                @section Scripts{
-                    <partial name="_ValidationScriptsPartial" />
-                }
+                @section Scripts{<partial name="_ValidationScriptsPartial" />}
             </div>
         </div>
     </div>
@@ -123,5 +124,14 @@
                 }
             });
         });
+        
+        const phoneInput = document.getElementById("phoneNumber");
+        
+        if (phoneInput) {
+            phoneInput.addEventListener("input", function () {
+                this.value = this.value.replace(/\D/g, "");
+            });
+        }
     </script>
 </body>
+</html>
