@@ -2,4 +2,173 @@
     ViewData["Title"] = "Додавання об'єкту";
 }
 
-<link rel="stylesheet" href="~/css/site.css" />
+@model BookingRevamp.Models.CreatePropertyViewModel
+<link rel="stylesheet" href="~/css/site.css"/>
+
+<body>
+    <form asp-action="AddProperty" asp-controller="Partner" method="post" enctype="multipart/form-data" class="property-form">
+        <h1>Давай опублікуємо новий об'єкт</h1>
+
+        <h3>Створи перше враження</h3>
+        <p>Додай фото, що передають атмосферу та затишок твого простору</p>
+
+        <div class="photo-box">
+            <p>Перетягни або обери файл</p>
+            <input asp-for="Images" id="photoInput" multiple hidden type="file" />
+            <div id="preview"></div>
+        </div>
+
+        <div>
+            <label>Перше фото - обкладинка оголошення</label>
+
+            <label>Можеш завантажити до восьми фото</label>
+        </div>
+
+        <h3>Розкажи про формат житла</h3>
+        <p>Правильно обраний тип підвищує довіру та кількість бронювань</p>
+
+        <div class="chips">
+            <button type="button" class="chip" data-value="Будинок">Будинок</button>
+
+            <button type="button" class="chip" data-value="Готель">Готель</button>
+
+            <button type="button" class="chip" data-value="Апартаменти">Апартаменти</button>
+
+            <button type="button" class="chip" data-value="Вілла">Вілла</button>
+        </div>
+
+        <input asp-for="PropertyType" id="propertyType" hidden />
+
+        <h3>Місцезнаходження</h3>
+        <p>Ця інформація допоможе гостям бачити об’єкт на карті та оцінити район</p>
+        <div class="location-inputs">
+            <input asp-for="City" placeholder="Введи назву міста" />
+            <input asp-for="Address" placeholder="Введи назву вулиці" />
+            <input asp-for="Object" placeholder="Введи назву об’єкту" />
+        </div>
+
+        <div></div>
+
+        <h3>Максимальна кількість гостей</h3>
+        <p>Вкажи, скільки людей можуть комфортно проживати у твоєму житлі</p>
+
+        <input asp-for="MaxGuests" type="number" min="1" />
+
+        <div>
+            <label class="check-row">
+                <input asp-for="AllowPets" type="checkbox" />
+                <span>
+                    Дозволено з домашніми тваринами
+                </span>
+            </label>
+
+            <label class="check-row">
+                <input asp-for="AllowChildren" type="checkbox" />
+                <span>
+                    Дозволено проживання з дітьми
+                </span>
+            </label>
+        </div>
+
+        <h3>Розкажи про свій простір</h3>
+        <p>Опиши переваги, атмосферу та все, що може зацікавити гостей</p>
+
+        <textarea asp-for="Rules" placeholder="Додай детальну інформацію про об’єкт"></textarea>
+
+        <h3>Зручності та можливості</h3>
+        <p>Вкажи, що включено для комфорту мешканців</p>
+
+        <p>Основні зручності</p>
+
+        <div>
+            <label class="toggle-btn">
+                <input asp-for="FastWifi" hidden />
+                <span>
+                    WiFi
+                </span>
+            </label>
+
+            <label class="toggle-btn">
+                <input asp-for="AirConditioner" hidden />
+                <span>
+                    Кондиціонер
+                </span>
+            </label>
+
+            <label class="toggle-btn">
+                <input asp-for="Heating" hidden />
+                <span>
+                    Опалення
+                </span>
+            </label>
+
+            <label class="toggle-btn">
+                <input asp-for="TV" hidden />
+                <span>
+                    Телевізор
+                </span>
+            </label>
+
+            <label class="toggle-btn">
+                <input asp-for="Generator" hidden />
+                <span>
+                    Генератор
+                </span>
+            </label>
+
+            <label class="toggle-btn">
+                <input asp-for="Elevator" hidden />
+                <span>
+                    Ліфт
+                </span>
+            </label>
+        </div>
+
+        <p>Спальня та зберіганя</p>
+
+        <div>
+            <label class="toggle-btn">
+                <input asp-for="Wardrobe" hidden />
+                <span>
+                    Шафа або гардероб
+                </span>
+            </label>
+
+            <label class="toggle-btn">
+                <input asp-for="Bedclothes" hidden />
+                <span>
+                    Постільна білизна
+                </span>
+            </label>
+
+            <label class="toggle-btn">
+                <input asp-for="Iron" hidden />
+                <span>
+                    Праска
+                </span>
+            </label>
+
+            <label class="toggle-btn">
+                <input asp-for="Safe" hidden />
+                <span>
+                    Сейф
+                </span>
+            </label>
+        </div>
+
+        <h3>Важливо знати перед заселенням</h3>
+        <p>Додай правила, щоб уникнути непорозумінь та забезпечити комфорт</p>
+
+        <textarea asp-for="Rules" placeholder="Основні вимоги до проживання"></textarea>
+
+        <h3>Вартість проживання</h3>
+        <p>Конкурентна ціна допоможе швидше отримати бронювання</p>
+
+        <div>
+            <input asp-for="PricePerNight" type="number" step="0.01" placeholder="Вкажи вартість за ніч" />
+
+            <button class="publish-btn">Опублікувати оголошення</button>
+        </div>
+
+    </form>
+</body>

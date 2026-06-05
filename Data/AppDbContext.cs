@@ -13,5 +13,10 @@ namespace BookingRevamp.Data
         public DbSet<User> Users { get; set; }
 
         public DbSet<PartnerApplication> PartnerApplications { get; set; }
+
+        public DbSet<Property> Properties { get; set; }
+
+        public DbSet<PropertyImage> PropertyImages { get; set; }
+
     }
 }
