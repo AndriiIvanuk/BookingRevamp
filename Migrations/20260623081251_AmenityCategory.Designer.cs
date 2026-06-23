@@ -3,6 +3,7 @@ using System;
 using BookingRevamp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookingRevamp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260623081251_AmenityCategory")]
+    partial class AmenityCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,10 +45,6 @@ namespace BookingRevamp.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Size")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
 
                     b.ToTable("Amenities");
@@ -56,80 +55,70 @@ namespace BookingRevamp.Migrations
                             Id = 1,
                             Category = "Основні",
                             Icon = "wifi.png",
-                            Name = "Швидкісний WI-FI",
-                            Size = "l"
+                            Name = "Швидкісний WI-FI"
                         },
                         new
                         {
                             Id = 2,
                             Category = "Основні",
                             Icon = "air-conditioner.png",
-                            Name = "Кондиціонер",
-                            Size = "m"
+                            Name = "Кондиціонер"
                         },
                         new
                         {
                             Id = 3,
                             Category = "Основні",
                             Icon = "heating.png",
-                            Name = "Опалення",
-                            Size = "m"
+                            Name = "Опалення"
                         },
                         new
                         {
                             Id = 4,
                             Category = "Основні",
                             Icon = "tv.png",
-                            Name = "Телевізор",
-                            Size = "m"
+                            Name = "Телевізор"
                         },
                         new
                         {
                             Id = 5,
                             Category = "Основні",
                             Icon = "generator.png",
-                            Name = "Генератор",
-                            Size = "m"
+                            Name = "Генератор"
                         },
                         new
                         {
                             Id = 6,
                             Category = "Основні",
                             Icon = "elevator.png",
-                            Name = "Ліфт",
-                            Size = "s"
+                            Name = "Ліфт"
                         },
                         new
                         {
                             Id = 7,
                             Category = "Спальня",
                             Icon = "wardrobe.png",
-                            Name = "Шафа або гардероб",
-                            Size = "l"
+                            Name = "Шафа або гардероб"
                         },
                         new
                         {
                             Id = 8,
                             Category = "Спальня",
                             Icon = "bedclothes.png",
-                            Name = "Постільна білизна",
-                            Size = "l"
+                            Name = "Постільна білизна"
                         },
                         new
                         {
                             Id = 9,
                             Category = "Спальня",
                             Icon = "iron.png",
-                            Name = "Праска",
-                            Size = "m"
+                            Name = "Праска"
                         },
                         new
                         {
                             Id = 10,
                             Category = "Спальня",
                             Icon = "safe.png",
-                            Name = "Сейф",
-                            Size = "m"
+                            Name = "Сейф"
                         });
                 });
 

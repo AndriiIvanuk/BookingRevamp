@@ -3,25 +3,38 @@ services:
     build: .
     container_name: bookingrevamp_app_restored
     restart: always
+
     ports:
       - "2580:8080"
+
     depends_on:
       - postgresdb
+
     environment:
       ASPNETCORE_ENVIRONMENT: Development
+
+      ConnectionStrings__DefaultConnection: Host=postgresdb;Port=5432;Database=bookingdb;Username=postgres;Password=K7m#Q2x
+
+    volumes:
+      - C:/Users/Админ/AppData/Roaming/gcloud:/root/.config/gcloud
+
 
   postgresdb:
     image: postgres:16
     container_name: bookingdatabase_revamp
     restart: always
+
     environment:
       POSTGRES_DB: bookingdb
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: K7m#Q2x
+
     ports:
       - "5444:5432"
+
     volumes:
       - bookingrevamp_restored:/var/lib/postgresql/data
+
 
 volumes:
   bookingrevamp_restored:

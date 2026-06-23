@@ -3,6 +3,7 @@ using System;
 using BookingRevamp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookingRevamp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260614054727_PropertyUpdate")]
+    partial class PropertyUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,117 +24,6 @@ namespace BookingRevamp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("BookingRevamp.Models.Amenity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Icon")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Size")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Amenities");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Category = "Основні",
-                            Icon = "wifi.png",
-                            Name = "Швидкісний WI-FI",
-                            Size = "l"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Category = "Основні",
-                            Icon = "air-conditioner.png",
-                            Name = "Кондиціонер",
-                            Size = "m"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Category = "Основні",
-                            Icon = "heating.png",
-                            Name = "Опалення",
-                            Size = "m"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Category = "Основні",
-                            Icon = "tv.png",
-                            Name = "Телевізор",
-                            Size = "m"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Category = "Основні",
-                            Icon = "generator.png",
-                            Name = "Генератор",
-                            Size = "m"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Category = "Основні",
-                            Icon = "elevator.png",
-                            Name = "Ліфт",
-                            Size = "s"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Category = "Спальня",
-                            Icon = "wardrobe.png",
-                            Name = "Шафа або гардероб",
-                            Size = "l"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Category = "Спальня",
-                            Icon = "bedclothes.png",
-                            Name = "Постільна білизна",
-                            Size = "l"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Category = "Спальня",
-                            Icon = "iron.png",
-                            Name = "Праска",
-                            Size = "m"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Category = "Спальня",
-                            Icon = "safe.png",
-                            Name = "Сейф",
-                            Size = "m"
-                        });
-                });
 
             modelBuilder.Entity("BookingRevamp.Models.PartnerApplication", b =>
                 {
@@ -144,7 +36,15 @@ namespace BookingRevamp.Migrations
                     b.Property<bool>("AcceptTerms")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("CVV")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("CardNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ExpiryDate")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -173,10 +73,16 @@ namespace BookingRevamp.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("AirConditioner")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("AllowChildren")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("AllowPets")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Bedclothes")
                         .HasColumnType("boolean");
 
                     b.Property<string>("City")
@@ -198,10 +104,29 @@ namespace BookingRevamp.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("Elevator")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("FastWifi")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Generator")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Heating")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Iron")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("MaxGuests")
                         .HasColumnType("integer");
 
                     b.Property<string>("Object")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("OwnerId")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -216,24 +141,22 @@ namespace BookingRevamp.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("Safe")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("TV")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("Wardrobe")
+                        .HasColumnType("boolean");
+
                     b.HasKey("Id");
 
                     b.ToTable("Properties");
-                });
-
-            modelBuilder.Entity("BookingRevamp.Models.PropertyAmenity", b =>
-                {
-                    b.Property<int>("PropertyId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("AmenityId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("PropertyId", "AmenityId");
-
-                    b.HasIndex("AmenityId");
-
-                    b.ToTable("PropertyAmenities");
                 });
 
             modelBuilder.Entity("BookingRevamp.Models.PropertyImage", b =>
@@ -243,10 +166,6 @@ namespace BookingRevamp.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<string>("ImagePath")
                         .IsRequired()
@@ -313,25 +232,6 @@ namespace BookingRevamp.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("BookingRevamp.Models.PropertyAmenity", b =>
-                {
-                    b.HasOne("BookingRevamp.Models.Amenity", "Amenity")
-                        .WithMany("PropertyAmenities")
-                        .HasForeignKey("AmenityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BookingRevamp.Models.Property", "Property")
-                        .WithMany("Amenities")
-                        .HasForeignKey("PropertyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Amenity");
-
-                    b.Navigation("Property");
-                });
-
             modelBuilder.Entity("BookingRevamp.Models.PropertyImage", b =>
                 {
                     b.HasOne("BookingRevamp.Models.Property", "Property")
@@ -343,15 +243,8 @@ namespace BookingRevamp.Migrations
                     b.Navigation("Property");
                 });
 
-            modelBuilder.Entity("BookingRevamp.Models.Amenity", b =>
-                {
-                    b.Navigation("PropertyAmenities");
-                });
-
             modelBuilder.Entity("BookingRevamp.Models.Property", b =>
                 {
-                    b.Navigation("Amenities");
-
                     b.Navigation("Images");
                 });
 

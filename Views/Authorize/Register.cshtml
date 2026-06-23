@@ -31,20 +31,26 @@
                         <div class="field">
                             <label>Прізвище</label>
                             <input asp-for="SurName" placeholder="Введи прізвище"
-                                   class="@(ViewData.ModelState["SurName"]?.Errors.Count > 0 ? "input-error" : "")" />
+                                   class="@(ViewData.ModelState["SurName"]?.Errors.Count > 0 || ViewBag.NameGroupError == true ? "input-error" : "")" />
+                            @if (ViewBag.NameGroupError != true){
+                            <span asp-validation-for="SurName" class="error-text"></span>
+                        }
                         </div>
 
                         <div class="field">
                             <label>Ім'я</label>
                             <input asp-for="Name" placeholder="Введи ім'я"
-                                   class="@(ViewData.ModelState["Name"]?.Errors.Count > 0 ? "input-error" : "")" />
+                                   class="@(ViewData.ModelState["Name"]?.Errors.Count > 0 || ViewBag.NameGroupError == true ? "input-error" : "")" />
+                            @if (ViewBag.NameGroupError != true){
+                                <span asp-validation-for="Name" class="error-text"></span>
+                            }
                         </div>
 
                     </div>
                     <div class="field">
                         <label>По батькові</label>
                         <input asp-for="Patronymic" placeholder="Введи своє по батькові" />
-                        <span asp-validation-for="SurName" class="error-text"></span>
+                        <div asp-validation-summary="ModelOnly" class="error-text"></div>
                     </div>
 
                     <div class="field">

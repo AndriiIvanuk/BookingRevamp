@@ -25,13 +25,13 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Geologica_Cursive-Regular', sans-serif;
-    background: #f3f3f3;
-    color: #111;
+    background: #fff;
 }
 
 .container {
-    width: 1020px;
+    width: 1280px;
     margin: 0 auto;
+    background: #fff;
 }
 
 .topbar {
@@ -85,7 +85,9 @@ body {
     background-color: #7876A7;
 }
 
-.blue:hover, .blue:focus, .blue:active {
+.blue:hover,
+.blue:focus,
+.blue:active {
     cursor: pointer;
     background-color: #7876A7 !important;
     color: #fff !important;
@@ -206,7 +208,7 @@ body {
 .hero {
     position: relative;
     background: #0D1326;
-    height: 380px;
+    height: 480px;
 }
 
 .hero-bg-word {
@@ -218,7 +220,7 @@ body {
 .hero-content {
     position: absolute;
     margin: 0px;
-    padding: 170px 17.2%;
+    padding: 232px 17.2%;
     color: #fff
 }
 
@@ -269,7 +271,7 @@ body {
         border: none;
         color: #fff;
         font-size: 16px;
-        width: 70%
+        width: 70%;
     }
 
         .search-row input::placeholder {
@@ -279,7 +281,8 @@ body {
 .icon {
     width: 24px;
     height: 24px;
-    margin: 0 16px;
+    margin: 0 16px 0 32px;
+
 }
 
 .dropdown {
@@ -290,7 +293,7 @@ body {
         position: absolute;
         width: 14px;
         height: 8px;
-        right: -5px;
+        right: -8px;
         top: -3px;
     }
 
@@ -338,34 +341,139 @@ body {
 }
 
 .more-popular {
-    padding: 14px 20px;
-    font-size: 13px;
-    max-width: 225px;
-    min-width: 225px;
+    width: 290px;
+    margin-bottom: 32px;
 }
 
 .cards {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    align-items: center;
+    grid-template-columns: repeat(4, 290px);
     justify-content: center;
     gap: 32px;
 }
 
 .card {
-    height: 280px;
-    width: 225px;
-    border-radius: 16px;
+    width: 290px;
+    height: 378px;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
     border: none;
-    background: linear-gradient(135deg,#a88962,#ece5d8)
 }
+
+    .card img {
+        width: 290px;
+        height: 290px;
+        object-fit: cover;
+        border-radius: 16px;
+    }
+
+.card-info {
+    display: flex;
+    flex-direction: column;
+    padding-top: 8px;
+}
+
+    .card-info h3 {
+        margin-top: 8px;
+        font-family: 'Geologica_Cursive-SemiBold';
+        font-size: 16px;
+    }
+
+    .card-info p {
+        font-family: 'Geologica_Cursive-Regular';
+        font-size: 16px;
+    }
+
+.card-footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.card-rating {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+}
+
+    .card-rating img {
+        width: 16px;
+        height: 16px;
+        border-radius: 0;
+    }
+
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+    .rating img {
+        width: 16px;
+        height: 16px;
+        object-fit: contain;
+        border-radius: 0;
+    }
+
+.review {
+    margin-left: 0px !important;
+    margin-top: -16px !important;
+}
+
+.card-price {
+    font-family: 'Geologica_Cursive-SemiBold';
+    margin-left: auto;
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+.card,
+.card-footer,
+.card-info {
+    border: none !important;
+    box-shadow: none !important;
+    background: none;
+}
+
+    .card-info h3,
+    .card-info p {
+        margin-left: 0;
+        padding-left: 0;
+    }
+
+.card-footer {
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.card-empty {
+    height: 378px;
+    width: 290px;
+    border-radius: 16px;
+    background: linear-gradient( 135deg, #A88962, #ECE5d8 ) !important;
+}
+    .card-empty:hover {
+        cursor: pointer;
+    }
+
+.card-image-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #A88962;
+}
+
+    .card-image-placeholder:hover {
+        cursor: pointer;
+    }
 
 
 .register-page {
     width: 100%;
-    min-height: 100vh;
     display: flex;
-    background: #ffffff;
+    background: #fff;
+    display: flex;
+    align-items: center;
 }
 
 .register-left {
@@ -463,14 +571,14 @@ body {
     border-radius: 999px;
     padding: 0 24px;
     background: #7776A6;
-    color: #D9D9D9;
+    color: #fff;
     font-size: 16px;
     outline: none;
     min-width: 480px;
 }
 
     .field input::placeholder {
-        color: #D9D9D9
+        color: #fff;
     }
 
 input:-webkit-autofill {
@@ -565,8 +673,8 @@ input:-webkit-autofill {
         .check-row span::after {
             content: "";
             position: absolute;
-            left: 9px;
-            top: 4px;
+            left: 10px;
+            top: 5px;
             width: 7px;
             height: 14px;
             border: solid #0D1326;
@@ -600,6 +708,7 @@ input:-webkit-autofill {
 
 .checkbox-error span {
     color: #BF0413;
+    text-decoration: #BF0413;
 }
 
     .checkbox-error span::before {
@@ -722,6 +831,393 @@ input:-webkit-autofill {
     margin: 0;
 }
 
+.add-property-page {
+
+}
+
+    .add-property-page.field input {
+        margin-top: 16px;
+    }
+
+.create-property-page {
+    background: #fff;
+}
+
+    .create-property-page h1 {
+        font-size: 56px;
+        margin-bottom: 24px;
+        margin-top: 64px;
+    }
+
+    .create-property-page h3 {
+        font-size: 24px;
+        margin-top: 16px;
+        margin-bottom: -8px;
+    }
+
+    .create-property-page p {
+        font-size: 16px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+
+.gray {
+    width: 400px;
+    height: 48px;
+    display: flex;
+    border: none;
+    border-radius: 999px;
+    padding: 0 32px;
+    background: #D9D9D9;
+    color: #423F8C;
+    align-items: center;
+    text-align: left;
+    font-size: 16px;
+}
+
+.rows {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+}
+
+.rows-check {
+    display: flex;
+    flex-direction: row;
+    margin-top: 16px;
+    margin-bottom: 24px;
+    gap: 72px;
+}
+    .rows-check .check-row span::before {
+        width: 30px !important;
+        height: 30px !important;
+        min-width: 30px !important;
+        min-height: 30px !important;
+        border-width: 3px;
+    }
+
+
+    .rows-check .check-row span::after {
+        width: 8px !important;
+        height: 16px !important;
+        left: 11px !important;
+        top: 5px !important;
+        border-width: 0 3px 3px 0;
+    }
+
+
+    .rows-check .check-row span {
+        font-size: 18px;
+        gap: 12px;
+    }
+
+.add-object {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 24px;
+    margin-bottom: 64px;
+}
+
+    .add-object .field input {
+        min-width: 0 !important;
+        width: 400px !important;
+    }
+
+.chips {
+    align-content: start;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.toggle-btn {
+    font-family: 'Geologica_Cursive-Regular';
+    display: flex;
+    width: auto;
+    height: 48px;
+    border: none;
+    border-radius: 999px;
+    padding: 0 24px;
+    background: #7776A6;
+    color: #D9D9D9;
+    align-items: center;
+    text-align: left;
+    font-size: 16px;
+    outline: none;
+}
+
+    .toggle-btn.active {
+        background: #423F8C;
+    }
+
+    .s{
+        min-width: 128px;
+        max-width: 128px;
+    }
+    .m {
+        min-width: 224px;
+        max-width: 224px;
+    }
+    .l {
+        min-width: 320px;
+        max-width: 320px;
+    }
+
+.ameniries-div {
+    margin-top: 16px;
+    margin-bottom: 32px;
+}
+
+.ameniries {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 8px;
+    row-gap: 16px;
+}
+
+    .ameniries img {
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+        margin-right: 8px;
+    }
+
+.location {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    width: 100%;
+    gap: 32px;
+    margin-top: 16px;
+}
+    .location .field input {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .location > .field {
+        min-width: 0;
+        width: 100%;
+    }
+
+        .location > .field input {
+            width: 100%;
+            min-width: 0;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+.big-field {
+    font-family: 'Geologica_Cursive-Regular';
+    width: 100%;
+    height: 290px;
+    min-height: 120px;
+    display: flex;
+    border: none;
+    border-radius: 12px;
+    background: #7776A6;
+    color: #fff;
+    padding: 8px 32px;
+    font-size: 16px;
+    outline: none;
+    margin-bottom: 32px;
+    margin-top: 24px;
+}
+
+textarea::placeholder {
+    font-family: 'Geologica_Cursive-Regular';
+    color: #fff;
+}
+
+.guests-row {
+    margin-top: 16px;
+    display: flex;
+    gap: 40px;
+}
+
+.guest-input input {
+    min-width: 0 !important;
+    width: 400px !important;
+    background-color: #423F8C;
+}
+
+.map {
+    height: 290px;
+    width: 1280px;
+    margin-top: 32px;
+    margin-bottom: 32px;
+}
+
+.counter {
+    display: flex;
+    height: 48px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: #D9D9D9;
+}
+
+    .counter button {
+        width: 48px;
+        height: 48px;
+        border: none;
+        background: #D9D9D9;
+        font-size: 18px;
+        color: #423F8C;
+        cursor: pointer;
+    }
+
+    .counter span {
+        width: 72px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #423F8C;
+        color: white;
+        font-size: 20px;
+    }
+
+
+.photo-section {
+    margin: 32px 0;
+}
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 32px;
+}
+
+.photo-upload,
+.photo-slot {
+    height: 290px;
+    border-radius: 16px;
+    background: #d9d9d9;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.photo-upload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 290px;
+}
+
+.upload-content {
+    text-align: center;
+    color: #423F8C;
+}
+
+.upload-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.photo-slot {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #423F8C;
+}
+
+    .photo-slot img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .photo-slot span {
+        font-family: 'Geologica_Cursive-Regular', sans-serif !important;
+        font-size: 16px;
+        padding: 16px;
+        text-align: center;
+    }
+
+    .photo-slot.filled span {
+        display: none;
+    }
+
+
+.photo-slot {
+    position: relative;
+}
+
+    .photo-slot img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.remove-photo {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    border: none;
+    font-weight: 700;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    background: #D9D9D9;
+}
+
+    .remove-photo:hover {
+        background: #A3A3A3;
+    }
+
+.moderation-page {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #0D1326;
+}
+
+.background-word {
+    position: absolute;
+    width: 100vw;
+    height: 100%;
+}
+
+.moderation-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+    .moderation-content h1 {
+        margin: 0;
+        color: #fff;
+        font-size: 56px;
+        font-weight: 500;
+        line-height: 120%;
+    }
+
+    .moderation-content p {
+        margin-top: 8px;
+        margin-bottom: 50px;
+        color: #fff;
+        font-size: 24px;
+        font-weight: 400;
+    }
+
+.moderation-actions {
+    display: flex;
+    gap: 64px;
+}
+    .moderation-actions a {
+        width: 340px !important;
+        max-width: 340px !important;
+    }
 
 @media(max-width:1200px) {
     .hero-content, .search-panel {

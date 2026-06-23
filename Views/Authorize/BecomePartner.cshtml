@@ -56,39 +56,13 @@
                     </div>
 
                     <div class="field">
-                        <label>Банківська карта</label>
+                        <label>Номер рахунку</label>
                         <div>
-                            <input asp-for="CardNumber" id="cardNumber" maxlength="19" placeholder="Введи номер своєї банківської карти"
+                            <input asp-for="CardNumber" id="cardNumber" maxlength="19" placeholder="Введи номер свого рахунку"
                                    class="@(ViewData.ModelState["CardNumber"]?.Errors.Count > 0 || ViewBag.CardGroupError == true ? "input-error" : "")" />
                         </div>
-                        @if (ViewBag.CardGroupError != true){
-                            <span asp-validation-for="CardNumber" class="error-text"></span>
-                        }
+                        <span asp-validation-for="CardNumber" class="error-text"></span>
                     </div>
-
-                    <div class="row two-cols">
-                        <div class="field">
-                            <label>Термін дії</label>
-                            <input asp-for="ExpiryDate" id="expiryDate" placeholder="ММ/РР"
-                                   class="@(ViewData.ModelState["ExpiryDate"]?.Errors.Count > 0 || ViewBag.CardGroupError == true ? "input-error" : "")" />
-                            @if (ViewBag.CardGroupError != true){
-                                <span asp-validation-for="ExpiryDate" class="error-text"></span>
-                            }
-                        </div>
-
-                        <div class="field">
-                            <label>Код на зворотній стороні</label>
-                            <div class="password-wrapper">
-                                <input asp-for="CVV" id="cvv" type="password" maxlength="3" placeholder="CVV2/CVC2" 
-                                       class="password-input @(ViewData.ModelState["CVV"]?.Errors.Count > 0 || ViewBag.CardGroupError == true ? "input-error" : "")" />
-                                <button type="button" class="password-toggle"><img class="eye-icon" src="/Icons/eye-closed.png" /></button>
-                            </div>
-                            @if (ViewBag.HideCvvError != true){
-                                <span asp-validation-for="CVV" class="error-text"></span>
-                            }
-                        </div>
-                    </div>
-                    <div asp-validation-summary="ModelOnly" class="error-text final-check"></div>
 
                     <label class="check-row passport-upload @(ViewData.ModelState["PassportFile"]?.Errors.Count > 0 ? "checkbox-error" : "")">
                         <input type="checkbox" id="passportCheck" disabled />

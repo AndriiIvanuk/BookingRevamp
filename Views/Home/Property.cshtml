@@ -1,0 +1,92 @@
+﻿@model Property
+@{
+    ViewData["Title"] = $"Перегляд об'єкту - {Model.Object}";
+    ViewData["HideSiteName"] = true;
+}
+
+<div class="create-property-page container">
+
+    <div class="photo-section">
+        <div class="photo-grid">
+            @foreach(var image in Model.Images.Take(8))
+            {
+                <div class="photo-slot">
+                    <img src="@image.ImagePath" />
+                </div>
+            }
+        </div>
+    </div>
+
+    <h3>@Model.Object</h3>
+
+    <p>@Model.City @Model.Object</p>
+
+    <div class="rows review">
+        <div class="rating">
+            <img src="~/Icons/star.png" />
+            <img src="~/Icons/star.png" />
+            <img src="~/Icons/star.png" />
+            <img src="~/Icons/star.png" />
+            <img src="~/Icons/empty-star.png" />
+        </div>
+
+        <p>@Model.PricePerNight грн за ніч</p>
+    </div>
+
+    <h3>Зручності та можливості</h3>
+    <p>Вкажи, що включено для комфорту мешканців</p>
+
+    <div class="ameniries">
+
+        @foreach(var propertyAmenity in Model.Amenities){
+            <button type="button" class="toggle-btn amenity @propertyAmenity.Amenity.Size" disabled>
+                <img src="~/Icons/@propertyAmenity.Amenity.Icon" />
+                <span>@propertyAmenity.Amenity.Name</span>
+            </button>
+        }
+        
+    </div>
+
+    <h3>Опис від власника</h3>
+    <p>Відверто про об’єкт та його переваги</p>
+
+    <p>@Model.Description</p>
+
+    <h3>Важливо знати перед заселенням</h3>
+    <p>Ознайомся з основними правилами перед заселенням</p>
+
+    <p>@Model.Rules</p>
+
+    <h3>Місцезнаходження</h3>
+
+    <div class="map"></div>
+
+    <h3>Відгуки гостей</h3>
+    <p>Відгуки людей, які вже обрали це житло</p>
+
+    <div class="map"></div>
+
+    <h3>Деталі бронювання</h3>
+    <p>Перевір інформацію перед підтвердженням</p>
+
+    <div class="add-object">
+        <div class="search-bottom">
+            <div class="search-row">
+                <img src="~/Icons/Calendar.png" class="icon" />
+                <input type="text" placeholder="19 березня 2026 року" />
+            </div>
+            <div class="search-row">
+                <img src="~/Icons/Calendar.png" class="icon" />
+                <input type="text" placeholder="19 березня 2026 року" />
+            </div>
+            <div class="search-row">
+                <img src="~/Icons/People.png" class="icon" />
+                <input type="text" placeholder="2 дорослих та тваринка" />
+                <button type="button" class="dropdown"><img src="/Icons/dropdown.png" /></button>
+            </div>
+        </div>
+
+        <button type="submit" class="acid">Забронювати</button>
+    </div>
+
+</div>

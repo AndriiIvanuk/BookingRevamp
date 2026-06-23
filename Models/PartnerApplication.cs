@@ -13,12 +13,6 @@ namespace BookingRevamp.Models
         [Required]
         public string CardNumber { get; set; }
 
-        [Required]
-        public string ExpiryDate { get; set; }
-
-        [Required]
-        public string CVV { get; set; }
-
         public string? PassportPath { get; set; }
 
         public bool AcceptTerms { get; set; }

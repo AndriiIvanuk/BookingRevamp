@@ -2,10 +2,10 @@
 
 public class RegisterViewModel
 {
-    [Required(ErrorMessage = "Введи ім'я")]
+    [Required(ErrorMessage = "Заповни це поле")]
     public string Name { get; set; }
 
-    [Required(ErrorMessage = "Як ми можемо до тебе звертатися?")]
+    [Required(ErrorMessage = "Поле не може бути порожнім")]
     public string SurName { get; set; }
 
     public string? Patronymic { get; set; }

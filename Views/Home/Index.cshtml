@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model HomeViewModel
 
 <link rel="stylesheet" href="~/css/site.css" />
 
@@ -41,51 +42,198 @@
             <h2>Популярні будинки Парижу</h2>
             <p>Приватні будинки з атмосферою класичного Парижу</p>
         </div>
-        <button href="#" class="blue more-popular">Знайти більше помешкань</button>
+        <button class="blue more-popular">Знайти більше помешкань</button>
     </div>
+
     <div class="cards">
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
+        @foreach(var property in Model.Houses){
+            <a asp-controller="Home" asp-action="Property" asp-route-id="@property.Id"class="card">
+
+                @if(property.Images.Any()){
+                    <img src="@property.Images.First().ImagePath" />
+                }
+                else{
+                    <div class="card-image-placeholder"></div>
+                }
+
+                <div class="card-info">
+
+                    <h3>@property.Object</h3>
+
+                    <p>@property.City</p>
+
+                    <div class="card-footer">
+
+                        <div class="card-rating">
+                            <img src="~/Icons/star.png" />
+                            <img src="~/Icons/star.png" />
+                            <img src="~/Icons/star.png" />
+                            <img src="~/Icons/star.png" />
+                            <img src="~/Icons/empty-star.png" />
+                        </div>
+
+                        <span class="card-price">
+                            від @property.PricePerNight@property.Currency за ніч
+                        </span>
+
+                    </div>
+
+                </div>
+            </a>}
+
+        @for(int i = Model.Houses.Count; i < 4; i++){
+            <div class="card card-empty"></div>
+        }
+
     </div>
+
     <div class="popular-head">
         <div>
             <h2>Найкращі готелі Амстердаму</h2>
             <p>Комфортні готелі біля каналів і в центрі міста</p>
         </div>
-        <button href="#" class="blue more-popular">Знайти більше помешкань</button>
+        <button class="blue more-popular">Знайти більше помешкань</button>
     </div>
+
     <div class="cards">
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
+        @foreach(var property in Model.Hotels){
+            <a asp-controller="Home" asp-action="Property" asp-route-id="@property.Id"class="card">
+
+                @if(property.Images.Any()){
+                    <img src="@property.Images.First().ImagePath" />
+                }
+                else{
+                    <div class="card-image-placeholder"></div>
+                }
+
+                <div class="card-info">
+
+                    <h3>@property.Object</h3>
+
+                    <p>@property.City</p>
+
+                    <div class="card-footer">
+
+                        <div class="card-rating">
+                            <img src="~/Icons/star.png" />
+                            <img src="~/Icons/star.png" />
+                            <img src="~/Icons/star.png" />
+                            <img src="~/Icons/star.png" />
+                            <img src="~/Icons/empty-star.png" />
+                        </div>
+
+                        <span class="card-price">
+                            від @property.PricePerNight@property.Currency за ніч
+                        </span>
+
+                    </div>
+
+                </div>
+            </a>}
+
+        @for(int i = Model.Hotels.Count; i < 4; i++){
+            <div class="card card-empty"></div>
+        }
+
     </div>
+
     <div class="popular-head">
         <div>
             <h2>Атмосферні апартаменти Риму</h2>
             <p>Апартаменти в самому серці історії</p>
         </div>
-        <button href="#" class="blue more-popular">Знайти більше помешкань</button>
+        <button class="blue more-popular">Знайти більше помешкань</button>
     </div>
+
     <div class="cards">
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
+        @foreach(var property in Model.Apartments){
+            <a asp-controller="Home" asp-action="Property" asp-route-id="@property.Id"class="card">
+
+                @if(property.Images.Any()){
+                    <img src="@property.Images.First().ImagePath" />
+                }
+                else{
+                    <div class="card-image-placeholder"></div>
+                }
+
+                <div class="card-info">
+
+                    <h3>@property.Object</h3>
+
+                    <p>@property.City</p>
+
+                    <div class="card-footer">
+
+                        <div class="card-rating">
+                            <img src="~/Icons/star.png" />
+                            <img src="~/Icons/star.png" />
+                            <img src="~/Icons/star.png" />
+                            <img src="~/Icons/star.png" />
+                            <img src="~/Icons/empty-star.png" />
+                        </div>
+
+                        <span class="card-price">
+                            від @property.PricePerNight@property.Currency за ніч
+                        </span>
+
+                    </div>
+
+                </div>
+            </a>}
+
+        @for(int i = Model.Apartments.Count; i < 4; i++){
+            <div class="card card-empty"></div>
+        }
+
     </div>
+
     <div class="popular-head">
         <div>
             <h2>Розкішні віли Барселони</h2>
             <p>Віли поблизу моря та на схилах міста</p>
         </div>
-        <button href="#" class="blue more-popular">Знайти більше помешкань</button>
+        <button class="blue more-popular">Знайти більше помешкань</button>
     </div>
+
     <div class="cards">
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
+        @foreach(var property in Model.Villas){
+            <a asp-controller="Home" asp-action="Property" asp-route-id="@property.Id"class="card">
+
+                @if(property.Images.Any()){
+                    <img src="@property.Images.First().ImagePath" />
+                }
+                else{
+                    <div class="card-image-placeholder"></div>
+                }
+
+                <div class="card-info">
+
+                    <h3>@property.Object</h3>
+
+                    <p>@property.City</p>
+
+                    <div class="card-footer">
+
+                        <div class="card-rating">
+                            <img src="~/Icons/star.png" />
+                            <img src="~/Icons/star.png" />
+                            <img src="~/Icons/star.png" />
+                            <img src="~/Icons/star.png" />
+                            <img src="~/Icons/empty-star.png" />
+                        </div>
+
+                        <span class="card-price">
+                            від @property.PricePerNight@property.Currency за ніч
+                        </span>
+
+                    </div>
+
+                </div>
+            </a>}
+
+        @for(int i = Model.Villas.Count; i < 4; i++){
+            <div class="card card-empty"></div>
+        }
+
     </div>
 </section>

@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/Services/">
     <File Path="AuthorizeService.cs" />
+    <File Path="GoogleStorageService.cs" />
   </Folder>
   <Project Path="BookingRevamp.csproj" />
 </Solution>

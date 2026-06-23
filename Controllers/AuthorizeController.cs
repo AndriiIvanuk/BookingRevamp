@@ -76,6 +76,18 @@ namespace BookingRevamp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            bool urnameEmpty = string.IsNullOrWhiteSpace(model.SurName);
+
+            bool nameEmpty = string.IsNullOrWhiteSpace(model.Name);
+
+
+            if (urnameEmpty && nameEmpty)
+            {
+                ViewBag.NameGroupError = true;
+
+                ModelState.AddModelError("", "Як ми можемо до тебе звертатися?");
+            }
+
             bool passwordEmpty = string.IsNullOrWhiteSpace(model.Password);
 
             bool confirmPasswordEmpty = string.IsNullOrWhiteSpace(model.ConfirmPassword);
@@ -176,36 +188,6 @@ namespace BookingRevamp.Controllers
                 return RedirectToAction("Login");
             }
 
-            bool cardEmpty = string.IsNullOrWhiteSpace(model.CardNumber);
-
-            bool expiryEmpty = string.IsNullOrWhiteSpace(model.ExpiryDate);
-
-            bool cvvEmpty = string.IsNullOrWhiteSpace(model.CVV);
-
-            if (cardEmpty && expiryEmpty && cvvEmpty)
-            {
-                ViewBag.CardGroupError = true;
-
-                ViewBag.HideCvvError = true;
-
-                ModelState.AddModelError("", "Поля з даними рахунку не можуть бути порожніми");
-            }
-
-            else if (!cardEmpty && expiryEmpty && cvvEmpty)
-            {
-                ViewBag.HideCvvError = true;
-            }
-
-            if (!cardEmpty)
-            {
-                var digitsOnly = model.CardNumber.Replace(" ", "");
-
-                if (digitsOnly.Length < 16)
-                {
-                    ModelState.AddModelError("CardNumber", "Номер картки повинен містити 16 цифр");
-                }
-            }
-
             if (!ModelState.IsValid)
             {
                 model.Name = user.Name;
@@ -246,9 +228,6 @@ namespace BookingRevamp.Controllers
                 
                 CardNumber = model.CardNumber,
                 
-                ExpiryDate = model.ExpiryDate,
-                
-                CVV = model.CVV,
                 
                 PassportPath = passportPath,
                 
@@ -272,7 +251,7 @@ namespace BookingRevamp.Controllers
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
-            return RedirectToAction("Index", "Partner");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

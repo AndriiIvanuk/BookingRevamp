@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Публікація об'єкта";
+    Layout = null;
+}
+<link rel="stylesheet" href="~/css/site.css" />
+
+<div class="moderation-page">
+
+    <img src="~/Icons/bg-word.svg" class="background-word" />
+
+    <div class="moderation-content">
+
+        <h1>Оголошення опубліковано</h1>
+
+        <p>Модерація триватиме до 24 годин та ми надішлемо сповіщення після підтвердження</p>
+
+        <div class="moderation-actions">
+
+            <a asp-controller="Home" asp-action="Index" class="blue big">Повернутися на головну сторінку</a>
+
+            <a asp-controller="Partner"asp-action="CreateProperty" class="acid big">Створити нове оголошення</a>
+
+        </div>
+
+    </div>
+
+</div>
