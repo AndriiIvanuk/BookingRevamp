@@ -27,6 +27,8 @@
                 <p class="subtitle">Створи профіль, щоб зберігати та швидко бронювати</p>
 
                 <form method="post" asp-action="Register" asp-controller="Authorize" class="register-form">
+
+                    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
                     <div class="row two-cols">
                         <div class="field">
                             <label>Прізвище</label>

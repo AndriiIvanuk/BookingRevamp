@@ -4,17 +4,13 @@ using BookingRevamp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace BookingRevamp.Controllers
 {
     [Authorize(Roles = "Partner")]
     public class PartnerController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         private readonly AppDbContext _db;
         private readonly GoogleStorageService _storage;
 
@@ -22,6 +18,55 @@ namespace BookingRevamp.Controllers
             _db = db;
 
             _storage = storage;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdClaim, out int userId))
+            {
+                return RedirectToAction("Login", "Authorize");
+            }
+
+            var properties = await _db.Properties
+                .Include(x => x.Images)
+
+                .Include(x => x.Bookings)
+                    .ThenInclude(x => x.User)
+
+                .Where(x => x.OwnerId == userId)
+
+                .OrderByDescending(x => x.CreatedAt)
+
+                .ToListAsync();
+
+            return View(properties);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteProperty(int id)
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+            var property = await _db.Properties
+                .Include(x => x.Images)
+                .FirstOrDefaultAsync(x =>
+                    x.Id == id &&
+                    x.OwnerId == userId);
+
+            if(property == null)
+                return NotFound();
+
+            _db.Properties.Remove(property);
+
+            await _db.SaveChangesAsync();
+
+            return Json(new
+            {
+                success = true
+            });
         }
 
         [HttpGet]
@@ -100,13 +145,13 @@ namespace BookingRevamp.Controllers
                 return View(model);
             }
 
-            foreach (var file in model.Images)
+            foreach(var file in model.Images)
             {
 
                 var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
 
 
-                if (!allowedExtensions.Contains(extension))
+                if(!allowedExtensions.Contains(extension))
                 {
                     Console.WriteLine($"BAD EXTENSION: {extension}");
 
@@ -115,7 +160,7 @@ namespace BookingRevamp.Controllers
                     return View(model);
                 }
 
-                if (file.Length > maxFileSize)
+                if(file.Length > maxFileSize)
                 {
                     Console.WriteLine($"FILE TOO BIG: {file.FileName}");
 
@@ -126,21 +171,26 @@ namespace BookingRevamp.Controllers
 
             }
 
-            Console.WriteLine("Selected amenities:");
-
-            foreach (var id in model.SelectedAmenities)
+            foreach(var id in model.SelectedAmenities)
             {
                 Console.WriteLine(id);
             }
 
             using var transaction = await _db.Database.BeginTransactionAsync();
 
-            Console.WriteLine("Transaction started");
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            try{
+            if(!int.TryParse(userIdClaim, out int userId))
+            {
+                return RedirectToAction("Login", "Authorize");
+            }
+
+            try
+            {
 
                 var property = new Property
                 {
+                    OwnerId = userId,
 
                     PropertyType = model.PropertyType,
 
@@ -194,7 +244,7 @@ namespace BookingRevamp.Controllers
                     await _db.SaveChangesAsync();
                 }
 
-                foreach (var file in model.Images)
+                foreach(var file in model.Images)
                 {
 
                     var imageUrl = await _storage.UploadAsync(file);
@@ -221,7 +271,7 @@ namespace BookingRevamp.Controllers
                     });
 
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 await transaction.RollbackAsync();
 

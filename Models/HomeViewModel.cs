@@ -9,5 +9,7 @@
         public List<Property> Apartments { get; set; } = new();
 
         public List<Property> Villas { get; set; } = new();
+
+        public List<int> FavoritePropertyIds { get; set; } = new();
     }
 }

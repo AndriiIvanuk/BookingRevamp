@@ -1,0 +1,524 @@
+﻿@model BookingRevamp.ViewModels.BookingViewModel
+@{
+    ViewData["Title"] = "Бронювання";
+}
+
+<form asp-controller="Booking" asp-action="CreateBooking" method="post" class="booking-page">
+
+    @Html.AntiForgeryToken()
+
+    <input asp-for="PropertyId" hidden />
+
+    <section class="booking-hero">
+
+        <img src="~/Icons/bg-word.svg" class="background-word" />
+
+        <div class="booking-hero-content">
+
+            <div class="booking-icon"><img src="~/Icons/check-circle.png" /></div>
+
+            <h1>Оформлюй бронювання легко та швидко</h1>
+
+            <p>Заповни дані та заверш бронювання всього за кілька хвилин</p>
+
+        </div>
+
+    </section>
+
+    <section class="booking-content">
+
+        <div class="booking-left">
+
+            <div class="booking-block">
+
+                <div class="booking-head">
+
+                    <div>
+                        <h2>Дані гостя</h2>
+                        <p>Введи контактні дані для бронювання</p>
+                    </div>
+
+                    <label class="check-row">
+                        <input asp-for="BookingForAnotherPerson" type="checkbox" />
+                        <span>Бронюю для іншої особи</span>
+                    </label>
+
+                </div>
+
+                <div class="field">
+                    <label>Прізвище, ім'я та по батькові</label>
+                    <input asp-for="FullName" placeholder="Введи прізвище, ім’я та по батькові" />
+                </div>
+
+                <div class="field">
+                    <label>Email</label>
+                    <input asp-for="Email" placeholder="Введи email" />
+                </div>
+
+                <div class="field">
+                    <label>Номер телефону</label>
+                    <input asp-for="PhoneNumber" placeholder="Введи номер телефону" />
+                </div>
+
+                <div id="guestFields" class="guest-fields">
+
+                    <h2>Дані гостя, що проживатиме в помешканні</h2>
+
+                    <p>Введи контактні дані для бронювання</p>
+
+                    <div class="field">
+
+                        <label>Прізвище, ім'я та по батькові</label>
+
+                        <input asp-for="GuestFullName" placeholder="Введи прізвище, ім’я та по батькові" />
+
+                    </div>
+
+                    <div class="field">
+
+                        <label>Email</label>
+
+                        <input asp-for="GuestEmail" placeholder="Введи email" />
+
+                    </div>
+
+                    <div class="field">
+
+                        <label>Номер телефону</label>
+
+                        <input asp-for="GuestPhoneNumber" placeholder="Введи номер телефону" />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="booking-block">
+                <h2>Деталі бронювання</h2>
+
+                <p>Перевір інформацію перед підтвердженням</p>
+
+                <div class="booking-property">
+                    <img src="@Model.Property.Images.FirstOrDefault()?.ImagePath" class="booking-image" />
+
+                    <div class="booking-property-info">
+                        <h3>@Model.Property.Object</h3>
+
+                        <span>
+                            @Model.Property.City,
+                            @Model.Property.Address
+                        </span>
+
+                        <div class="rating">
+                            <img src="~/Icons/star.png" />
+                            <img src="~/Icons/star.png" />
+                            <img src="~/Icons/star.png" />
+                            <img src="~/Icons/star.png" />
+                            <img src="~/Icons/empty-star.png" />
+                        </div>
+
+                        <div class="field object-info-display date-field">
+                            <label>Дата заїзду</label>
+                            <input type="date" value="@Model.CheckIn.ToString("yyyy-MM-dd")" disabled />
+                        </div>
+
+                        <input asp-for="CheckIn" type="hidden" />
+
+                        <div class="field object-info-display date-field">
+                            <label>Дата виїзду</label>
+                            <input type="date" value="@Model.CheckOut.ToString("yyyy-MM-dd")" disabled />
+                        </div>
+
+                        <input asp-for="CheckOut" type="hidden" />
+
+                        <div class="field object-info-display">
+                            <label>Кількість гостей</label>
+                            <input type="number" value="@Model.Guests" disabled />
+                        </div>
+
+                        <input asp-for="Guests" type="hidden" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="booking-block">
+
+                <h2>Спосіб оплати</h2>
+
+                <p>Обери зручний спосіб оплати</p>
+
+                <div class="payment-methods">
+
+                    <input asp-for="PaymentMethod"id="paymentMethod"hidden />
+
+                    <div class="payment-options">
+
+                        <label class="check-row payment-card">
+
+                            <input id="payOnline" type="checkbox" />
+
+                            <span class="payment-check"></span>
+
+                            <div class="payment-text">
+                                <h4>Оплатити карткою онлайн</h4>
+                                <p>Оплатити зараз картою</p>
+                            </div>
+
+                        </label>
+
+                        <label class="check-row payment-card">
+
+                            <input id="payArrival" type="checkbox" />
+
+                            <span class="payment-check"></span>
+
+                            <div class="payment-text">
+                                <h4>Оплата при заїзді</h4>
+                                <p>Оплата готівкою або картою</p>
+                            </div>
+
+                        </label>
+
+                    </div>
+
+                    <div id="onlinePaymentFields"
+                         class="payment-fields">
+
+                        <div class="field">
+                            <label>Дані власника картки</label>
+                            <input asp-for="CardHolder" class="card-holder" placeholder="Введи своє ПІБ" />
+                        </div>
+
+                        <div class="field">
+                            <label>Банківська картка</label>
+                            <input asp-for="CardNumber" class="card-number" maxlength="19" placeholder="Введи номер банківської карти " />
+                        </div>
+
+                        <div class="field">
+                            <label>Термін дії</label>
+                            <input asp-for="CardDate" class="card-date" maxlength="5" placeholder="MM/PP" />
+                        </div>
+
+                        <div class="field">
+
+                            <label>CVV2/CVC2</label>
+
+                            <div class="password-wrapper">
+                                <input asp-for="CardCvv" type="password" class="password-input card-cvv" maxlength="3" placeholder="CVV" autocomplete="cc-csc" />
+                                <button type="button" class="password-toggle">
+                                    <img class="eye-icon" src="~/Icons/eye-closed.png" />
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <aside class="booking-sidebar">
+
+            <div class="booking-block">
+
+                <h2>Деталі оплати</h2>
+                <p>Заверши своє бронювання</p>
+                <div class="field">
+                    <label>Вартість проживання</label>
+                    <div class="payment-row">
+                        <span>Проживання</span>
+                        <strong>@Model.TotalPrice грн</strong>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Обов’язкові платежі</label>
+                    <div class="payment-row">
+                        <span>Податки та збори</span>
+                        <strong>@Model.Taxes грн</strong>
+                    </div>
+                </div>
+
+                <div class="payment-total">
+                    <label>Загальна вартість - @Model.GrandTotal грн</label>
+                </div>
+
+                <div id="lastPaymentStep" class="last-payment-step">
+
+                    <h2>Останній крок</h2>
+                    <p>Оплата підтвердить бронювання</p>
+
+                    <div id="paymentPreview" class="payment-preview">
+
+                        <div class="payment-preview-text">
+                            <h4>Оплата безпечна</h4>
+                            <p id="paymentPreviewDescription">Обери спосіб оплати</p>
+                        </div>
+
+                        <div class="payment-preview-icon">
+                            <img src="~/Icons/check.png" />
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="acid big">Забронювати зараз</button>
+
+                </div>
+            </div>
+        </aside>
+    </section>
+</form>
+<script>
+    
+    document.addEventListener("DOMContentLoaded", () => {
+        
+        const online = document.getElementById("payOnline");
+        
+        const arrival = document.getElementById("payArrival");
+        
+        const payment = document.getElementById("paymentMethod");
+        
+        const paymentFields = document.getElementById("onlinePaymentFields");
+        
+        const bookingAnotherPerson = document.getElementById("BookingForAnotherPerson");
+        
+        const guestFields = document.getElementById("guestFields");
+        
+        const lastPaymentStep = document.getElementById("lastPaymentStep");
+        
+        const paymentPreviewDescription = document.getElementById("paymentPreviewDescription");
+        
+        const fullName = document.querySelector('input[name="FullName"]');
+        
+        const email = document.querySelector('input[name="Email"]');
+        
+        const phone = document.querySelector('input[name="PhoneNumber"]');
+        
+        function setPaymentMethod(method){
+            if(method === "Online"){
+                online.checked = true;
+                
+                arrival.checked = false;
+                
+                payment.value = "Online";
+                
+                paymentFields.classList.add("active");
+            
+            }
+            else{
+                arrival.checked = true;
+                
+                online.checked = false;
+                
+                payment.value = "Arrival";
+                
+                paymentFields.classList.remove("active");
+
+            }
+            
+            validateForm();
+            
+            updatePaymentPreview();
+        }
+
+        
+        const guestFullName = document.querySelector('input[name="GuestFullName"]');
+        
+        const guestEmail = document.querySelector('input[name="GuestEmail"]');
+        
+        const guestPhone = document.querySelector('input[name="GuestPhoneNumber"]');
+        
+        function toggleGuestFields(){
+            
+            if(bookingAnotherPerson.checked){
+                guestFields.classList.add("active");
+            }
+            else{
+                guestFields.classList.remove("active");
+            }
+            
+            validateForm();
+        }
+        
+        
+        document.querySelectorAll(".password-toggle").forEach(button=>{
+            
+            button.addEventListener("click",()=>{
+                
+                const wrapper = button.closest(".password-wrapper");
+                
+                const input = wrapper.querySelector(".password-input");
+                
+                const eye = wrapper.querySelector(".eye-icon");
+                
+                if(input.type==="password"){
+                    input.type="text";
+                    
+                    eye.src="/Icons/eye-open.png";
+                }
+                else{
+                    
+                    input.type="password";
+                    
+                    eye.src="/Icons/eye-closed.png";
+                }
+                
+            });
+            
+        });
+        
+        
+        const cardHolder = document.querySelector(".card-holder");
+        
+        const cardNumber = document.querySelector(".card-number");
+        
+        const cardDate = document.querySelector(".card-date");
+        
+        const cardCvv = document.querySelector(".card-cvv");
+        
+        cardNumber.addEventListener("input",()=>{
+            
+            let value = cardNumber.value.replace(/\D/g,"");
+            
+            value=value.substring(0,16);
+            
+            value=value.match(/.{1,4}/g)?.join(" ") ?? "";
+            
+            cardNumber.value=value;
+        });
+        
+        
+        cardDate.addEventListener("input",()=>{
+            let value= cardDate.value.replace(/\D/g,"");
+            
+            value=value.substring(0,4);
+            
+            if(value.length>2){
+                value=value.substring(0,2)+"/"+value.substring(2);
+            }
+            
+            cardDate.value=value;
+        });
+        
+        cardCvv.addEventListener("input",()=>{
+            cardCvv.value=cardCvv.value.replace(/\D/g,"").substring(0,3);
+        });
+        
+        
+        function updatePaymentPreview(){
+
+            if(payment.value === "Arrival"){
+                paymentPreviewDescription.innerText = "Оплата готівкою або карткою при заселенні";
+                
+                return;
+            }
+            
+            const digits = cardNumber.value.replace(/\s/g,"");
+            
+            if(digits.length === 16){
+                paymentPreviewDescription.innerText = "Картка **** **** **** " + digits.substring(12);
+            }
+            
+        }
+        
+        
+        function validateForm(){
+            
+            let valid = true;
+            
+            if(fullName.value.trim() === "") valid = false;
+            
+            if(email.value.trim() === "") valid = false;
+            
+            if(phone.value.trim() === "") valid = false;
+            
+            if(bookingAnotherPerson.checked){
+                
+                if(guestFullName.value.trim() === "") valid = false;
+                
+                if(guestEmail.value.trim() === "") valid = false;
+                
+                if(guestPhone.value.trim() === "") valid = false;
+            
+            }
+            
+            if(payment.value === "") valid = false;
+            
+            if(payment.value === "Online"){
+                
+                const number = cardNumber.value.replace(/\s/g,"");
+                
+                const cardNumberValid = number.length === 16;
+                
+                const cardDateValid = /^(0[1-9]|1[0-2])\/\d{2}$/.test(cardDate.value);
+                
+                const cvvValid = /^\d{3}$/.test(cardCvv.value);
+                
+                if(cardHolder.value.trim() === "") valid = false;
+                
+                if(!cardNumberValid) valid = false;
+                
+                if(!cardDateValid) valid = false;
+                
+                if(!cvvValid) valid = false;
+            }
+            
+            
+            if(valid){
+                lastPaymentStep.classList.add("active");
+            }
+            else{
+                lastPaymentStep.classList.remove("active");
+            }
+            
+            updatePaymentPreview();
+        
+        }
+        
+        online.addEventListener("change", () => {
+            
+            if(online.checked){
+                setPaymentMethod("Online");
+            }
+            else{
+                online.checked = true;
+            }
+        
+        });
+        
+        arrival.addEventListener("change", () => {
+            if(arrival.checked){
+                setPaymentMethod("Arrival");
+            }
+            else{
+                arrival.checked = true;
+            }
+        });
+        
+        
+        bookingAnotherPerson.addEventListener("change", toggleGuestFields);
+        
+        document.querySelectorAll("input").forEach(input => {
+            
+            input.addEventListener("input", () => {
+                validateForm();
+            });
+            
+            input.addEventListener("change", () => {
+                validateForm();
+            });
+        });
+        
+        
+        toggleGuestFields();
+        
+        validateForm();
+        
+        updatePaymentPreview();
+    });
+</script>

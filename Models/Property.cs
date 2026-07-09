@@ -6,7 +6,11 @@ namespace BookingRevamp.Models
     {
         [Required]
         public int Id { get; set; }
-        
+
+        public int? OwnerId { get; set; }
+
+        public User? Owner { get; set; } = null!;
+
         public string PropertyType { get; set; }
 
         public string Country { get; set; }
@@ -29,6 +33,8 @@ namespace BookingRevamp.Models
 
         public bool AllowChildren { get; set; }
 
+        public ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();
+
         public ICollection<PropertyAmenity> Amenities { get; set; } = new List<PropertyAmenity>();
 
         public decimal PricePerNight { get; set; }
@@ -36,5 +42,7 @@ namespace BookingRevamp.Models
         public string Currency { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
     }
 }

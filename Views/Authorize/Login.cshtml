@@ -18,6 +18,9 @@
                 <p class="subtitle">Увійди в профіль, щоб продовжити пошук ідеального житла</p>
 
                 <form method="post" asp-controller="Authorize" asp-action="Login" class="register-form">
+
+                    <input type="hidden" name="returnUrl"value="@ViewBag.ReturnUrl" />
+
                     <div class="field">
                         <label>Email</label>
                         <input asp-for="Email" id="LoginEmail" type="Email" placeholder="Введи свій email"

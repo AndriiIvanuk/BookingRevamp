@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Авторизація";
+    Layout = null;
+}
+<link rel="stylesheet" href="~/css/site.css" />
+
+<div class="moderation-page">
+
+    <img src="~/Icons/bg-word.svg" class="background-word" />
+
+    <div class="moderation-content">
+
+        <h1>Зареєструйтесь або увійдіть</h1>
+
+        <p>Для вашого бронювання вам потрібно зареєструватися або увійти у ваший акаунт</p>
+
+        <div class="moderation-actions">
+
+            <a asp-controller="Authorize" asp-action="Register" asp-route-returnUrl="@ViewBag.ReturnUrl" class="blue big">Створити обліковий запис</a>
+
+            <a asp-controller="Authorize" asp-action="Login" asp-route-returnUrl="@ViewBag.ReturnUrl" class="acid little">Увійти</a>
+
+        </div>
+
+    </div>
+
+</div>

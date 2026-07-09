@@ -3,6 +3,7 @@ using System;
 using BookingRevamp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookingRevamp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260705113030_AddBookingGuestInfo")]
+    partial class AddBookingGuestInfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -210,32 +213,6 @@ namespace BookingRevamp.Migrations
                     b.ToTable("Bookings");
                 });
 
-            modelBuilder.Entity("BookingRevamp.Models.Favorite", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("PropertyId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PropertyId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Favorites");
-                });
-
             modelBuilder.Entity("BookingRevamp.Models.PartnerApplication", b =>
                 {
                     b.Property<int>("Id")
@@ -308,9 +285,6 @@ namespace BookingRevamp.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("OwnerId")
-                        .HasColumnType("integer");
-
                     b.Property<decimal>("PricePerNight")
                         .HasColumnType("numeric");
 
@@ -323,8 +297,6 @@ namespace BookingRevamp.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OwnerId");
 
                     b.ToTable("Properties");
                 });
@@ -429,25 +401,6 @@ namespace BookingRevamp.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("BookingRevamp.Models.Favorite", b =>
-                {
-                    b.HasOne("BookingRevamp.Models.Property", "Property")
-                        .WithMany("Favorites")
-                        .HasForeignKey("PropertyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BookingRevamp.Models.User", "User")
-                        .WithMany("Favorites")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Property");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("BookingRevamp.Models.PartnerApplication", b =>
                 {
                     b.HasOne("BookingRevamp.Models.User", "User")
@@ -457,15 +410,6 @@ namespace BookingRevamp.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("BookingRevamp.Models.Property", b =>
-                {
-                    b.HasOne("BookingRevamp.Models.User", "Owner")
-                        .WithMany("Properties")
-                        .HasForeignKey("OwnerId");
-
-                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("BookingRevamp.Models.PropertyAmenity", b =>
@@ -509,8 +453,6 @@ namespace BookingRevamp.Migrations
 
                     b.Navigation("Bookings");
 
-                    b.Navigation("Favorites");
-
                     b.Navigation("Images");
                 });
 
@@ -518,11 +460,7 @@ namespace BookingRevamp.Migrations
                 {
                     b.Navigation("Bookings");
 
-                    b.Navigation("Favorites");
-
                     b.Navigation("PartnerApplications");
-
-                    b.Navigation("Properties");
                 });
 #pragma warning restore 612, 618
         }

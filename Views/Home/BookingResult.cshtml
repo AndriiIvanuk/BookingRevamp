@@ -1,0 +1,28 @@
+﻿@model BookingRevamp.ViewModels.BookingResultViewModel
+@{
+    ViewData["Title"] = Model.Title;
+    Layout = null;
+}
+<link rel="stylesheet" href="~/css/site.css" />
+
+<div class="moderation-page">
+
+    <img src="~/Icons/bg-word.svg" class="background-word" />
+
+    <div class="moderation-content">
+
+        <h1>@Model.Title</h1>
+
+        <p>Номер бронювання «@Model.Booking.BookingNumber»</p>
+
+        <div class="moderation-actions">
+
+            <a asp-controller="Home" asp-action="Index" class="blue">Повернутися на головну сторінку</a>
+
+            <a class="acid biggest">Перейти до бронювань</a>
+
+        </div>
+
+    </div>
+
+</div>

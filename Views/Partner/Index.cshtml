@@ -1,91 +1,159 @@
 ﻿@{
-    ViewData["Title"] = "Home Page(Партнер)";
+    ViewData["Title"] = "Сторінка партнера";
 }
 
-<link rel="stylesheet" href="~/css/site.css" />
+@model IEnumerable<BookingRevamp.Models.Property>
 
-<section class="hero-shell">
-    <section class="hero">
-        <img src="~/Icons/bg-word.svg" class="hero-bg-word" />
-        <div class="hero-content">
-            <h1>Знайди найкраще місце для відпочинку</h1>
-            <p>Швидко. Зручно. Разом із Winbook</p>
+<section>
+    <div class="partner-section">
+
+        <div class="favorites-head">
+            <h2>Керування об'єктами</h2>
+
+            <p>Переглядай, редагуй та керуй своїми об'єктами</p>
         </div>
-        <div class="search-panel">
-            <div class="search-row full">
-                <img src="~/Icons/Home.png" class="icon" />
-                <input type="text" placeholder="Де хочете зупинитися?" />
-            </div>
-            <div class="search-bottom">
-                <div class="search-row">
-                    <img src="~/Icons/Calendar.png" class="icon" />
-                    <input type="date" placeholder="Дата заїзду" />
+
+        <div class="partner-properties">
+
+            @foreach(var property in Model)
+            {
+                <div class="partner-card">
+
+                    <div class="favorite-button" data-id="@property.Id">
+                        <img class="favorite-icon" src="~/Icons/delete-flag.png" />
+                    </div>
+
+                    <a asp-action="EditProperty" asp-route-id="@property.Id">
+
+                        <img src="@property.Images.FirstOrDefault()?.ImagePath" class="partner-image" />
+
+                        <h3>@property.Object</h3>
+
+                    </a>
+
                 </div>
-                <div class="search-row">
-                    <img src="~/Icons/Calendar.png" class="icon" />
-                    <input type="date" placeholder="Дата виїзду" />
-                </div>
-                <div class="search-row">
-                    <img src="~/Icons/People.png" class="icon" />
-                    <input type="text" placeholder="Кого беремо з собою?" />
-                    <button type="button" class="dropdown"><img src="/Icons/dropdown.png" /></button>
-                </div>
-                <button class="google"><img src="~/Icons/Search.png" /></button>
-            </div>
+            }
+
+            @for(int i = Model.Count(); i < 4; i++)
+            {
+                <a asp-action="CreateProperty"
+                   class="partner-card">
+
+                    <img src="~/Icons/photo-placeholder.png" class="partner-image" />
+
+                    <h3 class="style-underline">Створи нове оголошення</h3>
+
+                </a>
+            }
+
         </div>
-    </section>
-</section>
-<section class="popular container">
-    <div class="popular-head">
-        <div>
-            <h2>Популярні будинки Парижу</h2>
-            <p>Приватні будинки з атмосферою класичного Парижу</p>
-        </div>
-        <button href="#" class="blue">Більше помешкань</button>
-    </div>
-    <div class="cards">
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-    </div>
-    <div class="popular-head">
-        <div>
-            <h2>Найкращі готелі Амстердаму</h2>
-            <p>Комфортні готелі біля каналів і в центрі міста</p>
-        </div>
-        <button href="#" class="blue">Більше помешкань</button>
-    </div>
-    <div class="cards">
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-    </div>
-    <div class="popular-head">
-        <div>
-            <h2>Атмосферні апартаменти Риму</h2>
-            <p>Апартаменти в самому серці історії</p>
-        </div>
-        <button href="#" class="blue">Більше помешкань</button>
-    </div>
-    <div class="cards">
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-    </div>
-    <div class="popular-head">
-        <div>
-            <h2>Розкішні віли Барселони</h2>
-            <p>Віли поблизу моря та на схилах міста</p>
-        </div>
-        <button href="#" class="blue">Більше помешкань</button>
-    </div>
-    <div class="cards">
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
+
     </div>
 </section>
+<section class="partner-bookings-page">
+
+    <div class="favorites-head">
+        <h2>Таблиця бронювань</h2>
+        <p>Усі заселені та вільні дати — в одному зручному форматі</p>
+    </div>
+
+    @foreach (var property in Model)
+    {
+        <div class="property-bookings-header-card">
+
+            <div class="property-title">
+                <h2>@property.Object</h2>
+
+                <span>@property.City, @property.Address</span>
+            </div>
+
+        </div>
+
+        <div class="property-bookings-card">
+
+            @if (property.Bookings.Any())
+            {
+                <div class="booking-table-wrapper">
+
+                    <table class="booking-table">
+
+                        <thead class="booking-table-head">
+                            <tr>
+                                <th class="column-number">№</th>
+                                <th class="column-guest">Гість</th>
+                                <th class="column-guests">Гостей</th>
+                                <th class="column-date">Заїзд</th>
+                                <th class="column-date">Виїзд</th>
+                                <th class="column-status">Днів</th>
+                                <th class="column-price">Сума</th>
+                                <th class="column-payment">Оплата</th>
+                                <th class="column-phone">Телефон</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var booking in property.Bookings.OrderByDescending(x => x.CreatedAt))
+                            {
+                                <tr class="booking-row">
+                                    <td class="booking-number">@booking.BookingNumber</td>
+                                    <td class="booking-name">@booking.FullName</td>
+                                    <td class="booking-guests">@booking.Guests</td>
+                                    <td class="booking-checkin">@booking.CheckIn.ToString("dd.MM.yyyy")</td><td class="booking-checkout">@booking.CheckOut.ToString("dd.MM.yyyy")</td>
+                                    <td>@((booking.CheckOut - booking.CheckIn).Days)</td>
+                                    <td class="booking-amount">@booking.Amount @booking.Currency</td>
+                                    <td class="booking-payment">@booking.PaymentMethod</td>
+                                    <td class="booking-phone">@booking.PhoneNumber</td>
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+            else
+            {
+                <div class="no-bookings">
+                    Для цього помешкання ще немає бронювань.
+                </div>
+            }
+
+        </div>
+    }
+
+</section>
+<script>
+        document.querySelectorAll(".delete-property").forEach(button => {
+
+        button.addEventListener("click", async function (e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (!confirm("Видалити оголошення?"))
+                return;
+
+            const id = this.dataset.id;
+
+            const response = await fetch("/Partner/DeleteProperty", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+
+                body: `id=${id}`
+
+            });
+
+            if (!response.ok)
+                return;
+
+            this.closest(".partner-card").remove();
+
+        });
+
+    });
+</script>

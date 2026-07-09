@@ -119,7 +119,7 @@ body {
         cursor: pointer;
         background: #E5F280 !important;
         color: #111 !important;
-        >>>>>>> Stashed changes opacity: 1 !important;
+        opacity: 1 !important;
         border: none !important;
         outline: none !important;
     }
@@ -196,6 +196,11 @@ body {
 .big {
     min-width: 290px !important;
     max-width: 290px !important;
+}
+
+.biggest {
+    min-width: 340px !important;
+    max-width: 340px !important;
 }
 
 .centralize {
@@ -314,6 +319,7 @@ body {
 
 .popular {
     padding-top: 120px;
+    margin-bottom: 64px;
     align-items: center;
     justify-content: center;
 }
@@ -322,8 +328,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
-    margin-top: 40px;
+    margin-bottom: 40px;
+    margin-top: 64px;
 }
 
 .popular h2 {
@@ -342,7 +348,7 @@ body {
 
 .more-popular {
     width: 290px;
-    margin-bottom: 32px;
+    margin-top: -8px;
 }
 
 .cards {
@@ -356,12 +362,13 @@ body {
     width: 290px;
     height: 378px;
     display: flex;
+    position: relative;
     flex-direction: column;
     text-decoration: none;
     border: none;
 }
 
-    .card img {
+    .card > img {
         width: 290px;
         height: 290px;
         object-fit: cover;
@@ -465,6 +472,90 @@ body {
 
     .card-image-placeholder:hover {
         cursor: pointer;
+    }
+
+.favorite-button {
+    position: absolute;
+    right: 24px;
+    width: 52px;
+    height: 62px;
+    background: #fff;
+    border-radius: 0 0 16px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.favorite-icon {
+    width: 24px !important;
+    height: 24px !important;
+    object-fit: contain !important;
+    border-radius: 0 !important;
+    margin-bottom: -8px !important;
+}
+
+.favorites-section {
+    max-width: 1280px;
+    margin-top: 72px;
+    margin-bottom: 48px;
+}
+
+.favorites-head {
+    margin-bottom: 40px;
+}
+
+    .favorites-head h2 {
+        font-size: 24px;
+        margin: 0px;
+        padding: 0px;
+        font-weight: 600;
+    }
+
+    .favorites-head p {
+        font-size: 16px;
+        margin: 0px;
+        padding: 0px;
+        font-weight: 500;
+    }
+
+.favorites-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 40px 0 80px;
+}
+
+    .favorites-empty h2 {
+        margin: 0;
+        font-size: 32px;
+    }
+
+    .favorites-empty p {
+        font-size: 16px;
+    }
+
+.favorite-steps {
+    display: grid;
+    justify-content: center;
+    justify-items: center;
+    grid-template-columns: repeat(3,1fr);
+    gap: 40px;
+    margin: 40px 0;
+    margin-bottom: 64px;
+}
+
+    .favorite-steps label {
+        font-family: 'Geologica_Cursive-Regular';
+        font-size: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 400px;
+        height: 52px;
+        border-radius: 999px;
+        background: #7776A6;
+        color: white;
     }
 
 
@@ -673,10 +764,10 @@ input:-webkit-autofill {
         .check-row span::after {
             content: "";
             position: absolute;
-            left: 10px;
-            top: 5px;
-            width: 7px;
-            height: 14px;
+            left: 11px;
+            top: 6px;
+            width: 6px;
+            height: 12px;
             border: solid #0D1326;
             border-width: 0 3px 3px 0;
             transform: rotate(45deg);
@@ -689,8 +780,6 @@ input:-webkit-autofill {
 
 .passport-upload {
     color: #433FA0;
-    text-decoration: underline;
-    text-decoration-color: currentColor;
 }
 
     .passport-upload:hover {
@@ -1214,10 +1303,587 @@ textarea::placeholder {
     display: flex;
     gap: 64px;
 }
-    .moderation-actions a {
-        width: 340px !important;
-        max-width: 340px !important;
+
+.booking-page {
+    width: 100%;
+    min-height: 100vh;
+}
+
+.booking-hero {
+    position: relative;
+    height: 480px;
+    background: #0D1326;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.booking-hero-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.booking-icon {
+    width: 140px;
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+    .booking-icon img {
+        width: 140px;
+        height: 140px;
     }
+
+.booking-hero h1 {
+    color: white;
+    font-size: 56px;
+    margin: 0;
+}
+
+.booking-hero p {
+    color: white;
+    font-size: 24px;
+}
+
+.booking-content {
+    max-width: 1280px;
+    margin: 64px auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+}
+
+.booking-left {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    min-height: 410px;
+}
+
+.booking-sidebar {
+    display: flex;
+    flex-direction: column;
+    min-height: 410px;
+}
+
+.booking-block {
+    border: 1px solid #E7E7E7;
+    border-radius: 16px;
+    padding: 32px;
+}
+
+.booking-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+    .booking-head .check-row {
+        display: flex;
+        align-items: center;
+    }
+
+        .booking-head .check-row span {
+            display: flex;
+            align-items: center;
+            position: relative;
+            margin-bottom: -70px;
+        }
+
+            .booking-head .check-row span::before {
+                width: 24px !important;
+                height: 24px !important;
+                min-width: 24px !important;
+                min-height: 24px !important;
+                border: 2px solid;
+                border-radius: 50%;
+            }
+
+            .booking-head .check-row span::after {
+                left: 9px;
+                top: 50%;
+                width: 6px;
+                height: 12px;
+                border: solid;
+                border-width: 0 2px 2px 0;
+                transform: translateY(-60%) rotate(45deg) !important;
+            }
+
+.booking-block h2 {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.booking-block p {
+    font-size: 16px;
+    margin-top: -8px;
+    font-weight: 500;
+}
+
+.guest-fields {
+    margin-top: 40px;
+    display: none;
+}
+
+    .guest-fields.active {
+        display: block;
+    }
+
+.booking-property {
+    display: grid;
+    grid-template-columns: 370px 1fr;
+    gap: 32px;
+}
+
+.booking-image {
+    width: 370px;
+    height: 370px;
+    object-fit: cover;
+    border-radius: 16px;
+}
+
+.booking-property-info {
+    display: flex;
+    flex-direction: column;
+}
+
+    .booking-property-info h3 {
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    .booking-property-info span {
+        margin-top: -8px;
+        margin-bottom: 8px;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+.object-info-display input {
+    background: #423F8C;
+    min-width: 360px;
+}
+
+.date-field {
+    position: relative;
+}
+
+    .date-field input {
+        padding-left: 64px !important;
+    }
+
+        .date-field input::-webkit-calendar-picker-indicator {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+    .date-field::after {
+        content: "";
+        position: absolute;
+        left: 24px;
+        bottom: 12px;
+        width: 24px;
+        height: 24px;
+        background: url('/Icons/Calendar.png') center center no-repeat;
+        background-size: contain;
+        pointer-events: none;
+    }
+
+    .date-field input:disabled {
+        opacity: 1;
+        color: white;
+        -webkit-text-fill-color: white;
+    }
+
+.date-row {
+    position: relative;
+}
+
+.custom-date {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: white;
+    font-size: 16px;
+    outline: none;
+}
+
+    .custom-date::-webkit-calendar-picker-indicator {
+        opacity: 0;
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+
+.payment-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background: #423F8C;
+    color: white;
+    border-radius: 999px;
+}
+
+.payment-total {
+    margin: 16px;
+    width: 100%;
+    text-align: center;
+}
+
+    .payment-total label {
+        font-family: 'Geologica_Cursive-SemiBold';
+        display: block;
+        width: 120%;
+        font-size: 16px;
+        margin: 0;
+    }
+
+.payment-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 24px;
+}
+
+.payment-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.payment-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #423F8C;
+    border-radius: 999px;
+    min-height: 64px;
+    padding: 0 24px;
+    color: white;
+}
+
+.payment-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+    .payment-text h4 {
+        margin-top: 12px;
+        font-size: 16px;
+        line-height: 1.2;
+        font-family: 'Geologica_Cursive-SemiBold';
+    }
+
+    .payment-text p {
+        font-size: 8px;
+        line-height: 1.2;
+    }
+
+.payment-card .payment-check {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+    .payment-card .payment-check::before {
+        content: "";
+        width: 24px;
+        height: 24px;
+        border: 2px solid #7776A6;
+        border-radius: 50%;
+        background: #D9D9D9;
+    }
+
+.payment-card input:checked + .payment-check::after {
+    content: "";
+    position: absolute;
+    left: 9px;
+    top: 5px;
+    width: 6px;
+    height: 12px;
+    border: solid #7776A6;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.booking-block .field {
+    margin-top: 18px;
+}
+
+.payment-fields {
+    display: none;
+    margin-top: -16px;
+}
+
+    .payment-fields.active {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+.payment-fields {
+    display: none;
+}
+
+    .payment-fields.active {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 40px;
+        row-gap: 16px;
+        width: 100%;
+    }
+
+    .payment-fields .field {
+        margin: 0;
+        width: 100%;
+        min-width: 0;
+    }
+
+        .payment-fields .field input {
+            width: 100%;
+            min-width: 0;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+.last-payment-step {
+    display: none;
+    margin-top: 40px;
+}
+
+    .last-payment-step.active {
+        display: block;
+    }
+
+.payment-preview {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #47439A;
+    border-radius: 999px;
+    padding: 16px 32px;
+    margin-bottom: 16px;
+}
+
+.payment-preview-text {
+    display: flex;
+    flex-direction: column;
+}
+
+    .payment-preview-text h4 {
+        margin-top: 8px;
+        color: #fff;
+        font-size: 16px;
+    }
+
+    .payment-preview-text p {
+        color: #fff;
+        font-size: 8px;
+    }
+
+.payment-preview-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .payment-preview-icon img {
+        margin-left: -16px;
+        width: 24px;
+        height: 24px;
+    }
+
+
+.partner-section {
+    max-width: 1280px;
+    margin: 72px auto;
+}
+
+.partner-properties {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 32px;
+    justify-content: start;
+}
+
+.partner-card {
+    position: relative;
+    width: 290px;
+}
+
+    .partner-card a {
+        display: flex;
+        flex-direction: column;
+        text-decoration: none;
+        color: #111;
+    }
+
+.partner-image {
+    width: 290px;
+    height: 290px;
+    border-radius: 16px;
+    object-fit: cover;
+    display: block;
+}
+
+.partner-card h3 {
+    font-family: 'Geologica_Cursive-SemiBold';
+    margin-top: 16px;
+    font-size: 16px;
+}
+
+
+.partner-bookings-page {
+    max-width: 1280px;
+    margin: 64px auto;
+}
+
+.property-bookings-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 32px;
+}
+
+.property-bookings-header-card {
+    margin-bottom: 16px;
+}
+
+    .property-bookings-header-card h2 {
+        font-size: 24px;
+        margin: 0px;
+    }
+
+    .property-bookings-header-card span {
+        font-size: 16px;
+    }
+
+.style-underline {
+    color: #423F8C;
+    text-decoration: underline;
+    text-decoration-color: currentColor;
+}
+
+.checkbox-error .style-underline {
+    color: #B3261E;
+    text-decoration: underline;
+    text-decoration-color: currentColor;
+}
+
+.booking-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 4px;
+}
+
+    .booking-table thead th {
+        background: #423F8C;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+    }
+
+    .booking-table th,
+    .booking-table td {
+        border-radius: 10px;
+    }
+
+    .booking-table tbody td {
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        color: #423F8C;
+    }
+
+    .booking-table tbody tr:nth-child(odd) td {
+        background: #fff;
+    }
+
+    .booking-table tbody tr:nth-child(even) td {
+        background: #F5F5F5;
+    }
+
+    .booking-table tbody td:first-child {
+        background: #7776A6 !important;
+        color: #fff;
+    }
+
+    .booking-table tbody td:first-child {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+
+    .booking-table tbody td:last-child {
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+
+.no-bookings {
+    font-size: 16px;
+}
+
+.date-row {
+    position: relative;
+}
+
+.custom-date {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.date-text {
+    color: #D9D9D9;
+    font-size: 16px;
+    font-family: 'Geologica_Cursive-Regular';
+}
+
+.property-search .custom-date {
+    position: static;
+    opacity: 1;
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #D9D9D9;
+    font-size: 16px;
+    font-family: 'Geologica_Cursive-Regular';
+    cursor: pointer;
+}
+
+@media (max-width:1200px) {
+
+    .booking-content {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-property {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-image {
+        width: 100%;
+        height: 320px;
+    }
+
+    .payment-methods {
+        flex-direction: column;
+    }
+}
 
 @media(max-width:1200px) {
     .hero-content, .search-panel {

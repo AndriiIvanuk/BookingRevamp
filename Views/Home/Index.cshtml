@@ -14,17 +14,19 @@
         </div>
         <div class="search-panel">
             <div class="search-row full">
-                <img src="~/Icons/Home.png" class="icon"/>
+                <img src="~/Icons/Home.png" class="icon" />
                 <input type="text" placeholder="Де хочете зупинитися?" />
             </div>
             <div class="search-bottom">
-                <div class="search-row">
-                    <img src="~/Icons/Calendar.png" class="icon"/>
-                    <input type="text" placeholder="Дата заїзду" />
+                <div class="search-row date-row">
+                    <img src="~/Icons/Calendar.png" class="icon calendar-trigger" data-target="checkIn" />
+                    <span class="date-text" id="checkInText">Дата заїзду</span>
+                    <input type="date" id="checkIn" class="custom-date" />
                 </div>
-                <div class="search-row">
-                    <img src="~/Icons/Calendar.png" class="icon"/>
-                    <input type="text" placeholder="Дата виїзду" />
+                <div class="search-row date-row">
+                    <img src="~/Icons/Calendar.png" class="icon calendar-trigger" data-target="checkOut" />
+                    <span class="date-text" id="checkOutText">Дата виїзду</span>
+                    <input type="date" id="checkOut" class="custom-date" />
                 </div>
                 <div class="search-row">
                     <img src="~/Icons/People.png" class="icon"/>
@@ -36,6 +38,11 @@
         </div>
     </section>
 </section>
+
+<form id="antiForgeryForm">
+    @Html.AntiForgeryToken()
+</form>
+
 <section class="popular container">
     <div class="popular-head">
         <div>
@@ -56,6 +63,13 @@
                     <div class="card-image-placeholder"></div>
                 }
 
+                @if(User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="favorite-button" data-property-id="@property.Id">
+                        <img class="favorite-icon" src="@(Model.FavoritePropertyIds.Contains(property.Id) ? Url.Content("~/Icons/heart-fill.png") : Url.Content("~/Icons/heart-null.png"))" />
+                    </div>
+                }
+
                 <div class="card-info">
 
                     <h3>@property.Object</h3>
@@ -72,9 +86,7 @@
                             <img src="~/Icons/empty-star.png" />
                         </div>
 
-                        <span class="card-price">
-                            від @property.PricePerNight@property.Currency за ніч
-                        </span>
+                        <span class="card-price">від @property.PricePerNight@property.Currency за ніч</span>
 
                     </div>
 
@@ -106,6 +118,13 @@
                     <div class="card-image-placeholder"></div>
                 }
 
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="favorite-button" data-property-id="@property.Id">
+                        <img class="favorite-icon" src="@(Model.FavoritePropertyIds.Contains(property.Id) ? Url.Content("~/Icons/heart-fill.png") : Url.Content("~/Icons/heart-null.png"))" />
+                    </div>
+                }
+
                 <div class="card-info">
 
                     <h3>@property.Object</h3>
@@ -122,9 +141,7 @@
                             <img src="~/Icons/empty-star.png" />
                         </div>
 
-                        <span class="card-price">
-                            від @property.PricePerNight@property.Currency за ніч
-                        </span>
+                        <span class="card-price">від @property.PricePerNight@property.Currency за ніч</span>
 
                     </div>
 
@@ -156,6 +173,13 @@
                     <div class="card-image-placeholder"></div>
                 }
 
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="favorite-button" data-property-id="@property.Id">
+                        <img class="favorite-icon" src="@(Model.FavoritePropertyIds.Contains(property.Id) ? Url.Content("~/Icons/heart-fill.png") : Url.Content("~/Icons/heart-null.png"))" />
+                    </div>
+                }
+
                 <div class="card-info">
 
                     <h3>@property.Object</h3>
@@ -172,9 +196,7 @@
                             <img src="~/Icons/empty-star.png" />
                         </div>
 
-                        <span class="card-price">
-                            від @property.PricePerNight@property.Currency за ніч
-                        </span>
+                        <span class="card-price">від @property.PricePerNight@property.Currency за ніч</span>
 
                     </div>
 
@@ -206,6 +228,13 @@
                     <div class="card-image-placeholder"></div>
                 }
 
+                @if(User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="favorite-button" data-property-id="@property.Id">
+                        <img class="favorite-icon" src="@(Model.FavoritePropertyIds.Contains(property.Id) ? Url.Content("~/Icons/heart-fill.png") : Url.Content("~/Icons/heart-null.png"))" />
+                    </div>
+                }
+
                 <div class="card-info">
 
                     <h3>@property.Object</h3>
@@ -222,9 +251,7 @@
                             <img src="~/Icons/empty-star.png" />
                         </div>
 
-                        <span class="card-price">
-                            від @property.PricePerNight@property.Currency за ніч
-                        </span>
+                        <span class="card-price">від @property.PricePerNight@property.Currency за ніч</span>
 
                     </div>
 
@@ -237,3 +264,156 @@
 
     </div>
 </section>
+<script>
+
+    document.querySelectorAll(".favorite-button").forEach(button => {
+
+        button.addEventListener("click", async function (e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            const propertyId = this.dataset.propertyId;
+
+            try {
+
+                const response = await fetch("/Home/ToggleFavorite", {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+
+                    body: `propertyId=${propertyId}`
+
+                });
+
+                if(!response.ok) {
+                    console.error("Помилка запиту.");
+                    return;
+                }
+
+                const result = await response.json();
+
+                const icon = this.querySelector(".favorite-icon");
+
+                if(result.isFavorite){
+
+                    icon.src = "/Icons/heart-fill.png";
+
+                }
+                else{
+
+                    icon.src = "/Icons/heart-null.png";
+
+                }
+
+            }
+            catch(error){
+
+                console.error(error);
+
+            }
+
+        });
+
+    });
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+        const checkIn = document.getElementById("checkIn");
+        const checkOut = document.getElementById("checkOut");
+
+        const checkInText = document.getElementById("checkInText");
+        const checkOutText = document.getElementById("checkOutText");
+
+        const months = [
+            "січня",
+            "лютого",
+            "березня",
+            "квітня",
+            "травня",
+            "червня",
+            "липня",
+            "серпня",
+            "вересня",
+            "жовтня",
+            "листопада",
+            "грудня"
+        ];
+
+        const today = new Date();
+
+        function formatDate(date) {
+
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const day = String(date.getDate()).padStart(2, "0");
+
+            return `${year}-${month}-${day}`;
+        }
+
+        function formatUa(dateString) {
+
+            if(!dateString) return "";
+
+            const date = new Date(dateString);
+
+            return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()} року`;
+        }
+
+        function getNextDay(dateString) {
+
+            const date = new Date(dateString);
+
+            date.setDate(date.getDate() + 1);
+
+            return formatDate(date);
+        }
+
+        checkIn.min = formatDate(today);
+
+        checkInText.textContent = "Дата заїзду";
+        checkOutText.textContent = "Дата виїзду";
+
+        checkIn.addEventListener("change", () => {
+
+            checkInText.textContent = formatUa(checkIn.value);
+
+            const nextDay = getNextDay(checkIn.value);
+
+            checkOut.min = nextDay;
+
+        });
+
+        checkOut.addEventListener("change", () => {
+
+            checkOutText.textContent = formatUa(checkOut.value);
+
+        });
+
+        document.querySelectorAll(".calendar-trigger").forEach(icon => {
+
+            icon.addEventListener("click", () => {
+
+                const input = document.getElementById(icon.dataset.target);
+
+                if (input.showPicker) {
+
+                    input.showPicker();
+
+                }
+                else {
+
+                    input.focus();
+
+                }
+
+            });
+
+        });
+
+    });
+</script>

@@ -26,23 +26,25 @@ namespace BookingRevamp.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Login()
+        public IActionResult Login(string? returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
+
             return View(new LoginViewModel());
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl)
         {
-            if (!ModelState.IsValid)
+            if(!ModelState.IsValid)
             {
                 return View(model);
             }
 
             var user = await _authorizeService.Login(model.Email, model.Password);
 
-            if (user == null)
+            if(user == null)
             {
                 ViewBag.LoginError = true;
 
@@ -51,37 +53,34 @@ namespace BookingRevamp.Controllers
                 return View(model);
             }
 
-            var claims = new List<Claim>
+            await SignInUser(user);
+
+            if(!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
             {
-                new Claim(ClaimTypes.Name, user.Email),
-
-                new Claim(ClaimTypes.Role, user.Role)
-            };
-
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                return LocalRedirect(returnUrl);
+            }
 
             return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Register()
+        public IActionResult Register(string? returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
+
             return View();
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model, string? returnUrl)
         {
-            bool urnameEmpty = string.IsNullOrWhiteSpace(model.SurName);
+            bool surnameEmpty = string.IsNullOrWhiteSpace(model.SurName);
 
             bool nameEmpty = string.IsNullOrWhiteSpace(model.Name);
 
-
-            if (urnameEmpty && nameEmpty)
+            if(surnameEmpty && nameEmpty)
             {
                 ViewBag.NameGroupError = true;
 
@@ -92,7 +91,7 @@ namespace BookingRevamp.Controllers
 
             bool confirmPasswordEmpty = string.IsNullOrWhiteSpace(model.ConfirmPassword);
 
-            if (passwordEmpty && confirmPasswordEmpty)
+            if(passwordEmpty && confirmPasswordEmpty)
             {
                 ViewBag.PasswordGroupError = true;
 
@@ -101,7 +100,7 @@ namespace BookingRevamp.Controllers
                 ModelState.AddModelError("ConfirmPassword", "Ці поля не можна пропустити");
             }
 
-            if (!ModelState.IsValid)
+            if(!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -114,14 +113,14 @@ namespace BookingRevamp.Controllers
                 model.PhoneNumber,
                 model.Password);
 
-            var claims = new List<Claim>{
-                new Claim(ClaimTypes.Name, model.Email),
+            var user = await _authorizeService.Login(model.Email, model.Password);
 
-                new Claim(ClaimTypes.Role, "User")
-            };
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            await SignInUser(user);
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+            if(!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
+            {
+                return LocalRedirect(returnUrl);
+            }
 
             return RedirectToAction("Index", "Home");
         }
@@ -149,16 +148,16 @@ namespace BookingRevamp.Controllers
         [HttpGet]
         public async Task<IActionResult> BecomePartner()
         {
-            var email = User.Identity.Name;
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (string.IsNullOrEmpty(email))
+            if(!int.TryParse(userIdClaim, out int userId))
             {
                 return RedirectToAction("Login");
             }
 
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
 
-            if (user == null)
+            if(user == null)
             {
                 return RedirectToAction("Login");
             }
@@ -179,9 +178,14 @@ namespace BookingRevamp.Controllers
         [HttpPost]
         public async Task<IActionResult> BecomePartner(BecomePartnerViewModel model)
         {
-            var email = User.Identity.Name;
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+            if (!int.TryParse(userIdClaim, out int userId))
+            {
+                return RedirectToAction("Login");
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
 
             if (user == null)
             {
@@ -240,18 +244,33 @@ namespace BookingRevamp.Controllers
 
             await _context.SaveChangesAsync();
 
+            await SignInUser(user);
+
+            return RedirectToAction("Index", "Partner");
+        }
+
+        private async Task SignInUser(User user)
+        {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Email),
-
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                
+                new Claim(ClaimTypes.Name, user.Name),
+                
+                new Claim(ClaimTypes.Surname, user.SurName),
+                
+                new Claim(ClaimTypes.Email, user.Email),
+                
+                new Claim(ClaimTypes.MobilePhone, user.PhoneNumber),
+                
                 new Claim(ClaimTypes.Role, user.Role)
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
-            return RedirectToAction("Index", "Home");
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
         }
     }
 }

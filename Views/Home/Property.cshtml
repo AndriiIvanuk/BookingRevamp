@@ -59,7 +59,9 @@
 
     <h3>Місцезнаходження</h3>
 
-    <div class="map"></div>
+    <div class="map">
+        <img src="~/Icons/Map.svg" />
+    </div>
 
     <h3>Відгуки гостей</h3>
     <p>Відгуки людей, які вже обрали це житло</p>
@@ -69,24 +71,97 @@
     <h3>Деталі бронювання</h3>
     <p>Перевір інформацію перед підтвердженням</p>
 
-    <div class="add-object">
-        <div class="search-bottom">
-            <div class="search-row">
-                <img src="~/Icons/Calendar.png" class="icon" />
-                <input type="text" placeholder="19 березня 2026 року" />
+    <form asp-controller="Home" asp-action="Booking" method="get" class="add-object">
+        <input type="hidden" name="propertyId" value="@Model.Id" />
+
+        <input type="hidden" name="propertyId" value="@Model.Id" />
+
+        <div class="search-bottom property-search">
+            <div class="search-row date-row">
+                <img src="~/Icons/Calendar.png" class="icon calendar-trigger" data-target="checkIn" />
+                <input type="date" id="checkIn" name="checkIn" class="custom-date" />
             </div>
-            <div class="search-row">
-                <img src="~/Icons/Calendar.png" class="icon" />
-                <input type="text" placeholder="19 березня 2026 року" />
+            <div class="search-row date-row">
+                <img src="~/Icons/Calendar.png" class="icon calendar-trigger" data-target="checkOut" />
+                <input type="date" id="checkOut" name="checkOut" class="custom-date" />
             </div>
             <div class="search-row">
                 <img src="~/Icons/People.png" class="icon" />
-                <input type="text" placeholder="2 дорослих та тваринка" />
-                <button type="button" class="dropdown"><img src="/Icons/dropdown.png" /></button>
+                <input type="number" name="guests" min="1" max="@Model.MaxGuests" value="2" />
             </div>
         </div>
 
         <button type="submit" class="acid">Забронювати</button>
-    </div>
+    </form>
 
 </div>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+        const checkIn = document.getElementById("checkIn");
+
+        const checkOut = document.getElementById("checkOut");
+
+        const today = new Date();
+
+        const weekLater = new Date();
+
+        weekLater.setDate(today.getDate() + 7);
+
+        function formatDate(date){
+            const year = date.getFullYear();
+
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+
+            const day = String(date.getDate()).padStart(2, "0");
+
+            return `${year}-${month}-${day}`;
+        }
+        
+        function getNextDay(dateString) {
+            
+            const date = new Date(dateString);
+            
+            date.setDate(date.getDate() + 1);
+            
+            return formatDate(date);
+        }
+
+        checkIn.value = formatDate(today);
+
+        checkOut.value = formatDate(weekLater);
+        
+        checkIn.min = formatDate(today);
+        
+        checkOut.min = getNextDay(checkIn.value);
+        
+        checkIn.addEventListener("change", () => {
+            checkOut.min = checkIn.value;
+            
+            if (checkOut.value < checkIn.value) {
+                checkOut.value = checkIn.value;
+            }
+        });
+        
+    });
+    
+    
+    document.querySelectorAll(".calendar-trigger").forEach(icon => {
+        
+        icon.addEventListener("click", () => {
+            
+            const input = document.getElementById(icon.dataset.target);
+            
+            if(input.showPicker){
+                input.showPicker();
+            } 
+            else{
+                input.focus();
+            }
+
+        });
+
+    });
+</script>

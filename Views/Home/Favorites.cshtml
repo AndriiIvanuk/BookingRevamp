@@ -1,0 +1,175 @@
+﻿@{
+    ViewData["Title"] = "Обрані";
+}
+
+@model BookingRevamp.ViewModels.FavoritesViewModel
+
+<section class="booking-hero">
+
+    <img src="~/Icons/bg-word.svg" class="background-word" />
+
+    <div class="booking-hero-content">
+
+        <div class="booking-icon"><img src="~/Icons/heart-circle.png" /></div>
+
+        <h1>Моя наступна подорож</h1>
+
+        <p>Обери найкраще житло разом з нами </p>
+
+    </div>
+
+</section>
+
+<section class="favorites-section container">
+
+    @if(Model.Properties.Any())
+    {
+
+        <div class="favorites-head">
+            <h2>Обране помешкання</h2>
+
+            <p>Повертайся до перегляду в будь-який момент</p>
+        </div>
+
+        <div class="cards">
+
+            @foreach(var property in Model.Properties)
+            {
+                <a asp-controller="Home"
+                   asp-action="Property"
+                   asp-route-id="@property.Id"
+                   class="card">
+
+                    @if (property.Images.Any())
+                    {
+                        <img src="@property.Images.First().ImagePath" />
+                    }
+                    else
+                    {
+                        <div class="card-image-placeholder"></div>
+                    }
+
+                    <div class="favorite-button"
+                         data-property-id="@property.Id">
+
+                        <img class="favorite-icon"
+                             src="~/Icons/heart-fill.png" />
+
+                    </div>
+
+                    <div class="card-info">
+
+                        <h3>@property.Object</h3>
+
+                        <p>@property.City</p>
+
+                        <div class="card-footer">
+
+                            <div class="card-rating">
+
+                                <img src="~/Icons/star.png" />
+                                <img src="~/Icons/star.png" />
+                                <img src="~/Icons/star.png" />
+                                <img src="~/Icons/star.png" />
+                                <img src="~/Icons/empty-star.png" />
+
+                            </div>
+
+                            <span class="card-price">
+
+                                від @property.PricePerNight@property.Currency за ніч
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </a>
+            }
+
+        </div>
+    }
+    else
+    {
+
+        <div class="favorites-empty">
+
+            <h2>Почни з трьох простих кроків</h2>
+
+            <p>Дотримуйся покрокової інструкції та почни вже зараз</p>
+
+            <div class="favorite-steps">
+
+                <label>Знайди помешкання</label>
+
+                <label>Натисни на значок сердечка</label>
+
+                <label>Знаходь збережені варіанти тут</label>
+
+            </div>
+
+            <a class="acid little centralize">Почати пошук</a>
+
+        </div>
+
+    }
+
+</section>
+<script>
+
+    document.querySelectorAll(".favorite-button").forEach(button => {
+
+        button.addEventListener("click", async function (e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            const propertyId = this.dataset.propertyId;
+
+            try {
+
+                const response = await fetch("/Home/ToggleFavorite", {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+
+                    body: `propertyId=${propertyId}`
+
+                });
+
+                if(!response.ok) {
+                    console.error("Помилка запиту.");
+                    return;
+                }
+
+                const result = await response.json();
+
+                const icon = this.querySelector(".favorite-icon");
+
+                if(result.isFavorite){
+
+                    icon.src = "/Icons/heart-fill.png";
+
+                }
+                else{
+
+                    icon.src = "/Icons/heart-null.png";
+
+                }
+
+            }
+            catch(error){
+
+                console.error(error);
+
+            }
+
+        });
+
+    });
+
+</script>

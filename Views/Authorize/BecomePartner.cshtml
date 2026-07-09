@@ -66,7 +66,7 @@
 
                     <label class="check-row passport-upload @(ViewData.ModelState["PassportFile"]?.Errors.Count > 0 ? "checkbox-error" : "")">
                         <input type="checkbox" id="passportCheck" disabled />
-                        <span id="passportUploadText">
+                        <span class="style-underline" id="passportUploadText">
                             Завантажити фото паспорта
                         </span>
                         <input asp-for="PassportFile" type="file" id="passportInput" hidden />
@@ -75,7 +75,7 @@
                     <label class="check-row @(ViewData.ModelState["AcceptTerms"]?.Errors.Count > 0 ? "checkbox-error" : "")">
                         <input type="checkbox" asp-for="AcceptTerms" />
                         <span>
-                            Приймаю <a href="">умови сервісу</a>
+                            Приймаю <a class="style-underline">умови сервісу</a>
                         </span>
                     </label>
 

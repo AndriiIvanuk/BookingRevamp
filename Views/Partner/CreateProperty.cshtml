@@ -87,7 +87,9 @@
 
         </div>
 
-        <div class="map"></div>
+        <div class="map">
+            <img src="~/Icons/Map.svg" />
+        </div>
 
         <h3>Максимальна кількість гостей</h3>
         <p>Вкажи, скільки людей можуть комфортно проживати у твоєму житлі</p>
@@ -322,8 +324,6 @@
                     
                     selectedFiles.push(file);
                 }
-
-                document.getElementById("debugFiles").innerText = "New: " + newFiles.length + " | Total: " + selectedFiles.length;
                 
                 updatePreview();
                 

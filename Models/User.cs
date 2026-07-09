@@ -22,5 +22,11 @@ namespace BookingRevamp.Models
 
         public List<PartnerApplication> PartnerApplications { get; set; } = new();
 
+        public ICollection<Property> Properties { get; set; } = new List<Property>();
+
+        public ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();
+
+        public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
+
     }
 }

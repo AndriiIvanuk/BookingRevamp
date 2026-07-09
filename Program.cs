@@ -1,19 +1,22 @@
 using BookingRevamp.Data;
+using BookingRevamp.Models;
 using BookingRevamp.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddScoped<BookingPriceService>();
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddControllersWithViews();
-
 builder.Services.AddScoped<GoogleStorageService>();
+
+builder.Services.Configure<LiqPaySettings>(builder.Configuration.GetSection("LiqPay"));
+builder.Services.AddScoped<LiqPayService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -33,9 +36,8 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-if (!app.Environment.IsDevelopment())
+using (var scope = app.Services.CreateScope())
 {
-    using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
 }

@@ -22,6 +22,10 @@ namespace BookingRevamp.Data
 
         public DbSet<PropertyAmenity> PropertyAmenities { get; set; }
 
+        public DbSet<Booking> Bookings { get; set; }
+
+        public DbSet<Favorite> Favorites { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -47,6 +51,16 @@ namespace BookingRevamp.Data
                 .HasMany(x => x.Images)
                 .WithOne(x => x.Property)
                 .HasForeignKey(x => x.PropertyId);
+
+            builder.Entity<Booking>()
+                .HasOne(x => x.Property)
+                .WithMany(x => x.Bookings)
+                .HasForeignKey(x => x.PropertyId);
+
+            builder.Entity<Booking>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.Bookings)
+                .HasForeignKey(x => x.UserId);
 
             builder.Entity<Amenity>().HasData(
                 new Amenity

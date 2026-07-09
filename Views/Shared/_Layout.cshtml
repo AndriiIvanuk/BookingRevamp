@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+}
+<!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="utf-8" />
@@ -23,7 +27,14 @@
                     <a asp-controller="Home" asp-action="Messages" class="google"><img src="~/Icons/Message.png" /></a>
                     <a asp-controller="Home" asp-action="Favorites" class="google"><img src="~/Icons/Heart.png" /></a>
                     @if (User.IsInRole("Partner")){
-                        <a asp-controller="Partner" asp-action="CreateProperty" class="google-acid"><img src="~/Icons/Home.png" /></a>
+                        @if (controller == "Partner" && action == "Index")
+                        {
+                            <a asp-controller="Partner" asp-action="CreateProperty" class="acid big">Створити нове оголошення</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Partner" asp-action="Index" class="google-acid"><img src="~/Icons/Home.png" /></a>
+                        }
                     }
                     <a asp-controller="Authorize" asp-action="Logout" class="google"><img src="~/Icons/Search.png" /></a>
                     @if (!User.IsInRole("Partner")){
