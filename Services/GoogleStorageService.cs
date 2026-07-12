@@ -1,4 +1,5 @@
-﻿using Google.Cloud.Storage.V1;
+﻿using Google.Apis.Auth.OAuth2;
+using Google.Cloud.Storage.V1;
 
 namespace BookingRevamp.Services
 {
@@ -9,10 +10,14 @@ namespace BookingRevamp.Services
 
         public GoogleStorageService(IConfiguration config)
         {
-            _client = StorageClient.Create();
+            var json = config["GOOGLE_APPLICATION_CREDENTIALS_JSON"]
+                ?? throw new Exception("GOOGLE_APPLICATION_CREDENTIALS_JSON is missing");
 
-            _bucket =
-                config["GoogleCloud:BucketName"]
+            var credential = GoogleCredential.FromJson(json);
+
+            _client = StorageClient.Create(credential);
+
+            _bucket = config["GoogleCloud:BucketName"]
                 ?? throw new Exception("GoogleCloud:BucketName is missing");
         }
 
@@ -31,8 +36,7 @@ namespace BookingRevamp.Services
                 stream
             );
 
-            return
-                $"https://storage.googleapis.com/{_bucket}/{fileName}";
+            return $"https://storage.googleapis.com/{_bucket}/{fileName}";
         }
     }
 }

@@ -1,9 +1,3 @@
 <Solution>
-  <Folder Name="/Services/">
-    <File Path="AuthorizeService.cs" />
-    <File Path="BookingPriceService.cs" />
-    <File Path="GoogleStorageService.cs" />
-    <File Path="LiqPayService.cs" />
-  </Folder>
   <Project Path="BookingRevamp.csproj" />
 </Solution>
