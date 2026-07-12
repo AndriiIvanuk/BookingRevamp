@@ -3,6 +3,7 @@ using System;
 using BookingRevamp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookingRevamp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260710205317_LiqPayPayment")]
+    partial class LiqPayPayment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,206 +132,6 @@ namespace BookingRevamp.Migrations
                             Category = "Спальня",
                             Icon = "safe.png",
                             Name = "Сейф",
-                            Size = "m"
-                        },
-                        new
-                        {
-                            Id = 11,
-                            Category = "Кухня та харчування",
-                            Icon = "kitchen-set.png",
-                            Name = "Повністю обладнана кухня",
-                            Size = "l"
-                        },
-                        new
-                        {
-                            Id = 12,
-                            Category = "Кухня та харчування",
-                            Icon = "freezer.png",
-                            Name = "Холодильник",
-                            Size = "m"
-                        },
-                        new
-                        {
-                            Id = 13,
-                            Category = "Кухня та харчування",
-                            Icon = "stove.png",
-                            Name = "Плита",
-                            Size = "m"
-                        },
-                        new
-                        {
-                            Id = 14,
-                            Category = "Кухня та харчування",
-                            Icon = "oven.png",
-                            Name = "Духова піч",
-                            Size = "m"
-                        },
-                        new
-                        {
-                            Id = 15,
-                            Category = "Кухня та харчування",
-                            Icon = "coffee-maker.png",
-                            Name = "Кавоварка",
-                            Size = "m"
-                        },
-                        new
-                        {
-                            Id = 16,
-                            Category = "Кухня та харчування",
-                            Icon = "kettle.png",
-                            Name = "Електрочайник",
-                            Size = "m"
-                        },
-                        new
-                        {
-                            Id = 17,
-                            Category = "Кухня та харчування",
-                            Icon = "microwave.png",
-                            Name = "Мікрохвильова піч",
-                            Size = "l"
-                        },
-                        new
-                        {
-                            Id = 18,
-                            Category = "Ванна кімната та прання",
-                            Icon = "separate-bath.png",
-                            Name = "Власна ванна кімната",
-                            Size = "l"
-                        },
-                        new
-                        {
-                            Id = 19,
-                            Category = "Ванна кімната та прання",
-                            Icon = "shower.png",
-                            Name = "Душ",
-                            Size = "s"
-                        },
-                        new
-                        {
-                            Id = 20,
-                            Category = "Ванна кімната та прання",
-                            Icon = "bathtub.png",
-                            Name = "Ванна",
-                            Size = "m"
-                        },
-                        new
-                        {
-                            Id = 21,
-                            Category = "Ванна кімната та прання",
-                            Icon = "washing-machine.png",
-                            Name = "Пральна машина",
-                            Size = "l"
-                        },
-                        new
-                        {
-                            Id = 22,
-                            Category = "Ванна кімната та прання",
-                            Icon = "towels.png",
-                            Name = "Рушники",
-                            Size = "m"
-                        },
-                        new
-                        {
-                            Id = 23,
-                            Category = "Ванна кімната та прання",
-                            Icon = "cosmetics.png",
-                            Name = "Косметичні засоби",
-                            Size = "l"
-                        },
-                        new
-                        {
-                            Id = 24,
-                            Category = "Територія та вигляд",
-                            Icon = "balcony.png",
-                            Name = "Балкон",
-                            Size = "m"
-                        },
-                        new
-                        {
-                            Id = 25,
-                            Category = "Територія та вигляд",
-                            Icon = "terrace.png",
-                            Name = "Тераса",
-                            Size = "m"
-                        },
-                        new
-                        {
-                            Id = 26,
-                            Category = "Територія та вигляд",
-                            Icon = "sea-view.png",
-                            Name = "Вид на море",
-                            Size = "m"
-                        },
-                        new
-                        {
-                            Id = 27,
-                            Category = "Територія та вигляд",
-                            Icon = "mountain-view.png",
-                            Name = "Вид на гори",
-                            Size = "m"
-                        },
-                        new
-                        {
-                            Id = 28,
-                            Category = "Територія та вигляд",
-                            Icon = "closed-area.png",
-                            Name = "Закрита тереторія",
-                            Size = "l"
-                        },
-                        new
-                        {
-                            Id = 29,
-                            Category = "Територія та вигляд",
-                            Icon = "garden.png",
-                            Name = "Сад",
-                            Size = "s"
-                        },
-                        new
-                        {
-                            Id = 30,
-                            Category = "Для дітей",
-                            Icon = "baby-bed.png",
-                            Name = "Дитяче ліжечко",
-                            Size = "m"
-                        },
-                        new
-                        {
-                            Id = 31,
-                            Category = "Для дітей",
-                            Icon = "play-area.png",
-                            Name = "Ігрова зона",
-                            Size = "m"
-                        },
-                        new
-                        {
-                            Id = 32,
-                            Category = "Додаткові можливості",
-                            Icon = "cleaning.png",
-                            Name = "Прибирання",
-                            Size = "m"
-                        },
-                        new
-                        {
-                            Id = 33,
-                            Category = "Додаткові можливості",
-                            Icon = "breakfast.png",
-                            Name = "Сніданок включено",
-                            Size = "l"
-                        },
-                        new
-                        {
-                            Id = 34,
-                            Category = "Безпека",
-                            Icon = "security-camera.png",
-                            Name = "Відеоспостереження",
-                            Size = "l"
-                        },
-                        new
-                        {
-                            Id = 35,
-                            Category = "Безпека",
-                            Icon = "bunker.png",
-                            Name = "Укриття",
                             Size = "m"
                         });
                 });
@@ -653,9 +456,6 @@ namespace BookingRevamp.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ProfilePicture")
                         .HasColumnType("text");
 
                     b.Property<string>("Role")

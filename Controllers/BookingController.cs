@@ -16,11 +16,15 @@ namespace BookingRevamp.Controllers
 
         private readonly BookingPriceService _bookingPriceService;
 
-        public BookingController(AppDbContext db,BookingPriceService bookingPriceService)
+        private readonly LiqPayService _liqPayService;
+
+        public BookingController(AppDbContext db, BookingPriceService bookingPriceService,LiqPayService liqPayService)
         {
             _db = db;
 
             _bookingPriceService = bookingPriceService;
+
+            _liqPayService = liqPayService;
         }
 
         [HttpPost]
@@ -33,7 +37,7 @@ namespace BookingRevamp.Controllers
 
                 if (!int.TryParse(userIdClaim, out int userId))
                 {
-                    return Content("1. Не вдалося отримати UserId.");
+                    return Content("Не вдалося отримати UserId.");
                 }
 
                 var property = await _db.Properties
@@ -44,7 +48,7 @@ namespace BookingRevamp.Controllers
 
                 if (property == null)
                 {
-                    return Content("2. Property не знайдено.");
+                    return Content("Property не знайдено.");
                 }
 
                 if (!ModelState.IsValid)
@@ -54,7 +58,7 @@ namespace BookingRevamp.Controllers
                             .Where(x => x.Value!.Errors.Any())
                             .Select(x => $"{x.Key}: {string.Join(", ", x.Value.Errors.Select(e => e.ErrorMessage))}"));
 
-                    return Content("3. ModelState невалідний:\n\n" + errors);
+                    return Content("ModelState невалідний:\n\n" + errors);
                 }
 
                 model.CheckIn = DateTime.SpecifyKind(model.CheckIn, DateTimeKind.Utc);
@@ -62,28 +66,17 @@ namespace BookingRevamp.Controllers
 
                 if (model.CheckIn.Date < DateTime.Today)
                 {
-                    return Content("4. Некоректна дата заїзду.");
+                    return Content("Некоректна дата заїзду.");
                 }
 
                 if (model.CheckOut <= model.CheckIn)
                 {
-                    return Content("5. Некоректна дата виїзду.");
+                    return Content("Некоректна дата виїзду.");
                 }
 
                 if (model.Guests < 1 || model.Guests > property.MaxGuests)
                 {
-                    return Content("6. Некоректна кількість гостей.");
-                }
-
-                bool isBooked = await _db.Bookings.AnyAsync(x =>
-                    x.PropertyId == property.Id &&
-                    x.Status != BookingStatus.Cancelled &&
-                    model.CheckIn < x.CheckOut &&
-                    model.CheckOut > x.CheckIn);
-
-                if (isBooked)
-                {
-                    return Content("7. Дати вже зайняті.");
+                    return Content("Некоректна кількість гостей.");
                 }
 
                 var bookingPrice = _bookingPriceService.Calculate(
@@ -91,7 +84,9 @@ namespace BookingRevamp.Controllers
                     model.CheckIn,
                     model.CheckOut);
 
-                var booking = new Booking
+                var orderId = Guid.NewGuid().ToString("N");
+
+                var pendingPayment = new PendingPayment
                 {
                     PropertyId = property.Id,
 
@@ -119,39 +114,59 @@ namespace BookingRevamp.Controllers
 
                     Currency = property.Currency,
 
-                    Status = model.PaymentMethod == "Arrival"
-                        ? BookingStatus.PendingArrival
-                        : BookingStatus.PendingPayment,
-
                     PaymentMethod = model.PaymentMethod,
 
-                    CardLast4 = model.PaymentMethod == "Online"
-                        ? model.CardNumber!.Replace(" ", "")[^4..]
-                        : null,
-
-                    LiqPayOrderId = Guid.NewGuid().ToString("N")
+                    LiqPayOrderId = orderId
                 };
 
-                _db.Bookings.Add(booking);
-
-                await _db.SaveChangesAsync();
-
-                booking.BookingNumber =
-                    $"WB-{booking.CreatedAt:yyyy-MM}-{booking.Id:D5}";
-
-                await _db.SaveChangesAsync();
-
-                if (booking.PaymentMethod == "Arrival")
+                if (model.PaymentMethod == "Arrival")
                 {
-                    return RedirectToAction(
-                        "BookingResult",
-                        "Home",
-                        new { bookingId = booking.Id });
+                    var booking = new Booking
+                    {
+                        PropertyId = property.Id,
+
+                        UserId = userId,
+
+                        CheckIn = model.CheckIn,
+
+                        CheckOut = model.CheckOut,
+
+                        Guests = model.Guests,
+
+                        FullName = pendingPayment.FullName,
+
+                        Email = pendingPayment.Email,
+
+                        PhoneNumber = pendingPayment.PhoneNumber,
+
+                        Amount = bookingPrice.GrandTotal,
+
+                        Currency = property.Currency,
+
+                        PaymentMethod = "Arrival",
+
+                        Status = BookingStatus.PendingArrival,
+
+                        LiqPayOrderId = orderId
+                    };
+
+                    _db.Bookings.Add(booking);
+
+                    await _db.SaveChangesAsync();
+
+                    booking.BookingNumber = $"WB-{booking.CreatedAt:yyyy-MM}-{booking.Id:D5}";
+
+                    await _db.SaveChangesAsync();
+
+                    return RedirectToAction("BookingResult", "Home", new { bookingId = booking.Id });
                 }
 
-                return RedirectToAction(
-                    nameof(Payment),
-                    new { bookingId = booking.Id });
+                _db.PendingPayments.Add(pendingPayment);
+
+                await _db.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Payment), new { pendingPaymentId = pendingPayment.Id });
+
             }
             catch (Exception ex)
             {
@@ -164,18 +179,74 @@ namespace BookingRevamp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Payment(int bookingId)
+        public async Task<IActionResult> Payment(int pendingPaymentId)
         {
-            var booking = await _db.Bookings
-                .Include(x => x.Property)
-                .FirstOrDefaultAsync(x => x.Id == bookingId);
+            var pendingPayment = await _db.PendingPayments
+                .FirstOrDefaultAsync(x => x.Id == pendingPaymentId);
 
-            if (booking == null)
+            if (pendingPayment == null)
             {
                 return NotFound();
             }
 
-            return View(booking);
+            var property = await _db.Properties
+                .FirstOrDefaultAsync(x => x.Id == pendingPayment.PropertyId);
+
+            if (property == null)
+            {
+                return NotFound();
+            }
+
+            var resultUrl = Url.Action(
+                nameof(Success),
+                "Booking",
+                null,
+                Request.Scheme)!;
+
+            var serverUrl = Url.Action(
+                nameof(Callback),
+                "Booking",
+                null,
+                Request.Scheme)!;
+
+            var booking = new Booking
+            {
+                PropertyId = pendingPayment.PropertyId,
+                Property = property,
+
+                UserId = pendingPayment.UserId,
+
+                CheckIn = pendingPayment.CheckIn,
+                CheckOut = pendingPayment.CheckOut,
+
+                Guests = pendingPayment.Guests,
+
+                FullName = pendingPayment.FullName,
+                Email = pendingPayment.Email,
+                PhoneNumber = pendingPayment.PhoneNumber,
+
+                Amount = pendingPayment.Amount,
+                Currency = pendingPayment.Currency,
+
+                PaymentMethod = pendingPayment.PaymentMethod,
+
+                LiqPayOrderId = pendingPayment.LiqPayOrderId
+            };
+
+            var payment = _liqPayService.CreatePayment(pendingPayment, resultUrl, serverUrl);
+
+            var model = new PaymentViewModel
+            {
+                PendingPayment = pendingPayment,
+
+                Property = property,
+
+                Data = payment.Data,
+
+                Signature = payment.Signature
+            };
+
+            return View(model);
         }
 
         [HttpPost]

@@ -29,9 +29,22 @@ body {
 }
 
 .container {
-    width: 1280px;
-    margin: 0 auto;
-    background: #fff;
+    width: 1305px;
+    margin: 0px auto;
+}
+
+html, body {
+    height: 100%;
+}
+
+.page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-content {
+    flex: 1;
 }
 
 .topbar {
@@ -146,7 +159,7 @@ body {
 
     .google-acid img {
         background: 0%;
-        width: 24px;
+        width: auto;
         height: 24px;
         fill: black;
         filter: drop-shadow(100px 0 0 black) !important;
@@ -225,7 +238,7 @@ body {
 .hero-content {
     position: absolute;
     margin: 0px;
-    padding: 232px 17.2%;
+    padding: 232px 16.2%;
     color: #fff
 }
 
@@ -248,8 +261,8 @@ body {
     position: absolute;
     background: #0D1326;
     bottom: -100px;
-    left: 17%;
-    right: 17%;
+    left: 16%;
+    right: 16%;
     border-radius: 16px;
     min-height: 190px;
     align-items: center;
@@ -319,8 +332,7 @@ body {
 
 .popular {
     padding-top: 120px;
-    margin-bottom: 64px;
-    align-items: center;
+    margin-bottom: 24px;
     justify-content: center;
 }
 
@@ -355,7 +367,7 @@ body {
     display: grid;
     grid-template-columns: repeat(4, 290px);
     justify-content: center;
-    gap: 32px;
+    gap: 40px;
 }
 
 .card {
@@ -480,7 +492,7 @@ body {
     width: 52px;
     height: 62px;
     background: #fff;
-    border-radius: 0 0 16px 16px;
+    border-radius: 0px 0px 999px 999px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1293,13 +1305,13 @@ textarea::placeholder {
 
     .moderation-content p {
         margin-top: 8px;
-        margin-bottom: 50px;
         color: #fff;
         font-size: 24px;
         font-weight: 400;
     }
 
 .moderation-actions {
+    margin-top: 50px;
     display: flex;
     gap: 64px;
 }
@@ -1745,6 +1757,10 @@ textarea::placeholder {
     font-size: 16px;
 }
 
+.delete-property {
+    cursor: pointer;
+}
+
 
 .partner-bookings-page {
     max-width: 1280px;
@@ -1863,6 +1879,90 @@ textarea::placeholder {
     font-size: 16px;
     font-family: 'Geologica_Cursive-Regular';
     cursor: pointer;
+}
+
+.profile-button {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.footer {
+    margin-top: 80px;
+    background: #0D1326;
+    padding: 32px 0;
+    min-height: 418px;
+    display: flex;
+    align-items: center;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.footer-left {
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-logo {
+    width: 180px;
+    margin-bottom: 8px;
+}
+
+.footer-description {
+    color: white;
+    font-size: 16px;
+    margin-bottom: 40px;
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 40px;
+}
+
+.footer-copyright {
+    color: white;
+    font-size: 18px;
+}
+
+.socials {
+    display: flex;
+    align-self: flex-end;
+    margin-bottom: 16px;
+}
+
+.white-text {
+    font-size: 16px;
+    color: #fff;
+}
+
+.acid-text {
+    font-size: 16px;
+    color: #D4F200;
+    text-decoration: none;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 @media (max-width:1200px) {

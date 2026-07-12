@@ -1,6 +1,24 @@
-﻿@{
+﻿@using BookingRevamp.Data
+@using Microsoft.EntityFrameworkCore
+@using System.Security.Claims
+
+@inject AppDbContext Db
+
+@{
     var controller = ViewContext.RouteData.Values["controller"]?.ToString();
     var action = ViewContext.RouteData.Values["action"]?.ToString();
+
+    BookingRevamp.Models.User? currentUser = null;
+
+    if (User.Identity?.IsAuthenticated == true)
+    {
+        var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (int.TryParse(userIdClaim, out int userId))
+        {
+            currentUser = await Db.Users.FirstOrDefaultAsync(x => x.Id == userId);
+        }
+    }
 }
 <!DOCTYPE html>
 <html lang="uk">
@@ -17,42 +35,83 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-<header class="topbar">
-    <div class="container nav-wrap">
-        <a asp-controller="Home" asp-action="Index" class="logo-btn">
-            <img src="~/Icons/Winbook.svg" alt="Winbook" class="logo-img" />
-        </a>
-        @if (User.Identity.IsAuthenticated){
-            <nav class="nav-actions">
-                    <a asp-controller="Home" asp-action="Messages" class="google"><img src="~/Icons/Message.png" /></a>
-                    <a asp-controller="Home" asp-action="Favorites" class="google"><img src="~/Icons/Heart.png" /></a>
-                    @if (User.IsInRole("Partner")){
-                        @if (controller == "Partner" && action == "Index")
+    <div class="page">
+        <header class="topbar">
+            <div class="container nav-wrap">
+                <a asp-controller="Home" asp-action="Index" class="logo-btn">
+                    <img src="~/Icons/Winbook.svg" alt="Winbook" class="logo-img" />
+                </a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <nav class="nav-actions">
+                        <a asp-controller="Home" asp-action="Messages" class="google"><img src="~/Icons/Message.png" /></a>
+                        <a asp-controller="Home" asp-action="Favorites" class="google"><img src="~/Icons/Heart.png" /></a>
+                        @if (User.IsInRole("Partner"))
                         {
-                            <a asp-controller="Partner" asp-action="CreateProperty" class="acid big">Створити нове оголошення</a>
+                            @if (controller == "Partner" && action == "Index")
+                            {
+                                <a asp-controller="Partner" asp-action="CreateProperty" class="acid big">Створити нове оголошення</a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Partner" asp-action="Index" class="google-acid"><img src="~/Icons/Home.png" /></a>
+                            }
                         }
-                        else
+                        <a asp-controller="Authorize" asp-action="Logout" class="profile-button">
+                            <img class="profile-avatar" src="@(string.IsNullOrWhiteSpace(currentUser?.ProfilePicture) ? Url.Content("~/Icons/default-avatar.png") : currentUser.ProfilePicture)" />
+                        </a>
+                        @if (!User.IsInRole("Partner"))
                         {
-                            <a asp-controller="Partner" asp-action="Index" class="google-acid"><img src="~/Icons/Home.png" /></a>
+                            <a asp-controller="Authorize" asp-action="BecomePartner" class="acid big">Стати партнером</a>
                         }
-                    }
-                    <a asp-controller="Authorize" asp-action="Logout" class="google"><img src="~/Icons/Search.png" /></a>
-                    @if (!User.IsInRole("Partner")){
-                        <a asp-controller="Authorize" asp-action="BecomePartner" class="acid big">Стати партнером</a>
-                    }
-            </nav>
-        }
-        else{
-            <div class="nav-actions">
-                <a asp-controller="Authorize" asp-action="Register" class="blue big">Зареєструватися</a>
-                <a asp-controller="Authorize" asp-action="Login" class="acid little">Увійти</a>
+                    </nav>
+                }
+                else
+                {
+                    <div class="nav-actions">
+                        <a asp-controller="Authorize" asp-action="Register" class="blue big">Зареєструватися</a>
+                        <a asp-controller="Authorize" asp-action="Login" class="acid little">Увійти</a>
+                    </div>
+                }
             </div>
-        }
-        </div>
-</header>
-<main>
-    @RenderBody()
-</main>
-    @RenderSection("Scripts", required: false)
+        </header>
+        <main class="page-content">
+            @RenderBody()
+        </main>
+        @RenderSection("Scripts", required: false)
+        <footer class="footer">
+
+            <div class="container footer-content">
+
+                <div class="footer-left">
+
+                    <img src="~/Icons/WhiteLogo.svg" class="footer-logo" alt="Winbook" />
+
+                    <p class="footer-description white-text">
+                        Winbook — сервіс бронювання житла нового покоління, де клієнт не
+                        просто бронює житло, а виграє найкращий варіант.
+                    </p>
+
+                    <div class="footer-links">
+                        <a asp-controller="Home" asp-action="Messages" class="acid-text">Підтримка</a>
+                        <a asp-controller="Home" asp-action="Terms" class="acid-text">Умови використання</a>
+                        <a asp-controller="Home" asp-action="Privacy" class="acid-text">Політика конфіденційності</a>
+                    </div>
+
+                    <p class="white-text">
+                        © @DateTime.Now.Year Winbook • Всі права захищені
+                    </p>
+
+                </div>
+
+                <div class="nav-actions socials">
+                    <a href="https://www.instagram.com/" class="google-acid"><img src="~/Icons/instagram.png" /></a>
+                    <a href="https://www.facebook.com/" class="google-acid"><img src="~/Icons/facebook.png" /></a>
+                    <a href="https://x.com/" class="google-acid"><img src="~/Icons/twitter.png" /></a>
+                </div>
+
+            </div>
+        </footer>
+    </div>
 </body>
 </html>

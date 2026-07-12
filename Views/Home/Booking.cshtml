@@ -150,7 +150,7 @@
 
                 <div class="payment-methods">
 
-                    <input asp-for="PaymentMethod"id="paymentMethod"hidden />
+                    <input asp-for="PaymentMethod" id="paymentMethod" hidden />
 
                     <div class="payment-options">
 
@@ -274,200 +274,200 @@
     </section>
 </form>
 <script>
-    
+
     document.addEventListener("DOMContentLoaded", () => {
-        
+
         const online = document.getElementById("payOnline");
-        
+
         const arrival = document.getElementById("payArrival");
-        
+
         const payment = document.getElementById("paymentMethod");
-        
+
         const paymentFields = document.getElementById("onlinePaymentFields");
-        
+
         const bookingAnotherPerson = document.getElementById("BookingForAnotherPerson");
-        
+
         const guestFields = document.getElementById("guestFields");
-        
+
         const lastPaymentStep = document.getElementById("lastPaymentStep");
-        
+
         const paymentPreviewDescription = document.getElementById("paymentPreviewDescription");
-        
+
         const fullName = document.querySelector('input[name="FullName"]');
-        
+
         const email = document.querySelector('input[name="Email"]');
-        
+
         const phone = document.querySelector('input[name="PhoneNumber"]');
-        
+
         function setPaymentMethod(method){
             if(method === "Online"){
                 online.checked = true;
-                
+
                 arrival.checked = false;
-                
+
                 payment.value = "Online";
-                
+
                 paymentFields.classList.add("active");
-            
+
             }
             else{
                 arrival.checked = true;
-                
+
                 online.checked = false;
-                
+
                 payment.value = "Arrival";
-                
+
                 paymentFields.classList.remove("active");
 
             }
-            
+
             validateForm();
-            
+
             updatePaymentPreview();
         }
 
         
         const guestFullName = document.querySelector('input[name="GuestFullName"]');
-        
+
         const guestEmail = document.querySelector('input[name="GuestEmail"]');
-        
+
         const guestPhone = document.querySelector('input[name="GuestPhoneNumber"]');
-        
+
         function toggleGuestFields(){
-            
+
             if(bookingAnotherPerson.checked){
                 guestFields.classList.add("active");
             }
             else{
                 guestFields.classList.remove("active");
             }
-            
+
             validateForm();
         }
-        
+
         
         document.querySelectorAll(".password-toggle").forEach(button=>{
-            
+
             button.addEventListener("click",()=>{
-                
+
                 const wrapper = button.closest(".password-wrapper");
-                
+
                 const input = wrapper.querySelector(".password-input");
-                
+
                 const eye = wrapper.querySelector(".eye-icon");
-                
+
                 if(input.type==="password"){
                     input.type="text";
-                    
+
                     eye.src="/Icons/eye-open.png";
                 }
                 else{
-                    
+
                     input.type="password";
-                    
+
                     eye.src="/Icons/eye-closed.png";
                 }
-                
+
             });
-            
+
         });
-        
+
         
         const cardHolder = document.querySelector(".card-holder");
-        
+
         const cardNumber = document.querySelector(".card-number");
-        
+
         const cardDate = document.querySelector(".card-date");
-        
+
         const cardCvv = document.querySelector(".card-cvv");
-        
+
         cardNumber.addEventListener("input",()=>{
-            
+
             let value = cardNumber.value.replace(/\D/g,"");
-            
+
             value=value.substring(0,16);
-            
+
             value=value.match(/.{1,4}/g)?.join(" ") ?? "";
-            
+
             cardNumber.value=value;
         });
-        
+
         
         cardDate.addEventListener("input",()=>{
             let value= cardDate.value.replace(/\D/g,"");
-            
+
             value=value.substring(0,4);
-            
+
             if(value.length>2){
                 value=value.substring(0,2)+"/"+value.substring(2);
             }
-            
+
             cardDate.value=value;
         });
-        
+
         cardCvv.addEventListener("input",()=>{
             cardCvv.value=cardCvv.value.replace(/\D/g,"").substring(0,3);
         });
-        
+
         
         function updatePaymentPreview(){
 
             if(payment.value === "Arrival"){
                 paymentPreviewDescription.innerText = "Оплата готівкою або карткою при заселенні";
-                
+
                 return;
             }
-            
+
             const digits = cardNumber.value.replace(/\s/g,"");
-            
+
             if(digits.length === 16){
                 paymentPreviewDescription.innerText = "Картка **** **** **** " + digits.substring(12);
             }
-            
+
         }
-        
+
         
         function validateForm(){
-            
+
             let valid = true;
-            
+
             if(fullName.value.trim() === "") valid = false;
-            
+
             if(email.value.trim() === "") valid = false;
-            
+
             if(phone.value.trim() === "") valid = false;
-            
+
             if(bookingAnotherPerson.checked){
-                
+
                 if(guestFullName.value.trim() === "") valid = false;
-                
+
                 if(guestEmail.value.trim() === "") valid = false;
-                
+
                 if(guestPhone.value.trim() === "") valid = false;
-            
+
             }
-            
+
             if(payment.value === "") valid = false;
-            
+
             if(payment.value === "Online"){
-                
+
                 const number = cardNumber.value.replace(/\s/g,"");
-                
+
                 const cardNumberValid = number.length === 16;
-                
+
                 const cardDateValid = /^(0[1-9]|1[0-2])\/\d{2}$/.test(cardDate.value);
-                
+
                 const cvvValid = /^\d{3}$/.test(cardCvv.value);
-                
+
                 if(cardHolder.value.trim() === "") valid = false;
-                
+
                 if(!cardNumberValid) valid = false;
-                
+
                 if(!cardDateValid) valid = false;
-                
+
                 if(!cvvValid) valid = false;
             }
-            
+
             
             if(valid){
                 lastPaymentStep.classList.add("active");
@@ -475,22 +475,22 @@
             else{
                 lastPaymentStep.classList.remove("active");
             }
-            
+
             updatePaymentPreview();
-        
+
         }
-        
+
         online.addEventListener("change", () => {
-            
+
             if(online.checked){
                 setPaymentMethod("Online");
             }
             else{
                 online.checked = true;
             }
-        
+
         });
-        
+
         arrival.addEventListener("change", () => {
             if(arrival.checked){
                 setPaymentMethod("Arrival");
@@ -499,26 +499,26 @@
                 arrival.checked = true;
             }
         });
-        
+
         
         bookingAnotherPerson.addEventListener("change", toggleGuestFields);
-        
+
         document.querySelectorAll("input").forEach(input => {
-            
+
             input.addEventListener("input", () => {
                 validateForm();
             });
-            
+
             input.addEventListener("change", () => {
                 validateForm();
             });
         });
-        
+
         
         toggleGuestFields();
-        
+
         validateForm();
-        
+
         updatePaymentPreview();
     });
 </script>

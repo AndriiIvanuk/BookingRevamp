@@ -77,13 +77,6 @@ public class HomeController : Controller
     [HttpGet]
     public async Task<IActionResult> Property(int id)
     {
-        if (!User.Identity!.IsAuthenticated)
-        {
-            return RedirectToAction(nameof(BookingLoginRequired),new
-            {
-                returnUrl = Url.Action(nameof(Property), "Home", new { id })
-            });
-        }
 
         var property = await _db.Properties
             .Include(x => x.Images)
@@ -122,6 +115,16 @@ public class HomeController : Controller
 
     [Authorize]
     public IActionResult Messages()
+    {
+        return View();
+    }
+
+    public IActionResult Terms()
+    {
+        return View();
+    }
+
+    public IActionResult Privacy()
     {
         return View();
     }
@@ -198,9 +201,21 @@ public class HomeController : Controller
     }
 
     [HttpGet]
-    [Authorize]
     public async Task<IActionResult> Booking(int propertyId, DateTime checkIn, DateTime checkOut, int guests)
     {
+        if(!User.Identity!.IsAuthenticated)
+        {
+            return RedirectToAction(nameof(BookingLoginRequired), new
+            {
+                returnUrl = Url.Action(nameof(Booking), "Home", new
+                {
+                    propertyId,
+                    checkIn,
+                    checkOut,
+                    guests
+                })
+            });
+        }
         var property = await _db.Properties
             .Include(x => x.Images)
             .Include(x => x.Amenities)

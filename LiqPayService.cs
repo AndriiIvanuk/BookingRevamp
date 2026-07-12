@@ -16,22 +16,25 @@ namespace BookingRevamp.Services
         }
 
         public (string Data, string Signature) CreatePayment(
-            Booking booking,
-            string resultUrl,
-            string serverUrl)
+    PendingPayment pendingPayment,
+    string resultUrl,
+    string serverUrl)
         {
             var payment = new
             {
                 version = 3,
+
                 public_key = _settings.PublicKey,
+
                 action = "pay",
 
-                amount = booking.Amount,
-                currency = booking.Currency,
+                amount = pendingPayment.Amount,
 
-                description = $"Бронювання №{booking.Id}",
+                currency = pendingPayment.Currency,
 
-                order_id = booking.LiqPayOrderId,
+                description = $"Бронювання помешкання",
+
+                order_id = pendingPayment.LiqPayOrderId,
 
                 result_url = resultUrl,
 
@@ -40,10 +43,19 @@ namespace BookingRevamp.Services
 
             var json = JsonSerializer.Serialize(payment);
 
+            Console.WriteLine("===== LIQPAY JSON =====");
+            Console.WriteLine(json);
+
             var data = Convert.ToBase64String(
                 Encoding.UTF8.GetBytes(json));
 
+            Console.WriteLine("===== LIQPAY DATA =====");
+            Console.WriteLine(data);
+
             var signature = CreateSignature(data);
+
+            Console.WriteLine("===== LIQPAY SIGNATURE =====");
+            Console.WriteLine(signature);
 
             return (data, signature);
         }

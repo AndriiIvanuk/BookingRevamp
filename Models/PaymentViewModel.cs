@@ -4,7 +4,9 @@ namespace BookingRevamp.ViewModels
 {
     public class PaymentViewModel
     {
-        public Booking Booking { get; set; } = null!;
+        public PendingPayment PendingPayment { get; set; } = null!;
+
+        public Property Property { get; set; } = null!;
 
         public string Data { get; set; } = string.Empty;
 

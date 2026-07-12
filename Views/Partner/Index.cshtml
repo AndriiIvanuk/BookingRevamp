@@ -19,11 +19,11 @@
             {
                 <div class="partner-card">
 
-                    <div class="favorite-button" data-id="@property.Id">
+                    <div class="favorite-button delete-property" data-id="@property.Id">
                         <img class="favorite-icon" src="~/Icons/delete-flag.png" />
                     </div>
 
-                    <a asp-action="EditProperty" asp-route-id="@property.Id">
+                    <a asp-controller="Home" asp-action="Property" asp-route-id="@property.Id">
 
                         <img src="@property.Images.FirstOrDefault()?.ImagePath" class="partner-image" />
 
@@ -36,8 +36,7 @@
 
             @for(int i = Model.Count(); i < 4; i++)
             {
-                <a asp-action="CreateProperty"
-                   class="partner-card">
+                <a asp-action="CreateProperty" class="partner-card">
 
                     <img src="~/Icons/photo-placeholder.png" class="partner-image" />
 
@@ -57,7 +56,7 @@
         <p>Усі заселені та вільні дати — в одному зручному форматі</p>
     </div>
 
-    @foreach (var property in Model)
+    @foreach(var property in Model)
     {
         <div class="property-bookings-header-card">
 
@@ -71,7 +70,14 @@
 
         <div class="property-bookings-card">
 
-            @if (property.Bookings.Any())
+            @{
+                var bookings = property.Bookings
+                    .Where(x => x.CheckOut >= DateTime.Today.AddMonths(-6))
+                    .OrderByDescending(x => x.CreatedAt)
+                    .ToList();
+            }
+
+            @if(bookings.Any())
             {
                 <div class="booking-table-wrapper">
 
@@ -92,7 +98,7 @@
                         </thead>
 
                         <tbody>
-                            @foreach (var booking in property.Bookings.OrderByDescending(x => x.CreatedAt))
+                            @foreach(var booking in bookings)
                             {
                                 <tr class="booking-row">
                                     <td class="booking-number">@booking.BookingNumber</td>
@@ -105,7 +111,6 @@
                                     <td class="booking-phone">@booking.PhoneNumber</td>
                                 </tr>
                             }
-
                         </tbody>
 
                     </table>
@@ -124,14 +129,17 @@
 
 </section>
 <script>
-        document.querySelectorAll(".delete-property").forEach(button => {
+    document.querySelectorAll(".delete-property").forEach(button => {
 
         button.addEventListener("click", async function (e) {
 
             e.preventDefault();
+
             e.stopPropagation();
 
-            if (!confirm("Видалити оголошення?"))
+            const confirmed = confirm("Ви точно хочете видалити цей об'єкт?");
+
+            if (!confirmed)
                 return;
 
             const id = this.dataset.id;
@@ -148,10 +156,16 @@
 
             });
 
-            if (!response.ok)
+            if(!response.ok)
+            {
+                alert("Не вдалося видалити об'єкт.");
+
                 return;
+            }
 
             this.closest(".partner-card").remove();
+
+            window.location.reload();
 
         });
 

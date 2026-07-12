@@ -48,25 +48,37 @@ namespace BookingRevamp.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteProperty(int id)
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdClaim, out int userId))
+            {
+                return Unauthorized();
+            }
 
             var property = await _db.Properties
                 .Include(x => x.Images)
+                .Include(x => x.Amenities)
+                .Include(x => x.Bookings)
                 .FirstOrDefaultAsync(x =>
                     x.Id == id &&
                     x.OwnerId == userId);
 
-            if(property == null)
+            if (property == null)
+            {
                 return NotFound();
+            }
+
+            _db.PropertyImages.RemoveRange(property.Images);
+
+            _db.PropertyAmenities.RemoveRange(property.Amenities);
+
+            _db.Bookings.RemoveRange(property.Bookings);
 
             _db.Properties.Remove(property);
 
             await _db.SaveChangesAsync();
 
-            return Json(new
-            {
-                success = true
-            });
+            return Ok();
         }
 
         [HttpGet]

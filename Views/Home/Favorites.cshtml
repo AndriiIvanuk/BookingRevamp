@@ -35,10 +35,7 @@
 
             @foreach(var property in Model.Properties)
             {
-                <a asp-controller="Home"
-                   asp-action="Property"
-                   asp-route-id="@property.Id"
-                   class="card">
+                <a asp-controller="Home" asp-action="Property" asp-route-id="@property.Id" class="card">
 
                     @if (property.Images.Any())
                     {
@@ -75,11 +72,7 @@
 
                             </div>
 
-                            <span class="card-price">
-
-                                від @property.PricePerNight@property.Currency за ніч
-
-                            </span>
+                            <span class="card-price">від @property.PricePerNight₴ за ніч</span>
 
                         </div>
 
@@ -120,16 +113,16 @@
 
     document.querySelectorAll(".favorite-button").forEach(button => {
 
-        button.addEventListener("click", async function (e) {
+        button.addEventListener("click", async function(e){
 
             e.preventDefault();
             e.stopPropagation();
 
             const propertyId = this.dataset.propertyId;
 
-            try {
+            try{
 
-                const response = await fetch("/Home/ToggleFavorite", {
+                const response = await fetch("/Home/ToggleFavorite",{
 
                     method: "POST",
 
@@ -151,21 +144,15 @@
                 const icon = this.querySelector(".favorite-icon");
 
                 if(result.isFavorite){
-
                     icon.src = "/Icons/heart-fill.png";
-
                 }
                 else{
-
                     icon.src = "/Icons/heart-null.png";
-
                 }
 
             }
             catch(error){
-
                 console.error(error);
-
             }
 
         });

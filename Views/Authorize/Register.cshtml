@@ -93,7 +93,7 @@
                     <label class="check-row @(ViewData.ModelState["Accept"]?.Errors.Count > 0 ? "checkbox-error" : "")">
                         <input asp-for="Accept" type="checkbox" />
                         <span>
-                            Приймаю <a href="">умови сервісу</a>
+                            Приймаю <a asp-controller="Home" asp-action="Terms">умови сервісу</a>
                         </span>
                     </label>
 

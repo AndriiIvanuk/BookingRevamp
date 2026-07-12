@@ -10,6 +10,8 @@ namespace BookingRevamp.Models
         [Required]
         public string SurName { get; set; }
         public string? Patronymic { get; set; }
+
+        public string? ProfilePicture { get; set; }
         [Required]
         public string Email { get; set; }
         [Required]

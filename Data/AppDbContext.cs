@@ -26,6 +26,8 @@ namespace BookingRevamp.Data
 
         public DbSet<Favorite> Favorites { get; set; }
 
+        public DbSet<PendingPayment> PendingPayments { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -141,6 +143,206 @@ namespace BookingRevamp.Data
                     Name = "Сейф",
                     Category = "Спальня",
                     Icon = "safe.png",
+                    Size = "m",
+                },
+                 new Amenity
+                 {
+                     Id = 11,
+                     Name = "Повністю обладнана кухня",
+                     Category = "Кухня та харчування",
+                     Icon = "kitchen-set.png",
+                     Size = "l",
+                 },
+                new Amenity
+                {
+                    Id = 12,
+                    Name = "Холодильник",
+                    Category = "Кухня та харчування",
+                    Icon = "freezer.png",
+                    Size = "m",
+                },
+                new Amenity
+                {
+                    Id = 13,
+                    Name = "Плита",
+                    Category = "Кухня та харчування",
+                    Icon = "stove.png",
+                    Size = "m",
+                },
+                new Amenity
+                {
+                    Id = 14,
+                    Name = "Духова піч",
+                    Category = "Кухня та харчування",
+                    Icon = "oven.png",
+                    Size = "m",
+                },
+                new Amenity
+                {
+                    Id = 15,
+                    Name = "Кавоварка",
+                    Category = "Кухня та харчування",
+                    Icon = "coffee-maker.png",
+                    Size = "m",
+                },
+                new Amenity
+                {
+                    Id = 16,
+                    Name = "Електрочайник",
+                    Category = "Кухня та харчування",
+                    Icon = "kettle.png",
+                    Size = "m",
+                },
+                new Amenity
+                {
+                    Id = 17,
+                    Name = "Мікрохвильова піч",
+                    Category = "Кухня та харчування",
+                    Icon = "microwave.png",
+                    Size = "l",
+                },
+                new Amenity
+                {
+                    Id = 18,
+                    Name = "Власна ванна кімната",
+                    Category = "Ванна кімната та прання",
+                    Icon = "separate-bath.png",
+                    Size = "l",
+                },
+                new Amenity
+                {
+                    Id = 19,
+                    Name = "Душ",
+                    Category = "Ванна кімната та прання",
+                    Icon = "shower.png",
+                    Size = "s",
+                },
+                new Amenity
+                {
+                    Id = 20,
+                    Name = "Ванна",
+                    Category = "Ванна кімната та прання",
+                    Icon = "bathtub.png",
+                    Size = "m",
+                },
+                new Amenity
+                {
+                    Id = 21,
+                    Name = "Пральна машина",
+                    Category = "Ванна кімната та прання",
+                    Icon = "washing-machine.png",
+                    Size = "l",
+                },
+                new Amenity
+                {
+                    Id = 22,
+                    Name = "Рушники",
+                    Category = "Ванна кімната та прання",
+                    Icon = "towels.png",
+                    Size = "m",
+                },
+                 new Amenity
+                 {
+                     Id = 23,
+                     Name = "Косметичні засоби",
+                     Category = "Ванна кімната та прання",
+                     Icon = "cosmetics.png",
+                     Size = "l",
+                 },
+                new Amenity
+                {
+                    Id = 24,
+                    Name = "Балкон",
+                    Category = "Територія та вигляд",
+                    Icon = "balcony.png",
+                    Size = "m",
+                },
+                new Amenity
+                {
+                    Id = 25,
+                    Name = "Тераса",
+                    Category = "Територія та вигляд",
+                    Icon = "terrace.png",
+                    Size = "m",
+                },
+                new Amenity
+                {
+                    Id = 26,
+                    Name = "Вид на море",
+                    Category = "Територія та вигляд",
+                    Icon = "sea-view.png",
+                    Size = "m",
+                },
+                new Amenity
+                {
+                    Id = 27,
+                    Name = "Вид на гори",
+                    Category = "Територія та вигляд",
+                    Icon = "mountain-view.png",
+                    Size = "m",
+                },
+                new Amenity
+                {
+                    Id = 28,
+                    Name = "Закрита тереторія",
+                    Category = "Територія та вигляд",
+                    Icon = "closed-area.png",
+                    Size = "l",
+                },
+                new Amenity
+                {
+                    Id = 29,
+                    Name = "Сад",
+                    Category = "Територія та вигляд",
+                    Icon = "garden.png",
+                    Size = "s",
+                },
+                new Amenity
+                {
+                    Id = 30,
+                    Name = "Дитяче ліжечко",
+                    Category = "Для дітей",
+                    Icon = "baby-bed.png",
+                    Size = "m",
+                },
+                new Amenity
+                {
+                    Id = 31,
+                    Name = "Ігрова зона",
+                    Category = "Для дітей",
+                    Icon = "play-area.png",
+                    Size = "m",
+                },
+                new Amenity
+                {
+                    Id = 32,
+                    Name = "Прибирання",
+                    Category = "Додаткові можливості",
+                    Icon = "cleaning.png",
+                    Size = "m",
+                },
+                new Amenity
+                {
+                    Id = 33,
+                    Name = "Сніданок включено",
+                    Category = "Додаткові можливості",
+                    Icon = "breakfast.png",
+                    Size = "l",
+                },
+                new Amenity
+                {
+                    Id = 34,
+                    Name = "Відеоспостереження",
+                    Category = "Безпека",
+                    Icon = "security-camera.png",
+                    Size = "l",
+                },
+                new Amenity
+                {
+                    Id = 35,
+                    Name = "Укриття",
+                    Category = "Безпека",
+                    Icon = "bunker.png",
                     Size = "m",
                 }
             );

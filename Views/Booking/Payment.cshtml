@@ -1,0 +1,48 @@
+﻿@model BookingRevamp.ViewModels.PaymentViewModel
+
+@{
+    ViewData["Title"] = "Оплата бронювання";
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/css/site.css" />
+
+<div class="moderation-page">
+
+    <img src="~/Icons/bg-word.svg" class="background-word" />
+
+    <div class="moderation-content">
+
+        <h1>Перехід до захищеної сторінки оплати</h1>
+
+        <p>Зараз ми перенаправимо вас на сторінку LiqPay для завершення оплати</p>
+
+    </div>
+
+</div>
+
+<form id="liqpay-form"
+      method="POST"
+      action="https://www.liqpay.ua/api/3/checkout">
+
+    <input type="hidden"
+           name="data"
+           value="@Model.Data" />
+
+    <input type="hidden"
+           name="signature"
+           value="@Model.Signature" />
+
+</form>
+
+<script>
+
+    window.onload = function () {
+
+        document
+            .getElementById("liqpay-form")
+            .submit();
+
+    };
+
+</script>
